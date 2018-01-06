@@ -1,8 +1,9 @@
 # OU Snake
 
-This repository contains code for the Open University course: Webapplications: the client side
+This repository contains code for the Open University course: Webapplicaties: de clientkant (Webapplications: the client side)
 
-Collaborators:
+###Collaborators:
+
 * Aart Pelt (a.j.w.pelt@gmail.com)
 * Onno Huijgen (o.huijgen@gmail.com)
 
