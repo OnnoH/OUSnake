@@ -36,7 +36,7 @@ $(document).ready(function() {
 /***************************************************************************
  **                 Constructors                                          **
  ***************************************************************************/
-// ? Refactor foods
+
 /***************************************************************************
  **                 Methods                                               **
  ***************************************************************************/
@@ -82,7 +82,7 @@ Snake.prototype.doMove = function(direction) {
 
     //controleer op botsing met voedsel
     if (newHead.collidesWithOneOf(foods)) {
-        foods.splice(newHead.indexOfColision(foods), 1); //verwijder voedsel
+        foods.splice(newHead.indexOfCollision(foods), 1); //verwijder voedsel
     } else {
         this.segments.shift(); //verwijder staart element
     }
@@ -152,7 +152,7 @@ Element.prototype.indexOfCollision = function(elements) {
 
     for (var i = 0; i < elements.length; ++i) {
         if (elements[i].x === this.x && elements[i].y === this.y) {
-            collision = i;
+            index = i;
             i = elements.length; //eindig loop als element gevonden is
         }
     }
