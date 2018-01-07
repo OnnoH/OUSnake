@@ -36,6 +36,9 @@ Om de nieuwe positie van de kop te bepalen is de method Snake.createNewHead toeg
 
 Omdat voedsel (nog) niet als aparte klasse is opgenomen, al wel een functie eatFood toegevoegd, waarin het voedselelement uit het array wordt verwijderd.
 
+Uiteindelijk zijn de tests in het hoofd Javascript-bestand snake.js terecht gekomen. Bij het schrijven van een
+mocha test bleek jQuery in de weg te zitten. Dit vraagt nader onderzoek.
+
 # Opdracht 3
 ## Snake part Two
 
@@ -55,4 +58,5 @@ Omdat voedsel (nog) niet als aparte klasse is opgenomen, al wel een functie eatF
 10. HTML fouten oplossen
 11. Bedenken of de documentatie en commentaren in het Engels of Nederlands moeten. De opleiding is Nederlandstalig, maar de taal Javascript afgeleid van het Engels.
 12. JSlint operationaliseren
-13. ...
+13. Tests refactoren naar mocha/chai
+14. ...
