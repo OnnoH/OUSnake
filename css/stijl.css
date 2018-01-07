@@ -27,8 +27,8 @@ p {
 }
 
 header {
-  background-color: RebeccaPurple;
-  color: FloralWhite;
+  background-color: #663399; /* RebeccaPurple */
+  color: #FFFAF0; /* FloralWhite */
   text-align: center;
   font-size: 2em;
   font-weight: bold;
@@ -45,8 +45,8 @@ header {
 footer {
   font-size: 0.6em;
   text-align: center;
-  background-color: RebeccaPurple;
-  color: FloralWhite;
+  background-color: #663399; /* RebeccaPurple */
+  color: #FFFAF0; /* FloralWhite */
   padding-top: 1%;
   padding-left: 0%;
   padding-bottom: 1%;
@@ -60,7 +60,7 @@ footer {
 
 nav {
   float: left;
-  background-color: MediumPurple;
+  background-color: #9370DB; /* MediumPurple */
   padding-top: 1%;
   padding-left: 0%;
   padding-bottom: 1%;
@@ -86,8 +86,8 @@ nav ul {
 
 nav li {
   list-style-type: none;
-  background-color: RebeccaPurple;
-  color: FloralWhite;
+  background-color: #663399; /* RebeccaPurple */
+  color: #FFFAF0; /* FloralWhite */
   text-align: left;
   font-weight: normal;
   font-size: 0.8em;
@@ -102,23 +102,23 @@ nav li {
 }
 
 nav li:hover {
-  background: FloralWhite;
-  color: RebeccaPurple;
+  background: #FFFAF0; /* FloralWhite */
+  color: #663399; /* RebeccaPurple */
 }
 
 nav li a:hover {
-  background: FloralWhite;
-  color: RebeccaPurple;
+  background: #FFFAF0; /* FloralWhite */
+  color: #663399; /* RebeccaPurple */
 }
 
 nav ul a:link {
-  color: RebeccaPurple;
+  color: #663399; /* RebeccaPurple */
   text-decoration: none;
 }
 
 .menuTitle {
-  background-color: RebeccaPurple;
-  color: FloralWhite;
+  background-color: #663399; /* RebeccaPurple */
+  color: #FFFAF0; /* FloralWhite */
   text-align: center;
   font-weight: bold;
   font-size: 1em;
@@ -133,8 +133,8 @@ nav ul a:link {
 }
 
 .arena {
-  background-color: WhiteSmoke;
-  border: 10px solid MediumPurple;
+  background-color: #F5F5F5; /* WhiteSmoke */
+  border: 10px solid #9370DB; /* MediumPurple */
   height: 100%;
 }
 
@@ -144,7 +144,6 @@ nav ul a:link {
   overflow: hidden;
   height: 98%;
   width: 80%;
-  align-content: center;
 }
 
 .gameFrame iframe {
@@ -163,11 +162,11 @@ nav ul a:link {
 .gameTitle {
   text-align: center;
   font-size: 1.5em;
-  color: RebeccaPurple;
+  color: #663399; /* RebeccaPurple */
 }
 
 .gameButton {
-    background-color: RebeccaPurple;
+    background-color: #663399; /* RebeccaPurple */
     border: none;
     color: white;
     padding-top: 2%;
@@ -186,8 +185,8 @@ nav ul a:link {
 }
 
 #mySnakeCanvas {
-  background-color: LawnGreen;
+  background-color: #7CFC00; /* LawnGreen */
   background: url('../img/gras.jpg');
   text-align: center;
-  border: 5px solid LawnGreen;
+  border: 5px solid #7CFC00; /* LawnGreen */
 }
