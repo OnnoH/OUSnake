@@ -51,7 +51,7 @@ $(document).ready(function() {
 Snake.prototype.canMove = function(direction) {
     var canMove = true;
 
-    newHead = createNewHead(direction); // nieuw hoofd element ter vergelijking
+    newHead = this.createNewHead(direction); // nieuw hoofd element ter vergelijking
 
     // controleer veld randen
     if (newHead.x > XMAX || newHead.x < XMIN || newHead.y > YMAX || newHead.y < YMIN) {
@@ -76,7 +76,7 @@ Snake.prototype.canMove = function(direction) {
 Snake.prototype.doMove = function(direction) {
     //voeg nieuw hoofd toe.
     this.head.color = SNAKE;
-    newHead = createNewHead(direction);
+    newHead = this.createNewHead(direction);
     this.segments.push(newHead);
     this.head = this.segments[this.segments.length-1];
 
@@ -115,7 +115,7 @@ Snake.prototype.createNewHead = function(direction) {
             break;
     }
 
-    return createHead(x, y);
+    return createHead(nx, ny);
 }
 
 /**
