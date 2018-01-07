@@ -332,14 +332,17 @@ function createFoods() {
 /***************************************************************************
  **                 Testfuncties                                          **
  ***************************************************************************/
-
+ /**
+     @function testAll() -> void
+     @desc test de setup en de canvas grenzen
+ */
 function testAll(){
-    testSetup();
+    console.log("testSetup : " + (testSetup() ? "OK" : "FAILED"));
+    console.log("testBounds : " + (testBounds(LEFT) ? "OK" : "FAILED"));
+    console.log("testBounds : " + (testBounds(UP) ? "OK" : "FAILED"));
+    console.log("testBounds : " + (testBounds(RIGHT) ? "OK" : "FAILED"));
+    console.log("testBounds : " + (testBounds(DOWN) ? "OK" : "FAILED"));
 
-    testBound(LEFT);
-    testBound(UP);
-    testBound(RIGHT);
-    testBound(DOWN);
 }
 
 /**
@@ -363,11 +366,6 @@ function testSetup() {
     result = result && verifyFood();
 
     console.log("Test Setup: " + result.toString());
-    if(result) {
-      console.log("TESTS OK!");
-    } else {
-      console.log("TESTS FAILED");
-    }
 
     return result;
 }
@@ -399,12 +397,7 @@ function testBounds(direction) {
     result = result && verifySnake();
     result = result && verifyFood();
 
-    console.log("Test Bounds: " + result.toString());
-    if(result) {
-      console.log("TESTS OK!");
-    } else {
-      console.log("TESTS FAILED");
-    }
+    console.log("Test Bounds " + direction + ": " + result.toString());
 
     return result;
 }
