@@ -335,50 +335,57 @@ function createFoods() {
 
 function testAll(){
     testSetup();
-    
+
     testBound(LEFT);
     testBound(UP);
     testBound(RIGHT);
     testBound(DOWN);
 }
- 
+
 /**
     @function testSetup() -> boolean
     @desc test 1: test de initiele setup.
-                  verwachte uitkomst: 
+                  verwachte uitkomst:
                     snake van lengte 2
                     food
     @return {boolean} test voldoet aan verwachting
 */
 function testSetup() {
     result = true;
-    
+
     //setup
     init();
-    
+
     //execute scenario
-    
+
     //verify
     result = result && verifySnake();
     result = result && verifyFood();
-    
-    return "Test Setup: " + result.toString();
+
+    console.log("Test Setup: " + result.toString());
+    if(result) {
+      console.log("TESTS OK!");
+    } else {
+      console.log("TESTS FAILED");
+    }
+
+    return result;
 }
 
 /**
-    @function testSetup() -> boolean
+    @function testBounds() -> boolean
     @desc test 2: test beweging in gegeven richting over een leeg veld.
-                  verwachte uitkomst: 
+                  verwachte uitkomst:
                     snake van lengte 2 blijft binnen het veld
     @return {boolean} test voldoet aan verwachting
 */
-function testBound(direction) {
+function testBounds(direction) {
     result = true;
-    
+
     //setup
     init();
     foods = [];
-    
+
     //execute scenario
     if (direction == DOWN) {
         move(RIGHT);
@@ -386,12 +393,19 @@ function testBound(direction) {
     for (var i = 0; i < (WIDTH/R + 3); i++) {
         move(direction);
     }
-                    
+
     //verify
     result = result && verifySnake();
     result = result && verifyFood();
-    
-    return "Test Setup: " + result.toString();
+
+    console.log("Test Bounds: " + result.toString());
+    if(result) {
+      console.log("TESTS OK!");
+    } else {
+      console.log("TESTS FAILED");
+    }
+
+    return result;
 }
 
 /**
@@ -401,31 +415,31 @@ function testBound(direction) {
 */
 function verifySnake() {
     result = true;
-    
+
     //verify snake type
     if (typeof snake !== "object") {
         result = false;
         console.log("invalid snake: " + typeof snake);
     }
-    
+
     //verify length
     if (snake.segments.length < 2) {
         result = false;
         console.log("invalid snake length");
     }
-    
+
     //verify head existence
     if (typeof snake.head !== "object") {
         result = false;
         console.log("invalid snake head");
     }
-    
+
     //verify head color
     if (snake.segments[snake.segments.length-1].color != HEAD) {
         result = false;
         console.log("invalid snake head color");
     }
-    
+
     //verify body color
     for (var i = 0; i < snake.segments.length -1; ++i) {
         if (snake.segments[i].color != SNAKE) {
@@ -433,7 +447,7 @@ function verifySnake() {
             console.log("invalid snake body color");
         }
     }
-    
+
     //verify radius
     for (var i = 0; i < snake.segments.length; ++i) {
         if (snake.segments[i].radius != R) {
@@ -441,14 +455,19 @@ function verifySnake() {
             console.log("invalid snake segment radius");
         }
     }
-    
+
     //ToDo: Verify if snake is connected
     //ToDo: Verify is snake is within bounds
     //ToDo: Verify is there are no collisions.
-    
+
     return result;
 }
 
+/**
+    @function verifyFood() -> boolean
+    @desc verifeer of de voedsel array is
+    @return {boolean} foods is valide
+*/
 function verifyFood() {
     result = true;
 
@@ -457,9 +476,9 @@ function verifyFood() {
             result = false;
         }
     }
-    
+
     //ToDo: Verify is food is within bounds
     //ToDo: Verify is there are no collisions.
-    
+
     return result;
 }
