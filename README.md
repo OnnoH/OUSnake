@@ -29,12 +29,9 @@ De website is getest met de browsers Google Chrome en Safari op Apple OSX.
 # Opdracht 2
 ## Snake part One
 
-De gevraagde functies collidesWithOneOf, canMove en doMove zijn als methode toegevoegd
-aan resp. Element, Snake en Snake.
+De gevraagde functies collidesWithOneOf en canMove/doMove zijn als methode toegevoegd aan resp. Element en Snake.
 
 Om de nieuwe positie van de kop te bepalen is de method Snake.createNewHead toegevoegd. Deze methode wordt nu zowel uitgevoerd in canMove als doMove. Beter zou zijn dat canMove een segment (type Element) retourneert als de beweging mogelijk is. De doMove kan dan de slangsegmenten aanpassen.
-
-Omdat voedsel (nog) niet als aparte klasse is opgenomen, al wel een functie eatFood toegevoegd, waarin het voedselelement uit het array wordt verwijderd.
 
 Uiteindelijk zijn de tests in het hoofd Javascript-bestand snake.js terecht gekomen. Bij het schrijven van een
 mocha test bleek jQuery in de weg te zitten. Dit vraagt nader onderzoek.
