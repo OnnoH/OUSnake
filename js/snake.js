@@ -18,7 +18,7 @@ const R        = 10,          // straal van een element
 
       SNAKE   = "DarkRed" ,   // kleur van een slangsegment
       FOOD    = "Olive",       // kleur van voedsel
-	  HEAD    = "DarkOrange"   // kleur van de kop van de slang
+	    HEAD    = "DarkOrange"   // kleur van de kop van de slang
 
 var snake,
     foods = [];                                // voedsel voor de slang
@@ -34,20 +34,21 @@ $(document).ready(function() {
 /***************************************************************************
  **                 Constructors                                          **
  ***************************************************************************/
-
+// ? Refactor foods
 /***************************************************************************
  **                 Methods                                               **
  ***************************************************************************/
  /**
    @function collidesWithOneOf(elements) -> boolean
-   @desc  Checks if the object's x- and y-coordinates are present
-          in the given Element's array. Returns true if so,
-          otherwise false. To speed up the process the loop
-          is ended prematurely once a match is found.
-   @param Array with Element objects i.e. foods or snake.segments
-   @return: true or false
- */
-  Element.prototype.collidesWithOneOf = function(elements) {
+   @desc  Controleert of de x- and y-coordinaten van het object
+          aanwezig zijn in het gegeven Element's array. Geeft true
+          terug indien dit zo is, anders false.
+          Om het proces enigzins te versnellen wordt de lus vroegtijdig
+          onderbroken wanneer er een overeenkomst is gevonden.
+   @param Array met Element objects d.w.z. foods of snake.segments
+   @return boolean   true (x,y positie reeds gevuld) of false (positie leeg)
+  */
+ Element.prototype.collidesWithOneOf = function(elements) {
       var collision = false;
 
       for (var i = 0; i < elements.length; ++i) {
@@ -62,19 +63,21 @@ $(document).ready(function() {
 
   /**
     @function canMove(direction) -> boolean
-    @desc Controleert of de bewegingsrichting
-    @param String: UP, DOWN, LEFT, RIGHT
-    @return: true or false
-  */
+    @desc Controleert of de slang zich in de opgegeven richting mag begeven.
+          Aandachtspunt: methode zou ook het nieuwe segment kunnen retourneren
+          waardoor de doMove methode de nieuwe koppositie niet nogmaals hoeft
+          te bepalen.
+    @param String direction   UP, DOWN, LEFT, RIGHT
+    @return boolean           true (beweging mogelijk) of false (beweging buiten
+                              het canvas of in zichzelf)
+   */
   Snake.prototype.canMove = function(direction) {
     var canMove = true;
-    newHead = createNewHead(direction);
+    newHead = this.createNewHead(direction);
     if (newHead.x > XMAX || newHead.x < XMIN || newHead.y > YMAX || newHead.y < YMIN) {
-      console.log("Snake cannot move outside the box");
       canMove = false;
     };
-    if (newHead.collidesWithOneOf(snake.segments)) {
-      console.log("Snake cannot move into itself");
+    if (newHead.collidesWithOneOf(this.segments)) {
       canMove = false;
     }
 
@@ -82,55 +85,67 @@ $(document).ready(function() {
   }
 
   /**
-    @function doMove(direction)
-    @desc Voert de beweging van de slang in de aangegeven richting uit
-    @param String: UP, DOWN, LEFT, RIGHT
-    @return:
-  */
+    @function doMove(direction) -> void
+    @desc Voert de beweging van de slang in de aangegeven richting uit.
+          Aandachtspunt: in plaats van een richting zou deze methode het
+          segment van de nieuwe koppositie Webapplications parameter kunnen krijgen.
+    @param String direction UP, DOWN, LEFT, RIGHT
+   */
   Snake.prototype.doMove = function(direction) {
-    var doMove = true;
-    newHead = createNewHead(direction);
-    this.head.color = SNAKE;
-    this.segments.push(newHead);
+    newHead = this.createNewHead(direction);
+    this.head.color = SNAKE; // Maak van huidige kop een lijf
+    this.segments.push(newHead); // Voeg de nieuwe kop toe
     if (!newHead.collidesWithOneOf(foods)) {
-        this.segments.shift();
+        this.segments.shift(); // Geen voedsel dus staart verwijderen
     } else {
-      eatFood(newHead);
+      eatFood(newHead); // Voedsel uit het array verwijderen
     }
+    // Bepaal nieuwe koppositie
     this.head = this.segments[this.segments.length-1];
     this.head.color = HEAD;
 
-    return doMove;
+  }
+
+  /**
+    @function createNewHead -> Element
+    @desc Bepaalt de nieuwe locatie van de slangenkop
+          op basis van de opgegeven richting
+    @param  String direction de richting
+    @return Element          het nieuwe segment
+   */
+  Snake.prototype.createNewHead = function(direction) {
+
+     var x = this.head.x;
+     var y = this.head.y;
+
+     switch(direction) {
+       case LEFT:
+           x = x - STEP;
+           break;
+       case RIGHT:
+           x = x + STEP;
+           break;
+       case UP:
+           y = y - STEP;
+           break;
+       case DOWN:
+           y = y + STEP;
+           break;
+     }
+
+     return createSegment(x, y);
+
   }
 
 /***************************************************************************
  **                 Hulpfuncties                                          **
  ***************************************************************************/
 
-function createNewHead(direction) {
-
-   var x = snake.head.x;
-   var y = snake.head.y;
-
-   switch(direction) {
-     case LEFT:
-         x = x - STEP;
-         break;
-     case RIGHT:
-         x = x + STEP;
-         break;
-     case UP:
-         y = y - STEP;
-         break;
-     case DOWN:
-         y = y + STEP;
-         break;
-   }
-
-   return createSegment(x, y);
-
- }
-
+/**
+  @function eatFood -> void
+  @desc Verwijdert het opgegeven Element uit het voedsel array.
+  @param  Element food het opgegeten voedsel
+ */
 function eatFood(food) {
   for (var i = 0; i < foods.length; ++i) {
     if (foods[i].x === food.x && foods[i].y === food.y) {
