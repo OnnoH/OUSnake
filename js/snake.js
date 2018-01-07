@@ -19,9 +19,9 @@ const R        = 10,          // straal van een element
       SNAKE   = "DarkRed" ,   // kleur van een slangsegment
 
       FOOD    = "Olive",      // kleur van voedsel
-      HEAD    = "DarkOrange"  // kleur van de kop van de slang
+      HEAD    = "DarkOrange"; // kleur van de kop van de slang
 
-var snake,					  // de slang met kop en staart elementen						
+var snake,                    // de slang met kop en staart elementen
     foods = [];               // voedsel voor de slang
 
 $(document).ready(function() {
@@ -32,7 +32,7 @@ $(document).ready(function() {
 /***************************************************************************
  **                 Nieuwe code                                           **
  ***************************************************************************/
- 
+
 /***************************************************************************
  **                 Constructors                                          **
  ***************************************************************************/
@@ -50,13 +50,13 @@ $(document).ready(function() {
 */
 Snake.prototype.canMove = function(direction) {
     var canMove = true;
-    
+
     newHead = createNewHead(direction); // nieuw hoofd element ter vergelijking
-    
+
     // controleer veld randen
     if (newHead.x > XMAX || newHead.x < XMIN || newHead.y > YMAX || newHead.y < YMIN) {
       canMove = false;
-    };
+    }
 
     // controleer botsing met staart
     if (newHead.collidesWithOneOf(snake.segments)) {
@@ -76,10 +76,10 @@ Snake.prototype.canMove = function(direction) {
 Snake.prototype.doMove = function(direction) {
     //voeg nieuw hoofd toe.
     this.head.color = SNAKE;
-    newHead = createNewHead(direction); 
+    newHead = createNewHead(direction);
     this.segments.push(newHead);
     this.head = this.segments[this.segments.length-1];
-    
+
     //controleer op botsing met voedsel
     if (newHead.collidesWithOneOf(foods)) {
         foods.splice(newHead.indexOfColision(foods), 1); //verwijder voedsel
@@ -90,25 +90,28 @@ Snake.prototype.doMove = function(direction) {
 
 /**
     @function createNewHead(direction) -> segment
-    @desc Slanghoofdsegment creeren in een bepaalde richting ten opzichten 
+    @desc Slanghoofdsegment creeren in een bepaalde richting ten opzichten
           van huidige positie.
     @param {string} direction: de richting (een van de constanten UP, DOWN, LEFT of RIGHT)
     @param {number} y: y-coordinaart middelpunt
     @return: {Element} met straal R en color HEAD
 */
 Snake.prototype.createNewHead = function(direction) {
+    var nx = this.head.x;
+    var ny = this.head.y;
+
     switch(direction) {
         case LEFT:
-            x = x - STEP;
+            nx = nx - STEP;
             break;
         case RIGHT:
-            x = x + STEP;
+            nx = nx + STEP;
             break;
         case UP:
-            y = y - STEP;
+            ny = ny - STEP;
             break;
         case DOWN:
-            y = y + STEP;
+            ny = ny + STEP;
             break;
     }
 
@@ -128,39 +131,39 @@ function createHead(x, y) {
 
 /**
     @function collidesWithOneOf(elements) -> boolean
-    @desc Controleer of gegeven element overlamp met een element in 
-          het gegeven array.  
-    @param {[Element]} elements: een array met voedsel of slang elementen. 
+    @desc Controleer of gegeven element overlamp met een element in
+          het gegeven array.
+    @param {[Element]} elements: een array met voedsel of slang elementen.
     @return: {boolean} true als element overlapt met element uit array.
 */
-Element.prototype.collidesWithOneOf = function(elements) {	 
+Element.prototype.collidesWithOneOf = function(elements) {
     return this.indexOfCollision(elements) >= 0;
 }
-  
+
 /**
     @function indexOfColision(elements) -> integer
-    @desc Geef de index van het element uit array elements wat overlapt met het 
-          gegeven element.   
-    @param {[Element]} elements: een array met voedsel of slang elementen. 
+    @desc Geef de index van het element uit array elements wat overlapt met het
+          gegeven element.
+    @param {[Element]} elements: een array met voedsel of slang elementen.
     @return: {integer} index van overlappend element. -1 als geen elemement overlapt.
 */
 Element.prototype.indexOfCollision = function(elements) {
     var index = -1;
-      
+
     for (var i = 0; i < elements.length; ++i) {
         if (elements[i].x === this.x && elements[i].y === this.y) {
             collision = i;
             i = elements.length; //eindig loop als element gevonden is
         }
     }
-     
+
     return index;
 }
-  
+
 /***************************************************************************
  **                 Gegeven code                                          **
  ***************************************************************************/
- 
+
 /***************************************************************************
  **                 Commando's voor de gebruiker                          **
  ***************************************************************************/
