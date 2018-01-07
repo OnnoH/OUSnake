@@ -17,20 +17,21 @@ const R        = 10,          // straal van een element
       YMAX     = HEIGHT - R,  // maximale y waarde
 
       SNAKE   = "DarkRed" ,   // kleur van een slangsegment
-      FOOD    = "Olive",       // kleur van voedsel
-	  HEAD    = "DarkOrange"   // kleur van de kop van de slang
+      FOOD    = "Olive",      // kleur van voedsel
+	  HEAD    = "DarkOrange"  // kleur van de kop van de slang
 
-var snake,
-    foods = [];                                // voedsel voor de slang
+var snake,					  // de slang met kop en staart elementen						
+    foods = [];               // voedsel voor de slang
 
 $(document).ready(function() {
 	$("#startSnake").click(init);
 	$("#stopSnake").click(stop);
 });
 
-/*************************************************************************************************
- **                                    Nieuwe code                                              **
- *************************************************************************************************/
+/***************************************************************************
+ **                 Nieuwe code                                           **
+ ***************************************************************************/
+ 
 /***************************************************************************
  **                 Constructors                                          **
  ***************************************************************************/
@@ -38,41 +39,26 @@ $(document).ready(function() {
 /***************************************************************************
  **                 Methods                                               **
  ***************************************************************************/
- /**
-   @function collidesWithOneOf(elements) -> boolean
-   @desc  Checks if the object's x- and y-coordinates are present
-          in the given Element's array. Returns true if so,
-          otherwise false. To speed up the process the loop
-          is ended prematurely once a match is found.
-   @param Array with Element objects i.e. foods or snake.segments
-   @return: true or false
- */
-  Element.prototype.collidesWithOneOf = function(elements) {
-      var collision = false;
-
-      for (var i = 0; i < elements.length; ++i) {
-        if (elements[i].x === this.x && elements[i].y === this.y) {
-         collision = true;
-         i = elements.length;
-        }
-      }
-
-      return collision;
-  }
 
   /**
     @function canMove(direction) -> boolean
-    @desc Controleert of de bewegingsrichting
-    @param String: UP, DOWN, LEFT, RIGHT
-    @return: true or false
+    @desc Controleert of de beweging de slang in de gegeven direction
+	      binnen het veld blijft en of er geen botsing plaats vindt.
+    @param {string} direction: de richting (const UP, DOWN, LEFT of RIGHT)
+    @return: {boolean} true als beweging zonder botsing mogelijk is
   */
   Snake.prototype.canMove = function(direction) {
     var canMove = true;
-    newHead = createNewHead(direction);
+	
+    newHead = createNewHead(direction); // nieuw hoofd element ter vergelijking
+	
+	// controleer veld randen
     if (newHead.x > XMAX || newHead.x < XMIN || newHead.y > YMAX || newHead.y < YMIN) {
       console.log("Snake cannot move outside the box");
       canMove = false;
     };
+	
+	// controleer botsing met staart
     if (newHead.collidesWithOneOf(snake.segments)) {
       console.log("Snake cannot move into itself");
       canMove = false;
@@ -82,31 +68,38 @@ $(document).ready(function() {
   }
 
   /**
-    @function doMove(direction)
+    @function doMove(direction) -> void
     @desc Voert de beweging van de slang in de aangegeven richting uit
-    @param String: UP, DOWN, LEFT, RIGHT
-    @return:
+    @param {string} direction: de richting (const UP, DOWN, LEFT of RIGHT)
+    @return: true
   */
   Snake.prototype.doMove = function(direction) {
-    var doMove = true;
-    newHead = createNewHead(direction);
+    //voeg nieuw hoofd toe.
     this.head.color = SNAKE;
+	newHead = createNewHead(direction); 
     this.segments.push(newHead);
-    if (!newHead.collidesWithOneOf(foods)) {
-        this.segments.shift();
+	this.head = this.segments[this.segments.length-1];
+	
+	//controleer op botsing met voedsel
+    if (newHead.collidesWithOneOf(foods)) {
+		foods.splice(newHead.indexOfColision(foods), 1); //verwijder voedsel
     } else {
-      eatFood(newHead);
+		this.segments.shift(); //verwijder staart element
     }
-    this.head = this.segments[this.segments.length-1];
-    this.head.color = HEAD;
-
-    return doMove;
   }
 
 /***************************************************************************
  **                 Hulpfuncties                                          **
  ***************************************************************************/
 
+/**
+  @function createNewHead(direction) -> segment
+  @desc Slanghoofdsegment creeren in een bepaalde richting ten opzichten 
+		van huidige positie.
+  @param {string} direction: de richting (een van de constanten UP, DOWN, LEFT of RIGHT)
+  @param {number} y: y-coordinaart middelpunt
+  @return: {Element} met straal R en color HEAD
+*/
 function createNewHead(direction) {
 
    var x = snake.head.x;
@@ -127,21 +120,54 @@ function createNewHead(direction) {
          break;
    }
 
-   return createSegment(x, y);
-
+   return new Element(R, x, y, HEAD);
  }
 
-function eatFood(food) {
-  for (var i = 0; i < foods.length; ++i) {
-    if (foods[i].x === food.x && foods[i].y === food.y) {
-     foods.splice(i, 1);
-     i = foods.length;
-    }
+ /**
+   @function collidesWithOneOf(elements) -> boolean
+   @desc Controleer of gegeven element overlamp met een element in 
+		  het gegeven array.  
+   @param {[Element]} elements: een array met voedsel of slang elementen. 
+   @return: {boolean} true als element overlapt met element uit array.
+ */
+  Element.prototype.collidesWithOneOf = function(elements) {	 
+	return this.indexOfCollision(elements) >= 0;
   }
+  
+/**
+   @function indexOfColision(elements) -> integer
+   @desc Geef de index van het element uit array elements wat overlapt met het 
+         gegeven element.   
+   @param {[Element]} elements: een array met voedsel of slang elementen. 
+   @return: {integer} index van overlappend element. -1 als geen elemement overlapt.
+*/
+  Element.prototype.indexOfCollision = function(elements) {
+	var index = -1;
+      
+	for (var i = 0; i < elements.length; ++i) {
+		if (elements[i].x === this.x && elements[i].y === this.y) {
+			collision = i;
+			i = elements.length; //eindig loop als element gevonden is
+		}
+	}
+	 
+	return index;
+  }
+
+/**
+  @function createHead(x,y) -> Element
+  @desc hoofdsegment creeren op een bepaalde plaats
+  @param {number} x: x-coordinaat middelpunt
+  @param {number} y: y-coordinaart middelpunt
+  @return {Element} met straal R en color HEAD
+*/
+function createHead(x, y) {
+	return new Element(R, x, y, HEAD);
 }
-/*************************************************************************************************
- **                                    Gegeven code                                              **
- *************************************************************************************************/
+/***************************************************************************
+ **                 Gegeven code                                          **
+ ***************************************************************************/
+ 
 /***************************************************************************
  **                 Commando's voor de gebruiker                          **
  ***************************************************************************/
@@ -167,9 +193,8 @@ function stop() {
 
 /**
   @function move(direction) -> void
-  @desc Beweeg slang in aangegeven richting
-        tenzij slang uit canvas zou verdwijnen
-  @param   direction de richting (een van de constanten UP, DOWN, LEFT of RIGHT)
+  @desc Beweeg slang in aangegeven richting indien toegestaan.
+  @param {string} direction: de richting (een van de constanten UP, DOWN, LEFT of RIGHT)
 */
 function move(direction) {
 	if (snake.canMove(direction)) {
@@ -202,8 +227,8 @@ function draw() {
  ***************************************************************************/
 /**
    @constructor Snake
-   @param segments een array met aaneengesloten slangsegmenten
-                   Het laatste element van segments wordt de kop van de slang
+   @param {[Element]} segments: Een array met aaneengesloten slangsegmenten
+                    Het laatste element van segments wordt de kop van de slang
 */
 function Snake(segments) {
 	this.segments = segments;
@@ -212,10 +237,10 @@ function Snake(segments) {
 }
 /**
    @constructor Element
-   @param radius straal
-   @param x x-coordinaat middelpunt
-   @param y y-coordinaat middelpunt
-   @param color kleur van het element
+   @param {number} radius: straal
+   @param {number} x: x-coordinaat middelpunt
+   @param {number} y: y-coordinaat middelpunt
+   @param {string} color: kleur van het element
 */
 function Element(radius, x, y, color) {
 	this.radius = radius;
@@ -231,38 +256,41 @@ function Element(radius, x, y, color) {
   @function createStartSnake() -> Snake
   @desc Slang creëren, bestaande uit  twee segmenten,
         in het midden van het veld
-  @return: slang volgens specificaties
+  @return: {Snake} slang volgens specificaties
 */
 function createStartSnake() {
 	var segments   = [createSegment(R + WIDTH/2, R + WIDTH/2),
 	                  createSegment(R + WIDTH/2, WIDTH/2 - R)];
     snake = new Snake(segments);
 }
+
 /**
   @function createSegment(x,y) -> Element
   @desc Slangsegment creeren op een bepaalde plaats
-  @param x x-coordinaat middelpunt
-  @param y y-coordinaart middelpunt
-  @return: Element met straal R en color SNAKE
+  @param {number} x: x-coordinaat middelpunt
+  @param {number} y: y-coordinaart middelpunt
+  @return {Element} Element met straal R en color SNAKE
 */
+
 function createSegment(x, y) {
 	return new Element(R, x, y, SNAKE);
 }
 /**
   @function createFood(x,y) -> Element
   @desc Voedselelement creeren op een bepaalde plaats
-  @param x x-coordinaat middelpunt
-  @param y y-coordinaart middelpunt
-  @return: Element met straal R en color FOOD
+  @param {number} x: x-coordinaat middelpunt
+  @param {number} y: y-coordinaart middelpunt
+  @return: {Element} Element met straal R en color FOOD
 */
 function createFood(x, y) {
 	return new Element(R, x, y, FOOD);
 }
+
 /**
   @function drawElement(element, canvas) -> void
   @desc Een element tekenen
-  @param element een Element object
-  @param  canvas het tekenveld
+  @param {Element} element: een Element object
+  @param {dom object} canvas: het tekenveld
 */
  function drawElement(element, canvas) {
 	canvas.drawArc({
@@ -277,9 +305,9 @@ function createFood(x, y) {
 /**
   @function getRandomInt(min: number, max: number) -> number
   @desc Creeren van random geheel getal in het interval [min, max]
-  @param min een geheel getal als onderste grenswaarde
-  @param max een geheel getal als bovenste grenswaarde (max > min)
-  @return een random geheel getal x waarvoor geldt: min <= x <= max
+  @param {number} min: een geheel getal als onderste grenswaarde
+  @param {number} max: een geheel getal als bovenste grenswaarde (max > min)
+  @return {number} een random geheel getal x waarvoor geldt: min <= x <= max
 */
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -288,11 +316,12 @@ function getRandomInt(min, max) {
 /**
   @function createFoods() -> array met food
   @desc array van random verdeelde voedselpartikelen
-  @return array met food
+  @return {[Element]} array met food
 */
 function createFoods() {
    var  i,
         food;
+   foods = [];
    i = 0;
    while (i < NUMFOODS ) {
      food = createFood(XMIN + getRandomInt(0, MAX)*STEP, YMIN + getRandomInt(0, MAX)*STEP);
