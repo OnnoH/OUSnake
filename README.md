@@ -29,6 +29,18 @@ De website is getest met de browsers Google Chrome en Safari op Apple OSX.
 # Opdracht 2
 ## Snake part One
 
+De gevraagde functies collidesWithOneOf, canMove en doMove zijn als methode toegevoegd
+aan resp. Element, Snake en Snake.
+
+Om de nieuwe positie van de kop te bepalen is de method Snake.createNewHead toegevoegd. Deze methode wordt nu zowel uitgevoerd in canMove als doMove. Beter zou zijn dat canMove een segment (type Element) retourneert als de beweging mogelijk is. De doMove kan dan de slangsegmenten aanpassen.
+
+Omdat voedsel (nog) niet als aparte klasse is opgenomen, al wel een functie eatFood toegevoegd, waarin het voedselelement uit het array wordt verwijderd.
+
+# Opdracht 3
+## Snake part Two
+
+<not yet implemented>
+
 
 #TO DO
 1. ~~Code onder versie controle brengen (git)~~
@@ -36,6 +48,11 @@ De website is getest met de browsers Google Chrome en Safari op Apple OSX.
 3. ~~IDE selecteren voor het ontwikkelwerk of volstaat Atom met Chrome (en debugtools)?~~ => Atom/Chrome
 4. CSS height: 100% verder onderzoeken
 5. Lastig om een beetje gevoel te krijgen bij relatieve maatvoering. Mogelijk dat er toch nog wat absolute maten in moeten.
-6. Het resizen van de site is nog niet ideaal.
+6. Het resizen van de site is nog niet ideaal
 7. ~~Teamlid werven~~
-8. ...
+8. CSS structuur documenteren
+9. ~~CSS validatie fouten oplossen: color names vervangen door color numbers (schijnbaar kunnen niet alle browsers met de kleurnamen omgaan)~~
+10. HTML fouten oplossen
+11. Bedenken of de documentatie en commentaren in het Engels of Nederlands moeten. De opleiding is Nederlandstalig, maar de taal Javascript afgeleid van het Engels.
+12. JSlint operationaliseren
+13. ...

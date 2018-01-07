@@ -17,6 +17,7 @@ const R        = 10,          // straal van een element
       YMAX     = HEIGHT - R,  // maximale y waarde
 
       SNAKE   = "DarkRed" ,   // kleur van een slangsegment
+
       FOOD    = "Olive",      // kleur van voedsel
 	  HEAD    = "DarkOrange"  // kleur van de kop van de slang
 
@@ -35,7 +36,7 @@ $(document).ready(function() {
 /***************************************************************************
  **                 Constructors                                          **
  ***************************************************************************/
-
+// ? Refactor foods
 /***************************************************************************
  **                 Methods                                               **
  ***************************************************************************/
@@ -54,10 +55,9 @@ $(document).ready(function() {
 	
 	// controleer veld randen
     if (newHead.x > XMAX || newHead.x < XMIN || newHead.y > YMAX || newHead.y < YMIN) {
-      console.log("Snake cannot move outside the box");
       canMove = false;
     };
-	
+
 	// controleer botsing met staart
     if (newHead.collidesWithOneOf(snake.segments)) {
       console.log("Snake cannot move into itself");
@@ -88,10 +88,6 @@ $(document).ready(function() {
     }
   }
 
-/***************************************************************************
- **                 Hulpfuncties                                          **
- ***************************************************************************/
-
 /**
   @function createNewHead(direction) -> segment
   @desc Slanghoofdsegment creeren in een bepaalde richting ten opzichten 
@@ -100,28 +96,35 @@ $(document).ready(function() {
   @param {number} y: y-coordinaart middelpunt
   @return: {Element} met straal R en color HEAD
 */
-function createNewHead(direction) {
+  Snake.prototype.createNewHead = function(direction) {
+    switch(direction) {
+		case LEFT:
+			x = x - STEP;
+			break;
+		case RIGHT:
+			x = x + STEP;
+			break;
+		case UP:
+			y = y - STEP;
+			break;
+		case DOWN:
+			y = y + STEP;
+			break;
+    }
 
-   var x = snake.head.x;
-   var y = snake.head.y;
+    return createHead(x, y);
+}
 
-   switch(direction) {
-     case LEFT:
-         x = x - STEP;
-         break;
-     case RIGHT:
-         x = x + STEP;
-         break;
-     case UP:
-         y = y - STEP;
-         break;
-     case DOWN:
-         y = y + STEP;
-         break;
-   }
-
-   return new Element(R, x, y, HEAD);
- }
+/**
+  @function createHead(x,y) -> Element
+  @desc hoofdsegment creeren op een bepaalde plaats
+  @param {number} x: x-coordinaat middelpunt
+  @param {number} y: y-coordinaart middelpunt
+  @return {Element} met straal R en color HEAD
+*/
+function createHead(x, y) {
+	return new Element(R, x, y, HEAD);
+}
 
  /**
    @function collidesWithOneOf(elements) -> boolean
@@ -153,17 +156,7 @@ function createNewHead(direction) {
 	 
 	return index;
   }
-
-/**
-  @function createHead(x,y) -> Element
-  @desc hoofdsegment creeren op een bepaalde plaats
-  @param {number} x: x-coordinaat middelpunt
-  @param {number} y: y-coordinaart middelpunt
-  @return {Element} met straal R en color HEAD
-*/
-function createHead(x, y) {
-	return new Element(R, x, y, HEAD);
-}
+  
 /***************************************************************************
  **                 Gegeven code                                          **
  ***************************************************************************/
