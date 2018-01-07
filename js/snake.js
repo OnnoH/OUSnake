@@ -377,6 +377,7 @@ function testSetup() {
     @desc test 2: test beweging in gegeven richting over een leeg veld.
                   verwachte uitkomst:
                     snake van lengte 2 blijft binnen het veld
+    @param {string} direction de richting (const UP, DOWN, LEFT of RIGHT)
     @return {boolean} test voldoet aan verwachting
 */
 function testBounds(direction) {
