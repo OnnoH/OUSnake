@@ -333,6 +333,15 @@ function createFoods() {
  **                 Testfuncties                                          **
  ***************************************************************************/
 
+function testAll(){
+    testSetup();
+    
+    testBound(LEFT);
+    testBound(UP);
+    testBound(RIGHT);
+    testBound(DOWN);
+}
+ 
 /**
     @function testSetup() -> boolean
     @desc test 1: test de initiele setup.
@@ -358,12 +367,12 @@ function testSetup() {
 
 /**
     @function testSetup() -> boolean
-    @desc test 2: test beweging over een leeg veld.
+    @desc test 2: test beweging in gegeven richting over een leeg veld.
                   verwachte uitkomst: 
-                    snake van lengte 2
+                    snake van lengte 2 blijft binnen het veld
     @return {boolean} test voldoet aan verwachting
 */
-function testBounds() {
+function testBound(direction) {
     result = true;
     
     //setup
@@ -371,8 +380,11 @@ function testBounds() {
     foods = [];
     
     //execute scenario
+    if (direction == DOWN) {
+        move(RIGHT);
+    }
     for (var i = 0; i < (WIDTH/R + 3); i++) {
-        move(LEFT);
+        move(direction);
     }
                     
     //verify
