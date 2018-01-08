@@ -1,31 +1,29 @@
-const R        = 10,          // straal van een element
-      STEP     = 2*R,         // stapgrootte
-      WIDTH    = 360,         // breedte veld
-      HEIGHT   = 360,         // hoogte veld
-                              // er moet gelden: WIDTH = HEIGHT
-      MAX      = WIDTH/STEP-1,// netto veldbreedte
+const R        = 10   // straal van een element
+,     STEP     = 2*R,         // stapgrootte
       LEFT     = "left",      // bewegingsrichtingen
       RIGHT    = "right",
       UP       = "up",
       DOWN     = "down",
 
-      NUMFOODS = 15,          // aantal voedselelementen
+      NUMFOODS = 5,           // aantal voedselelementen
 
       XMIN     = R,           // minimale x waarde
       YMIN     = R,           // minimale y waarde
-      XMAX     = WIDTH - R,   // maximale x waarde
-      YMAX     = HEIGHT - R,  // maximale y waarde
 
       SNAKE   = "DarkRed" ,   // kleur van een slangsegment
+      SLEEPTIME = 500,
 
       FOOD    = "Olive",      // kleur van voedsel
       HEAD    = "DarkOrange"; // kleur van de kop van de slang
 
-var snake,                    // de slang met kop en staart elementen
+var snakeCanvas,              // het speelveld
+    snake,                    // de slang met kop en staart elementen
     foods = [];               // voedsel voor de slang
+var HEIGHT, WIDTH, MAX, XMAX, YMAX, MAX
+var snakeDirection = UP;
 
 $(document).ready(function() {
-    $("#startSnake").click(init);
+    $("#startSnake").click(start);
     $("#stopSnake").click(stop);
 });
 
@@ -42,39 +40,37 @@ $(document).ready(function() {
  ***************************************************************************/
 
 /**
-    @function canMove(direction) -> boolean
+    @function canMove(direction) -> Element
     @desc Controleert of de beweging de slang in de gegeven direction
           binnen het veld blijft en of er geen botsing plaats vindt.
     @param {string} direction de richting (const UP, DOWN, LEFT of RIGHT)
-    @returns {boolean} true als beweging zonder botsing mogelijk is
+    @returns {Element} de nieuwe koppositie
 */
 Snake.prototype.canMove = function(direction) {
-    var canMove = true;
     var newHead = this.createNewHead(direction); // nieuw hoofd element ter vergelijking
 
     // controleer veld randen
     if (newHead.x > XMAX || newHead.x < XMIN || newHead.y > YMAX || newHead.y < YMIN) {
-      canMove = false;
+      newHead = null;
     }
 
     // controleer botsing met staart
     if (newHead.collidesWithOneOf(snake.segments)) {
       console.log("Snake cannot move into itself");
-      canMove = false;
+      newHead = null;
     }
 
-    return canMove;
+    return newHead;
 }
 
 /**
-    @function doMove(direction) -> void
+    @function doMove(direction,newHead) -> void
     @desc Voert de beweging van de slang in de aangegeven richting uit
     @param {string} direction de richting (const UP, DOWN, LEFT of RIGHT)
 */
-Snake.prototype.doMove = function(direction) {
+Snake.prototype.doMove = function(direction, newHead) {
     //voeg nieuw hoofd toe.
     this.head.color = SNAKE;
-    var newHead = this.createNewHead(direction);
     this.segments.push(newHead);
     this.head = this.segments[this.segments.length-1];
 
@@ -160,6 +156,13 @@ Element.prototype.indexOfCollision = function(elements) {
     return index;
 }
 
+function start() {
+    init();
+
+    timer = setInterval(function() {
+        move(snakeDirection);
+    }, SLEEPTIME);
+}
 /***************************************************************************
  **                 Gegeven code                                          **
  ***************************************************************************/
@@ -172,6 +175,13 @@ Element.prototype.indexOfCollision = function(elements) {
     @desc Creeer een slang, genereer voedsel, en teken alles
 */
 function init() {
+    snakeCanvas = $("#mySnakeCanvas");
+    HEIGHT = snakeCanvas[0].height;
+    WIDTH = snakeCanvas[0].width;
+    // er moet gelden: WIDTH = HEIGHT
+    MAX = WIDTH/STEP-1; // netto veldbreedte
+    XMAX = WIDTH - R;   // maximale x waarde
+    YMAX = HEIGHT - R;  // maximale y waarde
     createStartSnake();
     createFoods();
     draw();
@@ -182,6 +192,7 @@ function init() {
     @desc Laat slang en voedsel verdwijnen, en teken leeg veld
 */
 function stop() {
+    clearInterval(timer);
     snake = null;
     foods = [];
     draw();
@@ -193,8 +204,27 @@ function stop() {
     @param {string} direction de richting (een van de constanten UP, DOWN, LEFT of RIGHT)
 */
 function move(direction) {
-    if (snake.canMove(direction)) {
-        snake.doMove(direction);
+    jQuery(document).keydown(function (e) {
+        switch (e.which) {
+            case 37: // left
+                direction = LEFT;
+                break;
+            case 38: // up
+                direction = UP;
+                break;
+            case 39: // right
+                direction = RIGHT;
+                break;
+            case 40: // down
+                direction = DOWN;
+                break;
+        }
+        snakeDirection = direction;
+    });
+
+    var newHead = snake.canMove(direction);
+    if (newHead !== null) {
+        snake.doMove(direction, newHead);
         draw();
     }
     else {
@@ -207,15 +237,15 @@ function move(direction) {
     @desc Teken de slang en het voedsel
 */
 function draw() {
-    var canvas = $("#mySnakeCanvas").clearCanvas();
+    snakeCanvas.clearCanvas();
 
     if (snake) {
         snake.segments.forEach(function (segment) {
-            drawElement(segment, canvas);
+            drawElement(segment, snakeCanvas);
         });
     }
     foods.forEach(function (food) {
-        drawElement(food, canvas);
+        drawElement(food, snakeCanvas);
     });
 }
 /***************************************************************************
@@ -283,13 +313,13 @@ function createFood(x, y) {
 }
 
 /**
-    @function drawElement(element,canvas) -> void
+    @function drawElement(element,snakeCanvas) -> void
     @desc Een element tekenen
     @param {Element} element een Element object
-    @param {Canvas} canvas het tekenveld
+    @param {Canvas} snakeCanvas het tekenveld
 */
-function drawElement(element, canvas) {
-    canvas.drawArc({
+function drawElement(element, snakeCanvas) {
+    snakeCanvas.drawArc({
         draggable : false,
         fillStyle : element.color,
         x : element.x,
@@ -334,7 +364,7 @@ function createFoods() {
  ***************************************************************************/
  /**
      @function testAll() -> void
-     @desc test de setup en de canvas grenzen
+     @desc test de setup en de snakeCanvas grenzen
  */
 function testAll(){
     console.log("testSetup : " + (testSetup() ? "OK" : "FAILED"));
