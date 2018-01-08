@@ -45,13 +45,12 @@ $(document).ready(function() {
     @function canMove(direction) -> boolean
     @desc Controleert of de beweging de slang in de gegeven direction
           binnen het veld blijft en of er geen botsing plaats vindt.
-    @param {string} direction: de richting (const UP, DOWN, LEFT of RIGHT)
-    @return: {boolean} true als beweging zonder botsing mogelijk is
+    @param {string} direction de richting (const UP, DOWN, LEFT of RIGHT)
+    @returns {boolean} true als beweging zonder botsing mogelijk is
 */
 Snake.prototype.canMove = function(direction) {
     var canMove = true;
-
-    newHead = this.createNewHead(direction); // nieuw hoofd element ter vergelijking
+    var newHead = this.createNewHead(direction); // nieuw hoofd element ter vergelijking
 
     // controleer veld randen
     if (newHead.x > XMAX || newHead.x < XMIN || newHead.y > YMAX || newHead.y < YMIN) {
@@ -70,13 +69,12 @@ Snake.prototype.canMove = function(direction) {
 /**
     @function doMove(direction) -> void
     @desc Voert de beweging van de slang in de aangegeven richting uit
-    @param {string} direction: de richting (const UP, DOWN, LEFT of RIGHT)
-    @return: true
+    @param {string} direction de richting (const UP, DOWN, LEFT of RIGHT)
 */
 Snake.prototype.doMove = function(direction) {
     //voeg nieuw hoofd toe.
     this.head.color = SNAKE;
-    newHead = this.createNewHead(direction);
+    var newHead = this.createNewHead(direction);
     this.segments.push(newHead);
     this.head = this.segments[this.segments.length-1];
 
@@ -92,38 +90,37 @@ Snake.prototype.doMove = function(direction) {
     @function createNewHead(direction) -> segment
     @desc Slanghoofdsegment creeren in een bepaalde richting ten opzichten
           van huidige positie.
-    @param {string} direction: de richting (een van de constanten UP, DOWN, LEFT of RIGHT)
-    @param {number} y: y-coordinaart middelpunt
-    @return: {Element} met straal R en color HEAD
+    @param {string} direction de richting (een van de constanten UP, DOWN, LEFT of RIGHT)
+    @returns {Element} met straal R en color HEAD
 */
 Snake.prototype.createNewHead = function(direction) {
-    var nx = this.head.x;
-    var ny = this.head.y;
+    var x = this.head.x;
+    var y = this.head.y;
 
     switch(direction) {
         case LEFT:
-            nx = nx - STEP;
+            x = x - STEP;
             break;
         case RIGHT:
-            nx = nx + STEP;
+            x = x + STEP;
             break;
         case UP:
-            ny = ny - STEP;
+            y = y - STEP;
             break;
         case DOWN:
-            ny = ny + STEP;
+            y = y + STEP;
             break;
     }
 
-    return createHead(nx, ny);
+    return createHead(x, y);
 }
 
 /**
     @function createHead(x,y) -> Element
     @desc hoofdsegment creeren op een bepaalde plaats
-    @param {number} x: x-coordinaat middelpunt
-    @param {number} y: y-coordinaart middelpunt
-    @return {Element} met straal R en color HEAD
+    @param {number} x x-coordinaat middelpunt
+    @param {number} y y-coordinaart middelpunt
+    @returns {Element} met straal R en color HEAD
 */
 function createHead(x, y) {
     return new Element(R, x, y, HEAD);
@@ -133,28 +130,31 @@ function createHead(x, y) {
     @function collidesWithOneOf(elements) -> boolean
     @desc Controleer of gegeven element overlamp met een element in
           het gegeven array.
-    @param {[Element]} elements: een array met voedsel of slang elementen.
-    @return: {boolean} true als element overlapt met element uit array.
+    @param {Element} elements een array met voedsel of slang elementen.
+    @returns {boolean} true als element overlapt met element uit array.
 */
 Element.prototype.collidesWithOneOf = function(elements) {
     return this.indexOfCollision(elements) >= 0;
 }
 
 /**
-    @function indexOfColision(elements) -> integer
+    @function indexOfCollision(elements) -> integer
     @desc Geef de index van het element uit array elements wat overlapt met het
           gegeven element.
-    @param {[Element]} elements: een array met voedsel of slang elementen.
-    @return: {integer} index van overlappend element. -1 als geen elemement overlapt.
+    @param {Element} elements een array met voedsel of slang elementen.
+    @returns {integer} index van overlappend element. -1 als geen elemement overlapt.
 */
 Element.prototype.indexOfCollision = function(elements) {
     var index = -1;
-
-    for (var i = 0; i < elements.length; ++i) {
+    var found = false;
+    var i = 0;
+    //
+    while (i < elements.length && !found) {
         if (elements[i].x === this.x && elements[i].y === this.y) {
+            found = true;
             index = i;
-            i = elements.length; //eindig loop als element gevonden is
         }
+        i++;
     }
 
     return index;
@@ -190,7 +190,7 @@ function stop() {
 /**
     @function move(direction) -> void
     @desc Beweeg slang in aangegeven richting indien toegestaan.
-    @param {string} direction: de richting (een van de constanten UP, DOWN, LEFT of RIGHT)
+    @param {string} direction de richting (een van de constanten UP, DOWN, LEFT of RIGHT)
 */
 function move(direction) {
     if (snake.canMove(direction)) {
@@ -223,7 +223,7 @@ function draw() {
  ***************************************************************************/
 /**
     @constructor Snake
-    @param {[Element]} segments: Een array met aaneengesloten slangsegmenten
+    @param {Element} segments Een array met aaneengesloten slangsegmenten
                     Het laatste element van segments wordt de kop van de slang
 */
 function Snake(segments) {
@@ -233,10 +233,10 @@ function Snake(segments) {
 }
 /**
     @constructor Element
-    @param {number} radius: straal
-    @param {number} x: x-coordinaat middelpunt
-    @param {number} y: y-coordinaat middelpunt
-    @param {string} color: kleur van het element
+    @param {number} radius straal
+    @param {number} x x-coordinaat middelpunt
+    @param {number} y y-coordinaat middelpunt
+    @param {string} color kleur van het element
 */
 function Element(radius, x, y, color) {
     this.radius = radius;
@@ -252,7 +252,7 @@ function Element(radius, x, y, color) {
     @function createStartSnake() -> Snake
     @desc Slang creëren, bestaande uit  twee segmenten,
           in het midden van het veld
-    @return: {Snake} slang volgens specificaties
+    @returns {Snake} slang volgens specificaties
 */
 function createStartSnake() {
     var segments   = [createSegment(R + WIDTH/2, R + WIDTH/2),
@@ -263,9 +263,9 @@ function createStartSnake() {
 /**
     @function createSegment(x,y) -> Element
     @desc Slangsegment creeren op een bepaalde plaats
-    @param {number} x: x-coordinaat middelpunt
-    @param {number} y: y-coordinaart middelpunt
-    @return {Element} Element met straal R en color SNAKE
+    @param {number} x x-coordinaat middelpunt
+    @param {number} y y-coordinaart middelpunt
+    @returns {Element} Element met straal R en color SNAKE
 */
 
 function createSegment(x, y) {
@@ -274,19 +274,19 @@ function createSegment(x, y) {
 /**
     @function createFood(x,y) -> Element
     @desc Voedselelement creeren op een bepaalde plaats
-    @param {number} x: x-coordinaat middelpunt
-    @param {number} y: y-coordinaart middelpunt
-    @return: {Element} Element met straal R en color FOOD
+    @param {number} x x-coordinaat middelpunt
+    @param {number} y y-coordinaart middelpunt
+    @returns {Element} Element met straal R en color FOOD
 */
 function createFood(x, y) {
     return new Element(R, x, y, FOOD);
 }
 
 /**
-    @function drawElement(element, canvas) -> void
+    @function drawElement(element,canvas) -> void
     @desc Een element tekenen
-    @param {Element} element: een Element object
-    @param {dom object} canvas: het tekenveld
+    @param {Element} element een Element object
+    @param {Canvas} canvas het tekenveld
 */
 function drawElement(element, canvas) {
     canvas.drawArc({
@@ -301,9 +301,9 @@ function drawElement(element, canvas) {
 /**
     @function getRandomInt(min: number, max: number) -> number
     @desc Creeren van random geheel getal in het interval [min, max]
-    @param {number} min: een geheel getal als onderste grenswaarde
-    @param {number} max: een geheel getal als bovenste grenswaarde (max > min)
-    @return {number} een random geheel getal x waarvoor geldt: min <= x <= max
+    @param {number} min een geheel getal als onderste grenswaarde
+    @param {number} max een geheel getal als bovenste grenswaarde (max > min)
+    @returns {number} een random geheel getal x waarvoor geldt: min <= x <= max
 */
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -312,7 +312,7 @@ function getRandomInt(min, max) {
 /**
     @function createFoods() -> array met food
     @desc array van random verdeelde voedselpartikelen
-    @return {[Element]} array met food
+    @returns {Element} array met food
 */
 function createFoods() {
     var  i,
@@ -351,7 +351,7 @@ function testAll(){
                   verwachte uitkomst:
                     snake van lengte 2
                     food
-    @return {boolean} test voldoet aan verwachting
+    @returns {boolean} test voldoet aan verwachting
 */
 function testSetup() {
     result = true;
@@ -376,7 +376,7 @@ function testSetup() {
                   verwachte uitkomst:
                     snake van lengte 2 blijft binnen het veld
     @param {string} direction de richting (const UP, DOWN, LEFT of RIGHT)
-    @return {boolean} test voldoet aan verwachting
+    @returns {boolean} test voldoet aan verwachting
 */
 function testBounds(direction) {
     result = true;
@@ -405,7 +405,7 @@ function testBounds(direction) {
 /**
     @function verifySnake() -> boolean
     @desc verifeer of de snake valide is
-    @return {boolean} snake is valide
+    @returns {boolean} snake is valide
 */
 function verifySnake() {
     result = true;
@@ -460,7 +460,7 @@ function verifySnake() {
 /**
     @function verifyFood() -> boolean
     @desc verifeer of de voedsel array is
-    @return {boolean} foods is valide
+    @returns {boolean} foods is valide
 */
 function verifyFood() {
     result = true;
