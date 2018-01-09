@@ -19,12 +19,16 @@ const R        = 10   // straal van een element
 var snakeCanvas,              // het speelveld
     snake,                    // de slang met kop en staart elementen
     foods = [];               // voedsel voor de slang
-var HEIGHT, WIDTH, MAX, XMAX, YMAX, MAX
+var HEIGHT, WIDTH, MAX, XMAX, YMAX, MAX;
 var snakeDirection = UP;
+var PLAY_SOUNDS = true;
+var audio = {};
+var timer;
 
 $(document).ready(function() {
     $("#startSnake").click(start);
     $("#stopSnake").click(stop);
+    $('#toggleSound').click(toggleSound);
 });
 
 /***************************************************************************
@@ -52,12 +56,12 @@ Snake.prototype.canMove = function(direction) {
     // controleer veld randen
     if (newHead.x > XMAX || newHead.x < XMIN || newHead.y > YMAX || newHead.y < YMIN) {
       newHead = null;
-    }
-
-    // controleer botsing met staart
-    if (newHead.collidesWithOneOf(snake.segments)) {
-      console.log("Snake cannot move into itself");
-      newHead = null;
+    } else {
+      // controleer botsing met staart
+      if (newHead.collidesWithOneOf(snake.segments)) {
+        console.log("Snake cannot move into itself");
+        newHead = null;
+      }
     }
 
     return newHead;
@@ -77,8 +81,10 @@ Snake.prototype.doMove = function(direction, newHead) {
     //controleer op botsing met voedsel
     if (newHead.collidesWithOneOf(foods)) {
         foods.splice(newHead.indexOfCollision(foods), 1); //verwijder voedsel
+        playSound("food");
     } else {
         this.segments.shift(); //verwijder staart element
+        playSound("move");
     }
 }
 
@@ -156,6 +162,45 @@ Element.prototype.indexOfCollision = function(elements) {
     return index;
 }
 
+function showText(text, color) {
+  var ctx = snakeCanvas[0].getContext("2d");
+  ctx.font = "50px Comic Sans MS";
+  ctx.fillStyle = color;
+  ctx.textAlign = "center";
+  ctx.fillText(text, WIDTH/2, HEIGHT/2);
+}
+
+function gameOver() {
+  showText("Game Over!", "OrangeRed");
+  playSound("looser");
+  console.log("VERLOREN!!!");
+  clearInterval(timer);
+}
+
+function gameWon() {
+  showText("Well Done!", "LawnGreen");
+  playSound("winner");
+  console.log("GEWONNEN!!!");
+  clearInterval(timer);
+}
+
+function playSound(sound) {
+  if (PLAY_SOUNDS) {
+    // var sound = document.getElementById(event);
+    // sound.play();
+    audio[sound].play();
+  }
+}
+
+function toggleSound() {
+  PLAY_SOUNDS = !PLAY_SOUNDS;
+  if (PLAY_SOUNDS) {
+    $("#toggleSound").html('<i class="fa fa-volume-off"></i>');
+  } else {
+    $("#toggleSound").html('<i class="fa fa-volume-up"></i>');
+  }
+}
+
 function start() {
     init();
 
@@ -182,6 +227,14 @@ function init() {
     MAX = WIDTH/STEP-1; // netto veldbreedte
     XMAX = WIDTH - R;   // maximale x waarde
     YMAX = HEIGHT - R;  // maximale y waarde
+    audio["move"] = new Audio();
+    audio["move"].src = "snd/move.wav";
+    audio["food"] = new Audio();
+    audio["food"].src = "snd/food.wav";
+    audio["winner"] = new Audio();
+    audio["winner"].src = "snd/winner.wav";
+    audio["looser"] = new Audio();
+    audio["looser"].src = "snd/looser.wav";        
     createStartSnake();
     createFoods();
     draw();
@@ -226,10 +279,16 @@ function move(direction) {
     if (newHead !== null) {
         snake.doMove(direction, newHead);
         draw();
+        if (foods.length === 0) {
+          console.log("snake ate all the food");
+          gameWon();
+        }
     }
     else {
         console.log("snake cannot move " + direction);
+        gameOver();
     }
+
 }
 
 /**
