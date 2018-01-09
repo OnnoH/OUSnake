@@ -162,7 +162,13 @@ Element.prototype.indexOfCollision = function(elements) {
     return index;
 }
 
-function showText(text, color) {
+/**
+    @function showText(text,color) -> void
+    @desc drukt gegeven tekst af op het canvas in de gegeven kleur
+    @param {string} text de tekst
+    @param {string} color de kleur
+*/
+function showText(text,color) {
   var ctx = snakeCanvas[0].getContext("2d");
   ctx.font = "50px Comic Sans MS";
   ctx.fillStyle = color;
@@ -170,6 +176,10 @@ function showText(text, color) {
   ctx.fillText(text, WIDTH/2, HEIGHT/2);
 }
 
+/**
+    @function gameOver() -> void
+    @desc het spel is uit met audio/video/log
+*/
 function gameOver() {
   showText("Game Over!", "OrangeRed");
   playSound("looser");
@@ -177,6 +187,10 @@ function gameOver() {
   clearInterval(timer);
 }
 
+/**
+    @function gameWon() -> void
+    @desc het spel is gewonnen met audio/video/log
+*/
 function gameWon() {
   showText("Well Done!", "LawnGreen");
   playSound("winner");
@@ -184,14 +198,32 @@ function gameWon() {
   clearInterval(timer);
 }
 
+/**
+    @function playSound(sound) -> void
+    @desc speelt het opgegeven geluid af (mits de gebruiker
+          dit op prijs stelt)
+    @param {string} sound het geluid
+*/
 function playSound(sound) {
   if (PLAY_SOUNDS) {
-    // var sound = document.getElementById(event);
-    // sound.play();
     audio[sound].play();
   }
 }
 
+/**
+    @function addSound(sound) -> void
+    @desc voegt het geluid toe aan de verzameling
+    @param {string} sound het geluid
+*/
+function addSound(sound) {
+  audio[sound] = new Audio();
+  audio[sound].src = "snd/"+sound+".wav";
+}
+
+/**
+    @function toggleSound() -> void
+    @desc zet het afspelen van het geluid aan of uit
+*/
 function toggleSound() {
   PLAY_SOUNDS = !PLAY_SOUNDS;
   if (PLAY_SOUNDS) {
@@ -201,6 +233,36 @@ function toggleSound() {
   }
 }
 
+/**
+    @function addSounds() -> void
+    @desc maak de geluidenverzameling
+*/
+function addSounds() {
+  // definieer geluiden
+  addSound("move");
+  addSound("food");
+  addSound("winner");
+  addSound("looser");
+}
+
+/**
+    @function getCanvasProperties() -> void
+    @desc vult de afmetingen op basis van het canvas
+*/
+function getCanvasProperties() {
+  snakeCanvas = $("#mySnakeCanvas");
+  HEIGHT = snakeCanvas[0].height;
+  WIDTH = snakeCanvas[0].width;
+  // er moet gelden: WIDTH = HEIGHT
+  MAX = WIDTH/STEP-1; // netto veldbreedte
+  XMAX = WIDTH - R;   // maximale x waarde
+  YMAX = HEIGHT - R;  // maximale y waarde
+}
+
+/**
+    @function start() -> void
+    @desc start de game en start de beweging
+*/
 function start() {
     init();
 
@@ -217,24 +279,11 @@ function start() {
  ***************************************************************************/
 /**
     @function init() -> void
-    @desc Creeer een slang, genereer voedsel, en teken alles
+    @desc Bepaal de afmetingen, creeer de geluidenverzameling, een slang, genereer voedsel, en teken alles
 */
 function init() {
-    snakeCanvas = $("#mySnakeCanvas");
-    HEIGHT = snakeCanvas[0].height;
-    WIDTH = snakeCanvas[0].width;
-    // er moet gelden: WIDTH = HEIGHT
-    MAX = WIDTH/STEP-1; // netto veldbreedte
-    XMAX = WIDTH - R;   // maximale x waarde
-    YMAX = HEIGHT - R;  // maximale y waarde
-    audio["move"] = new Audio();
-    audio["move"].src = "snd/move.wav";
-    audio["food"] = new Audio();
-    audio["food"].src = "snd/food.wav";
-    audio["winner"] = new Audio();
-    audio["winner"].src = "snd/winner.wav";
-    audio["looser"] = new Audio();
-    audio["looser"].src = "snd/looser.wav";        
+    getCanvasProperties();
+    addSounds();
     createStartSnake();
     createFoods();
     draw();
@@ -242,7 +291,7 @@ function init() {
 
 /**
     @function stop() -> void
-    @desc Laat slang en voedsel verdwijnen, en teken leeg veld
+    @desc Laat slang en voedsel verdwijnen, stop de timer en teken leeg veld
 */
 function stop() {
     clearInterval(timer);
