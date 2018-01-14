@@ -31,7 +31,7 @@ Sound.prototype.add = function(sound) {
 }
 
 /**
-    @function toggleSound() -> void
+    @function toggle() -> void
     @desc zet het afspelen van het geluid aan of uit
 */
 Sound.prototype.toggle = function() {

@@ -54,7 +54,7 @@ document.addEventListener('keydown', function(e) {
 */
 function gameOver() {
     snakeCanvas.drawText("Game Over!", "OrangeRed");
-    sounds.play("looser");
+    sound.play("looser");
     console.log("VERLOREN!!!");
     clearInterval(timer);
 }
@@ -65,7 +65,7 @@ function gameOver() {
 */
 function gameWon() {
     snakeCanvas.drawText("Well Done!", "LawnGreen");
-    sounds.play("winner");
+    sound.play("winner");
     console.log("GEWONNEN!!!");
     clearInterval(timer);
 }
@@ -75,12 +75,12 @@ function gameWon() {
     @desc maak de geluidenverzameling
 */
 function createSounds() {
-  sounds = new Sound();
+  sound = new Sound();
   // definieer geluiden
-  sounds.add("move");
-  sounds.add("food");
-  sounds.add("winner");
-  sounds.add("looser");
+  sound.add("move");
+  sound.add("food");
+  sound.add("winner");
+  sound.add("looser");
 }
 
 /**
@@ -124,6 +124,9 @@ function createCanvas() {
     snakeCanvas = new Canvas("#mySnakeCanvas");
 }
 
+function toggleSound() {
+    sound.toggle();
+}
 /***************************************************************************
  **                 Game                                                  **
  ***************************************************************************/
@@ -183,7 +186,7 @@ function move(direction) {
         //controleer op botsing met voedsel
         if (newHead.collidesWithOneOf(food.segments)) {
             food.remove(newHead.indexOfCollision(food.segments)) //verwijder voedsel
-            sounds.play("food");
+            sound.play("food");
             draw();
             // gewonnen als al het eten op is.
             if (food.segments.length === 0) {
@@ -192,7 +195,7 @@ function move(direction) {
             }
         } else {
             snake.segments.shift(); //verwijder staart element
-            sounds.play("move");
+            sound.play("move");
             draw();
         }
     } else { // game over als stap niet mogelijk is.
