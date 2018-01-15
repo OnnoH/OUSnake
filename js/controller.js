@@ -96,7 +96,7 @@ function createFoods() {
     i = 0;
     while (i < NUMFOODS ) {
         newFood = food.create(snakeCanvas.xmin + getRandomInt(0, snakeCanvas.max) * STEP, snakeCanvas.ymin + getRandomInt(0, snakeCanvas.max) * STEP);
-        if (!newFood.collidesWithOneOf(snake.segments) && !newFood.collidesWithOneOf(food.segments) ) {
+        if (!newFood.isPresent(snake.segments) && !newFood.isPresent(food.segments) ) {
             food.add(newFood);
             i++;
         }
@@ -175,33 +175,28 @@ function stop() {
     @param {string} direction de richting (een van de constanten UP, DOWN, LEFT of RIGHT)
 */
 function move(direction) {
-    var newHead; // nieuwe positie van kop.
+    var newHead = snake.createNewHead(direction); // nieuwe positie van kop.
 
     // test of een stap gemaakt kan worden
-    newHead = canMove(direction);
-
-    // maak een stap indien mogelijk.
-    if (newHead !== null) {
-        snake.doMove(newHead);
-        //controleer op botsing met voedsel
-        if (newHead.collidesWithOneOf(food.segments)) {
-            food.remove(newHead.indexOfCollision(food.segments)) //verwijder voedsel
-            sound.play("food");
-            draw();
-            // gewonnen als al het eten op is.
-            if (food.segments.length === 0) {
-                console.log("Snake ate all the food");
-                gameWon();
-            }
-        } else {
-            snake.segments.shift(); //verwijder staart element
-            sound.play("move");
-            draw();
-        }
-    } else { // game over als stap niet mogelijk is.
-      console.log("Snake cannot move " + direction);
-      gameOver();
+    if (collisionWithWall(newHead)) {
+        console.log("Snake cannot move " + direction);
+        gameOver();
+    } else {
+      snake.move(newHead);
+      if (collisionWithFood(newHead)) {
+          sound.play("food");
+      } else {
+          snake.segments.shift(); //verwijder staart element
+          sound.play("move");
+      }
+      draw();
+      // gewonnen als al het eten op is.
+      if (food.segments.length === 0) {
+          console.log("Snake ate all the food");
+          gameWon();
+      }
     }
+
 }
 
 /**
@@ -224,22 +219,44 @@ function draw() {
 }
 
 /**
-    @function canMove(direction) -> Element
-    @desc Controleert of de beweging de slang in de gegeven direction
-          binnen het veld blijft en of er geen botsing plaats vindt.
-    @param {string} direction de richting (const UP, DOWN, LEFT of RIGHT)
-    @returns {Element} de nieuwe koppositie of null in geval van botsing.
+    @function collisionWithWall(newHead) -> boolean
+    @desc Controleert of de nieuwe kop van de slang binnen het veld blijft
+          en of er geen botsing plaats vindt.
+    @param {Element} newHead de nieuwe koppositie
+    @returns {boolean} de nieuwe koppositie botst met wand (true) of niet (false).
 */
-function canMove(direction) {
-    var newHead = snake.createNewHead(direction); // nieuw hoofd element ter vergelijking
+function collisionWithWall(newHead) {
+
+    var collision = false;
 
     if (newHead != null && newHead.x > snakeCanvas.xmax || newHead.x < snakeCanvas.xmin || newHead.y > snakeCanvas.ymax || newHead.y < snakeCanvas.ymin) {
       console.log("Snake hit a wall");
-      newHead = null;
-    } else if (newHead.collidesWithOneOf(snake.segments)) {
+      collision = true;
+    } else if (newHead.isPresent(snake.segments)) {
         console.log("Snake hit himself");
-        newHead = null;
+        collision = true;
     }
 
-    return newHead;
+    return collision;
+}
+
+/**
+    @function collisionWithFood(newHead) -> boolean
+    @desc Controleert of de nieuwe kop van de slang terecht komt op
+          een voedselelement.
+    @param {Element} newHead de nieuwe koppositie
+    @returns {boolean} de nieuwe koppositie botst met voedsel (true) of niet (false).
+*/
+function collisionWithFood(newHead) {
+
+    var collision = false;
+
+    //controleer op botsing met voedsel
+    if (newHead.isPresent(food.segments)) {
+        food.remove(newHead.getIndex(food.segments)) //verwijder voedsel
+        console.log("munch");
+        collision = true;
+    }
+
+    return collision;
 }

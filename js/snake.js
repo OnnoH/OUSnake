@@ -26,7 +26,7 @@ function Snake(segments) {
     @desc Voert de beweging van de slang in de aangegeven richting uit
     @param {element} newHead het nieuwe kopelement
 */
-Snake.prototype.doMove = function(newHead) {
+Snake.prototype.move = function(newHead) {
     //voeg nieuw hoofd toe.
     this.head.color = SNAKE;
     this.segments.push(newHead);

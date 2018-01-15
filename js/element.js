@@ -21,26 +21,26 @@ function Element(radius, x, y, color) {
  ***************************************************************************/
 
 /**
-    @function collidesWithOneOf(elements) -> boolean
-    @desc Controleer of gegeven element overlamp met een element in
-          het gegeven array.
-    @param {Element} elements een array met voedsel of slang elementen.
+    @function isPresent(elements) -> boolean
+    @desc Controleer of gegeven element aanwezig is in
+          het gegeven array met Element-en.
+    @param {Element} elements een array met Element-en.
     @returns {boolean} true als element overlapt met element uit array.
 */
-Element.prototype.collidesWithOneOf = function(elements) {
-    return this.indexOfCollision(elements) >= 0;
+Element.prototype.isPresent = function(elements) {
+    return this.getIndex(elements) >= 0;
 }
 
 /**
-    @function indexOfCollision(elements) -> integer
-    @desc Geef de index van het element uit array elements wat overlapt met het
-          gegeven element.
-    @param {Element} elements een array met voedsel of slang elementen.
-    @returns {integer} index van overlappend element. -1 als geen elemement overlapt.
+    @function getIndex(elements) -> integer
+    @desc Geef de index van het element uit array elements dat
+          overeenkomt met het gegeven element.
+    @param {Element} elements een array met Element-en.
+    @returns {integer} index van overlappend element. -1 als geen element overlapt.
 */
-Element.prototype.indexOfCollision = function(elements) {
-    var index = -1; //index where result is stored
-    var i = 0;      //iteration counter
+Element.prototype.getIndex = function(elements) {
+    var index = -1; //positie in het array
+    var i = 0;      //teller hulpvariabele
 
     while (i < elements.length) {
         if (elements[i].x === this.x && elements[i].y === this.y) {
