@@ -14,6 +14,49 @@ $(document).ready(function() {
 });
 
 /***************************************************************************
+ **                 Controller API                                        **
+ ***************************************************************************/
+
+/*
+var snakeGame = (function () {
+    return {
+        UP: UP,
+        DOWN: DOWN,
+        RIGHT: RIGHT,
+        LEFT: LEFT,
+        getSegments: getSegments,
+        getFoods: getFoods,
+        getElements: getElements,
+        setDirection: setDirection,
+        canMove: canMove,
+        doMove: function() {
+            snake.doMove();
+        },
+        createStartSnake: createStartSnake,
+        createFoods: createFoods,
+        clear: function() {
+            snake = null;
+            foods = [];
+        },
+        setValues: function(newWidth, newHeight, newr) {
+            width = newWidth;
+            height = newHeight;
+            r = newr;
+            step = 2 * r;
+            max = width/step-1;
+            xMin = r;
+            yMin = r;
+            xMax = width - r;
+            yMax = height - r;
+        }
+    }
+    
+    var canMove = function () {
+        return snake.canMove();
+    }
+}*/
+
+/***************************************************************************
  **                 Game Keyboard                                         **
  ***************************************************************************/
 
@@ -114,6 +157,12 @@ function createSnake() {
                       createBodyPart(R + snakeCanvas.width / 2, snakeCanvas.width / 2 - R)];
     snake = new Snake(segments);
 }
+
+function createBodyPart(x, y) {
+    const SNAKE   = "DarkRed";    // kleur van een slangsegment
+    return new Element(R, x, y, SNAKE);
+}
+
 
 /**
     @function createSnake() -> Canvas
