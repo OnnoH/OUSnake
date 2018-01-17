@@ -66,22 +66,21 @@ var snakeGame = (function () {
     @param {event} e het event waar naar geluisterd worden.
 */
 document.addEventListener('keydown', function(e) {
-    var direction; // nieuwe richting van de slang
     switch (e.which) {
         case 37: // left
-            snake.direction = LEFT;
+            snake.setDirection(LEFT);
             console.log("left");
             break;
         case 38: // up
-            snake.direction = UP;
+            snake.setDirection(UP);
             console.log("up");
             break;
         case 39: // right
-            snake.direction = RIGHT;
+            snake.setDirection(RIGHT);
             console.log("right");
             break;
         case 40: // down
-            snake.direction = DOWN;
+            snake.setDirection(DOWN);
             console.log("down");
             break;
     }
@@ -139,7 +138,7 @@ function createFoods() {
     i = 0;
     while (i < NUMFOODS ) {
         newFood = food.create(snakeCanvas.xmin + getRandomInt(0, snakeCanvas.max) * STEP, snakeCanvas.ymin + getRandomInt(0, snakeCanvas.max) * STEP);
-        if (!newFood.isPresent(snake.segments) && !newFood.isPresent(food.segments) ) {
+        if (!newFood.isPresent(snake.getSegments()) && !newFood.isPresent(food.segments) ) {
             food.add(newFood);
             i++;
         }
@@ -147,21 +146,27 @@ function createFoods() {
 }
 
 /**
-    @function createSnake() -> Snake
+    @function createSnake() -> void
     @desc Slang creëren, bestaande uit  twee segmenten,
           in het midden van het veld
-    @returns {Snake} slang volgens specificaties
 */
 function createSnake() {
-    var segments   = [createBodyPart(R + snakeCanvas.width / 2, R + snakeCanvas.width / 2),
-                      createBodyPart(R + snakeCanvas.width / 2, snakeCanvas.width / 2 - R)];
+    // private functie voor het aanmaken van elementen. 
+    function createElement(x, y) {
+        return new Element(R, x, y, null);
+    }
+    
+    // maak de segmenten voor de slang. 
+    var segments = [createElement(R + snakeCanvas.width / 2, R + snakeCanvas.width / 2),
+                    createElement(R + snakeCanvas.width / 2, snakeCanvas.width / 2 - R)];
+    
+    // maak de slang.
     snake = new Snake(segments);
+    
+    console.log(snake);
 }
 
-function createBodyPart(x, y) {
-    const SNAKE   = "DarkRed";    // kleur van een slangsegment
-    return new Element(R, x, y, SNAKE);
-}
+
 
 
 /**
@@ -203,7 +208,7 @@ function start() {
 
     // begin spel
     timer = setInterval(function() {
-        move(snake.direction);
+        move(snake.getDirection());
     }, SLEEPTIME);
 }
 
@@ -218,34 +223,68 @@ function stop() {
     draw();
 }
 
+function canMove(x, y) {
+    result = true;
+    
+    if (collisionWithWall(x, y)) {
+        console.log("Snake hit a wall");
+        result = false;
+    }
+    
+    if (snake.collision(x, y)) {
+        console.log("Snake hit itself");
+        result = false;
+    } 
+    
+    return result;
+}
+
 /**
     @function move(direction) -> void
     @desc verander bewegingsrichting slang in aangegeven richting.
     @param {string} direction de richting (een van de constanten UP, DOWN, LEFT of RIGHT)
 */
 function move(direction) {
-    var newHead = snake.createNewHead(direction); // nieuwe positie van kop.
-
+    console.log("move " + direction);
+    
     // test of een stap gemaakt kan worden
-    if (collisionWithWall(newHead)) {
-        console.log("Snake cannot move " + direction);
-        gameOver();
-    } else {
-      snake.move(newHead);
-      if (collisionWithFood(newHead)) {
-          sound.play("food");
-      } else {
-          snake.segments.shift(); //verwijder staart element
-          sound.play("move");
-      }
-      draw();
-      // gewonnen als al het eten op is.
-      if (food.segments.length === 0) {
-          console.log("Snake ate all the food");
-          gameWon();
-      }
+    var x = snake.getHead().x;
+    var y = snake.getHead().y;
+    
+    switch(direction) {
+        case LEFT:
+            x = x - STEP;
+            break;
+        case RIGHT:
+            x = x + STEP;
+            break;
+        case UP:
+            y = y - STEP;
+            break;
+        case DOWN:
+            y = y + STEP;
+            break;
     }
+    
+    if (canMove(x, y)) {
+        if (collisionWithFood(x, y)) {
+            sound.play("food");
+            snake.move(true);
+            if (food.segments.length === 0) {
+                console.log("Snake ate all the food");
+                gameWon();
+            }
+        } else {
+            sound.play("move");
+            snake.move(false);
+        }
+        
 
+    } else {
+        gameOver();
+    }
+    
+    draw();
 }
 
 /**
@@ -256,10 +295,11 @@ function draw() {
     snakeCanvas.area.clearCanvas();
 
     if (snake) {
-        snake.segments.forEach(function (segment) {
+        snake.getSegments().forEach(function (segment) {
             snakeCanvas.drawElement(segment);
         });
     }
+    
     if (food) {
         food.segments.forEach(function (food) {
           snakeCanvas.drawElement(food);
@@ -268,44 +308,41 @@ function draw() {
 }
 
 /**
-    @function collisionWithWall(newHead) -> boolean
-    @desc Controleert of de nieuwe kop van de slang binnen het veld blijft
+    @function collisionWithWall(x, y) -> boolean
+    @desc Controleert of de nieuwe positie binnen het veld blijft
           en of er geen botsing plaats vindt.
-    @param {Element} newHead de nieuwe koppositie
-    @returns {boolean} de nieuwe koppositie botst met wand (true) of niet (false).
+    @param {number} x: x-coordinaat van nieuwe positie. 
+    @param {number} y: y-coordinaat van nieuwe positie. 
+    @returns {boolean} de nieuwe positie botst met wand (true) of niet (false).
 */
-function collisionWithWall(newHead) {
-
-    var collision = false;
-
-    if (newHead != null && newHead.x > snakeCanvas.xmax || newHead.x < snakeCanvas.xmin || newHead.y > snakeCanvas.ymax || newHead.y < snakeCanvas.ymin) {
-      console.log("Snake hit a wall");
-      collision = true;
-    } else if (newHead.isPresent(snake.segments)) {
-        console.log("Snake hit himself");
-        collision = true;
-    }
-
-    return collision;
+function collisionWithWall(x, y) {
+    return (x > snakeCanvas.xmax || x < snakeCanvas.xmin || 
+            y > snakeCanvas.ymax || y < snakeCanvas.ymin)
 }
 
 /**
-    @function collisionWithFood(newHead) -> boolean
-    @desc Controleert of de nieuwe kop van de slang terecht komt op
-          een voedselelement.
-    @param {Element} newHead de nieuwe koppositie
-    @returns {boolean} de nieuwe koppositie botst met voedsel (true) of niet (false).
+    @function collisisonWithFood(x, y) -> boolean
+    @desc Controleert of er voedsel ligt op de gegeven positie. 
+          zo ja, eet de slang het voedsel op. 
+    @param {number} x: x-coordinaat van nieuwe positie. 
+    @param {number} y: y-coordinaat van nieuwe positie. 
+    @returns {boolean} er lag voedsel op de nieuwe positie (true) of niet (false).
 */
-function collisionWithFood(newHead) {
-
-    var collision = false;
+function collisionWithFood(x, y) {
+    var result = false;
 
     //controleer op botsing met voedsel
-    if (newHead.isPresent(food.segments)) {
-        food.remove(newHead.getIndex(food.segments)) //verwijder voedsel
-        console.log("munch");
-        collision = true;
+    while (i < food.length) {
+        if (food[i].x === x && food[i].y === y) { 
+            // voedsel gevonden. Eet het op.
+            console.log("munch");
+            food.remove(i); 
+            // eindig loop.
+            i = food.length;
+            result = true;
+        }
+        i++;
     }
-
-    return collision;
+    
+    return result;
 }
