@@ -131,18 +131,35 @@ function createSounds() {
     @returns {Element} array met food
 */
 function createFoods() {
-    var  i
-    ,    newFood;
-    food = new Food();
-
-    i = 0;
-    while (i < NUMFOODS ) {
-        newFood = food.create(snakeCanvas.xmin + getRandomInt(0, snakeCanvas.max) * STEP, snakeCanvas.ymin + getRandomInt(0, snakeCanvas.max) * STEP);
-        if (!newFood.isPresent(snake.getSegments()) && !newFood.isPresent(food.segments) ) {
-            food.add(newFood);
+    //todo: combine snake.collision and food.collision in helper math function. 
+    function collision (segments, x, y) {
+        var i = 0; // iterator
+        var result = false; // resultaat
+        
+        while (i < segments.length) {
+            if (segments[i].x == x && segments[i].y == y) {
+                result = true;
+                i = segments.length;
+            }
             i++;
         }
+        return result;
     }
+    
+    var newFoods = []; // array van voedsel elementen
+    var newfood;       // een enkel voedsel element 
+
+    while (newFoods.length < NUMFOODS ) {
+        // maak een nieuw element op een random location.
+        newFood = new Element(R, snakeCanvas.xmin + getRandomInt(0, snakeCanvas.max) * STEP,                         snakeCanvas.ymin + getRandomInt(0, snakeCanvas.max) * STEP, null);
+        
+        // controleer of de locatie nog vrij is.
+        if (!snake.collision(newFood.x, newFood.y) && !collision(newFoods, newFood.x, newFood.y)) {
+            newFoods.push(newFood);
+        }
+    }
+    
+    food = new Food(newFoods);
 }
 
 /**
@@ -267,10 +284,11 @@ function move(direction) {
     }
     
     if (canMove(x, y)) {
-        if (collisionWithFood(x, y)) {
+        if (food.eatFood(x, y)) {
+            console.log("food found");
             sound.play("food");
             snake.move(true);
-            if (food.segments.length === 0) {
+            if (food.remaining() == 0) {
                 console.log("Snake ate all the food");
                 gameWon();
             }
@@ -301,7 +319,7 @@ function draw() {
     }
     
     if (food) {
-        food.segments.forEach(function (food) {
+        food.getSegments().forEach(function (food) {
           snakeCanvas.drawElement(food);
         });
     }
@@ -318,31 +336,4 @@ function draw() {
 function collisionWithWall(x, y) {
     return (x > snakeCanvas.xmax || x < snakeCanvas.xmin || 
             y > snakeCanvas.ymax || y < snakeCanvas.ymin)
-}
-
-/**
-    @function collisisonWithFood(x, y) -> boolean
-    @desc Controleert of er voedsel ligt op de gegeven positie. 
-          zo ja, eet de slang het voedsel op. 
-    @param {number} x: x-coordinaat van nieuwe positie. 
-    @param {number} y: y-coordinaat van nieuwe positie. 
-    @returns {boolean} er lag voedsel op de nieuwe positie (true) of niet (false).
-*/
-function collisionWithFood(x, y) {
-    var result = false;
-
-    //controleer op botsing met voedsel
-    while (i < food.length) {
-        if (food[i].x === x && food[i].y === y) { 
-            // voedsel gevonden. Eet het op.
-            console.log("munch");
-            food.remove(i); 
-            // eindig loop.
-            i = food.length;
-            result = true;
-        }
-        i++;
-    }
-    
-    return result;
 }

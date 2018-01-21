@@ -1,31 +1,81 @@
-const FOOD     = "Olive";      // kleur van voedsel
 /***************************************************************************
- **                 Food Constructor                                     **
+ **                 Food                                                  **
  ***************************************************************************/
 
-function Food() {
-  this.segments = [];
-}
-/**
-    @function create(x,y) -> Element
-    @desc Voedselelement creeren op een bepaalde plaats
-    @param {number} x x-coordinaat middelpunt
-    @param {number} y y-coordinaart middelpunt
-    @returns {Element} Element met straal R en color FOOD
+ /**
+    @constructor Food(segments)
+    @desc Deze klasse beschrijft het voedsel. 
+          De constructor maakt voedsel van de gegeven elementen.
+    @param {[Element]} segments: De voedsel segmenten 
 */
-Food.prototype.create = function(x, y) {
-    return new Element(R, x, y, FOOD);
-}
-
-/**
-    @function add(food) -> void
-    @desc Voedselelement toevoegen aan het array
-    @param {array} food voedselelement
-*/
-Food.prototype.add = function(food) {
-  this.segments.push(food);
-}
-
-Food.prototype.remove = function(food) {
-  this.segments.splice(food, 1);
+function Food(segments) {
+    // prive constanten
+    const FOOD     = "Olive";      // kleur van voedsel
+    
+    // prive attributen
+    var segments = segments;
+    
+    // zet de kleur van het voedsel.
+    for (i = 0; i < segments.length; i++) {
+        segments[i].color = FOOD;
+    }
+    
+    /***************************************************************************
+     **             Publieke attibuten                                        **
+     ***************************************************************************/
+    var food = {
+        remaining: function() {
+            return segments.length
+        },
+        getSegments: function() {
+            return segments;
+        },
+        collision: function(x, y) {
+            return collision(x, y)
+        },
+        eatFood: function(x, y) {
+            return eatFood(x, y)
+        }
+    }
+    
+    //todo: combine snake.collision and food.collision in helper math function. 
+    var collision = function (x, y) {
+        return indexOfCollision >= 0;
+    }
+    
+    var eatFood = function (x, y) {
+        var index = indexOfCollision(segments, x, y);
+        var result = false;
+        
+        if (index >= 0) {
+            segments.splice(index, 1);
+            result = true;
+            console.log("munch");
+        }
+        return result;
+    }
+    
+    /***********************************************************************
+    **             Prive Methodes                                        **
+    ***********************************************************************/   
+    
+    indexOfCollision = function(segments, x, y) {
+        var i = 0; // iterator
+        var result = -1; // index
+        
+        while (i < segments.length) {
+            if (segments[i].x == x && segments[i].y == y) {
+                result = i;
+                i = segments.length;
+            }
+            i++;
+        }
+        return result;
+    }
+    
+    /***********************************************************************
+     **             Return                                                **
+     ***********************************************************************/
+     
+    return food
 }

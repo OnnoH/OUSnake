@@ -4,10 +4,10 @@
 
 /**
     @constructor Snake(segments)
-    @desc deze klasse beschrijft de slang. De constructor versi creeren in een 
-          bepaalde richting ten opzichten van huidige positie.
-    @param {[Element]} segments: de segmenten van de slang. Het laatste segment
-                       is het hoofd. 
+    @desc Deze klasse beschrijft de slang.
+          De constructor maakt een slang uit de gegeven elementen.
+    @param {[Element]} segments: De segmenten van de slang. 
+                                 Het laatste segment is het hoofd. 
 */
 function Snake(segments) {
     // prive constanten
@@ -16,7 +16,7 @@ function Snake(segments) {
     
     // prive attributen
     var segments = segments;     // segmenten van de slang
-    var direction = UP;          // bewegingsrichting
+    var direction = UP;          // initiele bewegingsrichting
     var head = segments[segments.length-1];  // hoofd segment
     
     // zet de kleur van de slang
@@ -26,9 +26,9 @@ function Snake(segments) {
     }
     
    
-    /***************************************************************************
-     **             Publieke attibuten                                        **
-     ***************************************************************************/
+    /***********************************************************************
+     **             Publieke attibuten                                    **
+     ***********************************************************************/
     var snake = {
         getHead: function() {
             return head;
@@ -46,15 +46,15 @@ function Snake(segments) {
             move(grow)
         },
         collision: function(x, y) {
-            collision(x, y)
+            return collision(x, y)
         }
     };
     
 
   
-    /***************************************************************************
-     **             Methodes                                                  **
-     ***************************************************************************/
+    /***********************************************************************
+     **             Methodes                                              **
+     ***********************************************************************/
         
     /**
         @function Move(grow) -> void
@@ -75,12 +75,13 @@ function Snake(segments) {
         }
     }
     
+    //todo: combine snake.collision and food.collision in helper math function. 
     var collision = function (x, y) {
         var i = 0; // iterator
         var result = false; // resultaat
         
         while (i < segments.length) {
-            if (segments[i].x === x && segments[i].y === y) {
+            if (segments[i].x == x && segments[i].y == y) {
                 result = true;
                 i = segments.length;
             }
@@ -89,9 +90,9 @@ function Snake(segments) {
         return result;
     }
     
-    /***************************************************************************
-     **             Prive Methodes                                            **
-     ***************************************************************************/
+    /***********************************************************************
+     **             Prive Methodes                                        **
+     ***********************************************************************/
     
     /**
     @function createNewHead() -> segment
@@ -121,9 +122,9 @@ function Snake(segments) {
         return new Element(R, x, y, HEAD);
     }
     
-    /***************************************************************************
-     **             Return                                                    **
-     ***************************************************************************/
+    /***********************************************************************
+     **             Return                                                **
+     ***********************************************************************/
      
     return snake
 }
