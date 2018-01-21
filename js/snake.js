@@ -16,7 +16,6 @@ function Snake(segments) {
     
     // prive attributen
     var segments = segments;     // segmenten van de slang
-    var direction = UP;          // initiele bewegingsrichting
     var head = segments[segments.length-1];  // hoofd segment
     
     // zet de kleur van de slang
@@ -36,14 +35,8 @@ function Snake(segments) {
         getSegments: function () {
             return segments;
         },
-        getDirection: function () {
-            return direction;
-        },
-        setDirection: function (d) {
-            direction = d;
-        },
-        move: function(grow) {
-            move(grow)
+        move: function(x, y, grow) {
+            move(x, y, grow)
         },
         collision: function(x, y) {
             return collision(x, y)
@@ -62,11 +55,11 @@ function Snake(segments) {
         @param {boolean} grow: geeft aan of de slang 1 segment groeit als 
                                resultaatvan de beweging. 
     */
-    var move = function (grow) {
+    var move = function (x, y, grow) {
         // verander de kleur van het huidige hoofd in snake
         head.color = SNAKE;       
         // voeg een nieuw hoofd toe
-        segments.push(createNewHead());
+        segments.push(createNewHead(x, y));
         // update head attribuut
         head = segments[segments.length-1];
         // verwijder staart als de slang niet groeit.
@@ -75,19 +68,9 @@ function Snake(segments) {
         }
     }
     
-    //todo: combine snake.collision and food.collision in helper math function. 
+
     var collision = function (x, y) {
-        var i = 0; // iterator
-        var result = false; // resultaat
-        
-        while (i < segments.length) {
-            if (segments[i].x == x && segments[i].y == y) {
-                result = true;
-                i = segments.length;
-            }
-            i++;
-        }
-        return result;
+        return indexOf(segments, x, y) >= 0;
     }
     
     /***********************************************************************
@@ -95,30 +78,13 @@ function Snake(segments) {
      ***********************************************************************/
     
     /**
-    @function createNewHead() -> segment
-    @desc maak een nieuw Slangenhoofdsegment aan in de bewegingsrichting ten 
-          opzichten van huidige hoofdpositie.
+    @function createNewHead(x, y) -> segment
+    @desc maak een nieuw Slangenhoofdsegment op de gegeven coordinaten. 
+    @param {number} x: een x coordinaat
+    @param {number} y: een y coordinaat
     @returns {Element} met straal R en color HEAD
     */
-    createNewHead = function() {
-        var x = head.x;
-        var y = head.y;
-
-        switch(direction) {
-            case LEFT:
-                x = x - STEP;
-                break;
-            case RIGHT:
-                x = x + STEP;
-                break;
-            case UP:
-                y = y - STEP;
-                break;
-            case DOWN:
-                y = y + STEP;
-                break;
-        }
-
+    createNewHead = function(x, y) {
         return new Element(R, x, y, HEAD);
     }
     

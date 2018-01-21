@@ -20,57 +20,54 @@ function Food(segments) {
         segments[i].color = FOOD;
     }
     
-    /***************************************************************************
-     **             Publieke attibuten                                        **
-     ***************************************************************************/
+    /***********************************************************************
+     **             Publieke attibuten                                    **
+     ***********************************************************************/
     var food = {
+        addFood: function(x, y) {
+            addFood(x, y)
+        },
         remaining: function() {
             return segments.length
         },
         getSegments: function() {
             return segments;
         },
-        collision: function(x, y) {
-            return collision(x, y)
-        },
         eatFood: function(x, y) {
             return eatFood(x, y)
         }
     }
     
-    //todo: combine snake.collision and food.collision in helper math function. 
-    var collision = function (x, y) {
-        return indexOfCollision >= 0;
-    }
-    
-    var eatFood = function (x, y) {
-        var index = indexOfCollision(segments, x, y);
+    var eatFood = function(x, y) {
+        var index = indexOf(segments, x, y);
         var result = false;
         
         if (index >= 0) {
             segments.splice(index, 1);
             result = true;
-            console.log("munch");
         }
         return result;
     }
     
-    /***********************************************************************
-    **             Prive Methodes                                        **
-    ***********************************************************************/   
-    
-    indexOfCollision = function(segments, x, y) {
-        var i = 0; // iterator
-        var result = -1; // index
-        
-        while (i < segments.length) {
-            if (segments[i].x == x && segments[i].y == y) {
-                result = i;
-                i = segments.length;
-            }
-            i++;
+    var addFood = function(x, y) {
+        if (indexOf(segments, x, y) == -1) {
+            segments.push(createNewFood(x, y))
         }
-        return result;
+    }
+    
+    /***********************************************************************
+     **             Prive Methodes                                        **
+     ***********************************************************************/
+    
+    /**
+    @function createNewHead(x, y) -> segment
+    @desc maak een nieuw Slangenhoofdsegment op de gegeven coordinaten. 
+    @param {number} x: een x coordinaat
+    @param {number} y: een y coordinaat
+    @returns {Element} met straal R en color HEAD
+    */
+    createNewFood = function(x, y) {
+        return new Element(R, x, y, FOOD);
     }
     
     /***********************************************************************

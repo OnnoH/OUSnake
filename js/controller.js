@@ -4,8 +4,11 @@ const SLEEPTIME = 500;        // snelheid van spel (ms per stap)
 var timer;                    // timer event
 var snake;                    // de slang met kop en staart elementen
 var food;                     // voedsel voor de slang
+var direction;                // bewegingsrichting van de slang
 var sound;                    // de spelgeluiden
 var canvas;                   // het speelveld
+
+var running = false;          // geeft aan of het spel loopt of niet.
 
 $(document).ready(function() {
     $("#startSnake").click(start);
@@ -13,48 +16,6 @@ $(document).ready(function() {
     $('#toggleSound').click(toggleSound);
 });
 
-/***************************************************************************
- **                 Controller API                                        **
- ***************************************************************************/
-
-/*
-var snakeGame = (function () {
-    return {
-        UP: UP,
-        DOWN: DOWN,
-        RIGHT: RIGHT,
-        LEFT: LEFT,
-        getSegments: getSegments,
-        getFoods: getFoods,
-        getElements: getElements,
-        setDirection: setDirection,
-        canMove: canMove,
-        doMove: function() {
-            snake.doMove();
-        },
-        createStartSnake: createStartSnake,
-        createFoods: createFoods,
-        clear: function() {
-            snake = null;
-            foods = [];
-        },
-        setValues: function(newWidth, newHeight, newr) {
-            width = newWidth;
-            height = newHeight;
-            r = newr;
-            step = 2 * r;
-            max = width/step-1;
-            xMin = r;
-            yMin = r;
-            xMax = width - r;
-            yMax = height - r;
-        }
-    }
-    
-    var canMove = function () {
-        return snake.canMove();
-    }
-}*/
 
 /***************************************************************************
  **                 Game Keyboard                                         **
@@ -68,62 +29,95 @@ var snakeGame = (function () {
 document.addEventListener('keydown', function(e) {
     switch (e.which) {
         case 37: // left
-            snake.setDirection(LEFT);
-            console.log("left");
+            direction = LEFT;
             break;
         case 38: // up
-            snake.setDirection(UP);
-            console.log("up");
+            direction = UP;
             break;
         case 39: // right
-            snake.setDirection(RIGHT);
-            console.log("right");
+            direction = RIGHT;
             break;
         case 40: // down
-            snake.setDirection(DOWN);
-            console.log("down");
+            direction = DOWN;
             break;
     }
 });
 
+
 /***************************************************************************
- **                 Game Hulpfuncties                                     **
+ **                 Game                                                  **
  ***************************************************************************/
+ /**
+     @function init() -> void
+     @desc Bepaal de afmetingen, creeer de geluidenverzameling, een slang, genereer voedsel, en teken alles
+ */
+ function init() {
+   createCanvas();
+   createSounds();
+   createSnake(); // maak de slang voor het voedsel
+   createFoods();
+ }
+
+/**
+    @function start() -> void
+    @desc Initializeer het spel in start positie en begin met spelen.
+          Doe niets als het spel al loopt.
+*/
+function start() {
+    if (!running) {
+        init();         // zet spel op
+        draw();         // teken begin stand
+        running = true; // start het spel
+        
+        // voor een move op elke gegeven interval
+        timer = setInterval(function() {
+            move();
+        }, SLEEPTIME);   
+    }
+}
+
+/**
+    @function stop() -> void
+    @desc Stop het spel en verwijder slang en voedsel
+          Doe niets als het spel niet loopt.
+*/
+function stop() {
+    if (running) {
+        clearInterval(timer);
+        running = false;
+        snake = null;
+        food = null;
+        draw();
+    }
+}
 
 /**
     @function gameOver() -> void
-    @desc het spel is uit met audio/video/log
+    @desc Het spel is verloren. Stop het spel. 
 */
 function gameOver() {
     snakeCanvas.drawText("Game Over!", "OrangeRed");
     sound.play("looser");
     console.log("VERLOREN!!!");
     clearInterval(timer);
+    running = false;
 }
 
 /**
     @function gameWon() -> void
-    @desc het spel is gewonnen met audio/video/log
+    @desc Het spel is gewonnen. Stop het spel.
 */
 function gameWon() {
     snakeCanvas.drawText("Well Done!", "LawnGreen");
     sound.play("winner");
     console.log("GEWONNEN!!!");
     clearInterval(timer);
+    running = false;
 }
 
-/**
-    @function createSounds() -> Sound
-    @desc maak de geluidenverzameling
-*/
-function createSounds() {
-  sound = new Sound();
-  // definieer geluiden
-  sound.add("move");
-  sound.add("food");
-  sound.add("winner");
-  sound.add("looser");
-}
+/***************************************************************************
+ **                 Game Init Methods                                     **
+ ***************************************************************************/
 
 /**
     @function createFoods() -> array met food
@@ -131,35 +125,19 @@ function createSounds() {
     @returns {Element} array met food
 */
 function createFoods() {
-    //todo: combine snake.collision and food.collision in helper math function. 
-    function collision (segments, x, y) {
-        var i = 0; // iterator
-        var result = false; // resultaat
-        
-        while (i < segments.length) {
-            if (segments[i].x == x && segments[i].y == y) {
-                result = true;
-                i = segments.length;
-            }
-            i++;
-        }
-        return result;
-    }
-    
-    var newFoods = []; // array van voedsel elementen
-    var newfood;       // een enkel voedsel element 
+    var x, y // coordinaten voor nieuw voedsel
 
-    while (newFoods.length < NUMFOODS ) {
+    food = new Food([]);    // maak leeg voedselveld aan
+
+    while (food.remaining() < NUMFOODS ) {
         // maak een nieuw element op een random location.
-        newFood = new Element(R, snakeCanvas.xmin + getRandomInt(0, snakeCanvas.max) * STEP,                         snakeCanvas.ymin + getRandomInt(0, snakeCanvas.max) * STEP, null);
-        
-        // controleer of de locatie nog vrij is.
-        if (!snake.collision(newFood.x, newFood.y) && !collision(newFoods, newFood.x, newFood.y)) {
-            newFoods.push(newFood);
+        x = snakeCanvas.xmin + getRandomInt(0, snakeCanvas.max) * STEP;
+        y = snakeCanvas.ymin + getRandomInt(0, snakeCanvas.max) * STEP;
+        if (!snake.collision(x, y)) {
+            food.addFood(x, y);
         }
+
     }
-    
-    food = new Food(newFoods);
 }
 
 /**
@@ -180,14 +158,12 @@ function createSnake() {
     // maak de slang.
     snake = new Snake(segments);
     
-    console.log(snake);
+    // zet bewegingsrichting
+    direction = UP;
 }
 
-
-
-
 /**
-    @function createSnake() -> Canvas
+    @function createCanvas() -> Canvas
     @desc Maakt het canvas op basis van het gegeven HTML element
     @returns {Canvas} canvas volgens HTML definitie
 */
@@ -195,76 +171,17 @@ function createCanvas() {
     snakeCanvas = new Canvas("#mySnakeCanvas");
 }
 
-function toggleSound() {
-    sound.toggle();
-}
 /***************************************************************************
- **                 Game                                                  **
+ **                 Game Move Methods                                     **
  ***************************************************************************/
- /**
-     @function init() -> void
-     @desc Bepaal de afmetingen, creeer de geluidenverzameling, een slang, genereer voedsel, en teken alles
- */
- function init() {
-   createCanvas();
-   createSounds();
-   createSnake(); // maak de slang voor het voedsel
-   createFoods();
- }
-
-/**
-    @function start() -> void
-    @desc initializeer het spel in start positie en begin met spelen.
-*/
-function start() {
-    init(); // todo: enkel uitvieren indien nodig
-    draw();
-
-    // reset timer
-    clearInterval(timer);
-
-    // begin spel
-    timer = setInterval(function() {
-        move(snake.getDirection());
-    }, SLEEPTIME);
-}
-
-/**
-    @function stop() -> void
-    @desc stop het spel en verwijder slang en voedsel
-*/
-function stop() {
-    clearInterval(timer);
-    snake = null;
-    food = null;
-    draw();
-}
-
-function canMove(x, y) {
-    result = true;
-    
-    if (collisionWithWall(x, y)) {
-        console.log("Snake hit a wall");
-        result = false;
-    }
-    
-    if (snake.collision(x, y)) {
-        console.log("Snake hit itself");
-        result = false;
-    } 
-    
-    return result;
-}
 
 /**
     @function move(direction) -> void
     @desc verander bewegingsrichting slang in aangegeven richting.
     @param {string} direction de richting (een van de constanten UP, DOWN, LEFT of RIGHT)
 */
-function move(direction) {
-    console.log("move " + direction);
-    
-    // test of een stap gemaakt kan worden
+function move() {
+    // bepaal coordinaten van volgende stap
     var x = snake.getHead().x;
     var y = snake.getHead().y;
     
@@ -283,27 +200,48 @@ function move(direction) {
             break;
     }
     
+    // test of stap gemaakt kan worden
     if (canMove(x, y)) {
-        if (food.eatFood(x, y)) {
-            console.log("food found");
+        // bepaal of er eten gegeten wordt.
+        eatFood = food.eatFood(x, y); 
+        
+        // Laat de slang een stap zetten.
+        snake.move(x, y, eatFood); 
+        draw();
+
+        if (eatFood) {
             sound.play("food");
-            snake.move(true);
+            console.log("munch");
             if (food.remaining() == 0) {
-                console.log("Snake ate all the food");
                 gameWon();
             }
         } else {
             sound.play("move");
-            snake.move(false);
         }
-        
-
     } else {
         gameOver();
     }
-    
-    draw();
 }
+
+function canMove(x, y) {
+    result = true;
+    
+    if (collisionWithWall(x, y)) {
+        console.log("Snake hit a wall");
+        result = false;
+    }
+    
+    if (snake.collision(x, y)) {
+        console.log("Snake hit itself");
+        result = false;
+    } 
+    
+    return result;
+}
+
+/***************************************************************************
+ **                 Canvas                                                **
+ ***************************************************************************/
 
 /**
     @function draw() -> void

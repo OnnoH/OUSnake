@@ -24,47 +24,8 @@ function Element(radius, x, y, color) {
         radius: radius,
         x: x,
         y: y,
-        color: color,
-        isPresent: function(elements) {},
-        getIndex: function(elements) {}
+        color: color
     };
-    
-    /***********************************************************************
-     **             Methodes                                              **
-     ***********************************************************************/
-    
-    /**
-        @function isPresent(elements) -> boolean
-        @desc Controleer of gegeven element aanwezig is in
-              het gegeven array met Element-en.
-        @param {Element} elements een array met Element-en.
-        @returns {boolean} true als element overlapt met element uit array.
-    */
-    element.isPresent = function(elements) {
-        return element.getIndex(elements) >= 0;
-    }
-    
-    /**
-        @function getIndex(elements) -> integer
-        @desc Geef de index van het element uit array elements dat
-              overeenkomt met het gegeven element.
-        @param {Element} elements een array met Element-en.
-        @returns {integer} index van overlappend element. -1 als geen element overlapt.
-    */
-    element.getIndex = function(elements) {
-        var index = -1; //positie in het array
-        var i = 0;      //teller hulpvariabele
-
-        while (i < elements.length) {
-            if (elements[i].x === this.x && elements[i].y === this.y) {
-                index = i;
-                i = elements.length;
-            }
-            i++;
-        }
-
-        return index;
-    }
     
     /***********************************************************************
      **             Return                                                **

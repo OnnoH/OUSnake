@@ -37,3 +37,20 @@ Sound.prototype.add = function(sound) {
 Sound.prototype.toggle = function() {
     this.playSounds = !this.playSounds;
 }
+
+/**
+    @function createSounds() -> Sound
+    @desc maak de geluidenverzameling
+*/
+function createSounds() {
+  sound = new Sound();
+  // definieer geluiden
+  sound.add("move");
+  sound.add("food");
+  sound.add("winner");
+  sound.add("looser");
+}
+
+function toggleSound() {
+    sound.toggle();
+}
