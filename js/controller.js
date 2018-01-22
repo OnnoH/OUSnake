@@ -1,3 +1,10 @@
+const LEFT     = "left";      // bewegingsrichtingen
+const RIGHT    = "right";
+const UP       = "up";
+const DOWN     = "down";
+const R        = 10;     // straal van een element
+const STEP     = 2 * R;  // stapgrootte
+
 const NUMFOODS = 5;           // aantal voedselelementen
 const SLEEPTIME = 500;        // snelheid van spel (ms per stap)
 
@@ -68,11 +75,11 @@ function start() {
         init();         // zet spel op
         draw();         // teken begin stand
         running = true; // start het spel
-        
+
         // voor een move op elke gegeven interval
         timer = setInterval(function() {
             move();
-        }, SLEEPTIME);   
+        }, SLEEPTIME);
     }
 }
 
@@ -93,7 +100,7 @@ function stop() {
 
 /**
     @function gameOver() -> void
-    @desc Het spel is verloren. Stop het spel. 
+    @desc Het spel is verloren. Stop het spel.
 */
 function gameOver() {
     snakeCanvas.drawText("Game Over!", "OrangeRed");
@@ -134,7 +141,7 @@ function createFoods() {
         x = snakeCanvas.xmin + getRandomInt(0, snakeCanvas.max) * STEP;
         y = snakeCanvas.ymin + getRandomInt(0, snakeCanvas.max) * STEP;
         if (!snake.collision(x, y)) {
-            food.addFood(x, y);
+            food.addFood(R, x, y);
         }
 
     }
@@ -146,18 +153,18 @@ function createFoods() {
           in het midden van het veld
 */
 function createSnake() {
-    // private functie voor het aanmaken van elementen. 
+    // private functie voor het aanmaken van elementen.
     function createElement(x, y) {
         return new Element(R, x, y, null);
     }
-    
-    // maak de segmenten voor de slang. 
+
+    // maak de segmenten voor de slang.
     var segments = [createElement(R + snakeCanvas.width / 2, R + snakeCanvas.width / 2),
                     createElement(R + snakeCanvas.width / 2, snakeCanvas.width / 2 - R)];
-    
+
     // maak de slang.
     snake = new Snake(segments);
-    
+
     // zet bewegingsrichting
     direction = UP;
 }
@@ -168,9 +175,36 @@ function createSnake() {
     @returns {Canvas} canvas volgens HTML definitie
 */
 function createCanvas() {
-    snakeCanvas = new Canvas("#mySnakeCanvas");
+    snakeCanvas = new Canvas("#mySnakeCanvas", R, STEP);
 }
 
+/**
+    @function createSounds() -> Sound
+    @desc maak de geluidenverzameling
+*/
+function createSounds() {
+  sound = new Sound();
+  // definieer geluiden
+  sound.add("move");
+  sound.add("food");
+  sound.add("winner");
+  sound.add("looser");
+}
+
+/**
+    @function toggleSound() -> void
+    @desc zet geluid aan of uit
+*/
+function toggleSound() {
+    if (sound) {
+        sound.toggle();
+        if (sound.playSounds()) {
+          $("#toggleSound").html('<i class="fa fa-volume-off"></i>');
+        } else {
+          $("#toggleSound").html('<i class="fa fa-volume-up"></i>');
+        }
+    }
+}
 /***************************************************************************
  **                 Game Move Methods                                     **
  ***************************************************************************/
@@ -184,7 +218,7 @@ function move() {
     // bepaal coordinaten van volgende stap
     var x = snake.getHead().x;
     var y = snake.getHead().y;
-    
+
     switch(direction) {
         case LEFT:
             x = x - STEP;
@@ -199,14 +233,14 @@ function move() {
             y = y + STEP;
             break;
     }
-    
+
     // test of stap gemaakt kan worden
     if (canMove(x, y)) {
         // bepaal of er eten gegeten wordt.
-        eatFood = food.eatFood(x, y); 
-        
+        eatFood = food.eatFood(x, y);
+
         // Laat de slang een stap zetten.
-        snake.move(x, y, eatFood); 
+        snake.move(x, y, eatFood);
         draw();
 
         if (eatFood) {
@@ -225,17 +259,17 @@ function move() {
 
 function canMove(x, y) {
     result = true;
-    
+
     if (collisionWithWall(x, y)) {
         console.log("Snake hit a wall");
         result = false;
     }
-    
+
     if (snake.collision(x, y)) {
         console.log("Snake hit itself");
         result = false;
-    } 
-    
+    }
+
     return result;
 }
 
@@ -248,14 +282,14 @@ function canMove(x, y) {
     @desc Teken de slang en het voedsel
 */
 function draw() {
-    snakeCanvas.area.clearCanvas();
+    snakeCanvas.clearCanvas();
 
     if (snake) {
         snake.getSegments().forEach(function (segment) {
             snakeCanvas.drawElement(segment);
         });
     }
-    
+
     if (food) {
         food.getSegments().forEach(function (food) {
           snakeCanvas.drawElement(food);
@@ -267,11 +301,11 @@ function draw() {
     @function collisionWithWall(x, y) -> boolean
     @desc Controleert of de nieuwe positie binnen het veld blijft
           en of er geen botsing plaats vindt.
-    @param {number} x: x-coordinaat van nieuwe positie. 
-    @param {number} y: y-coordinaat van nieuwe positie. 
+    @param {number} x: x-coordinaat van nieuwe positie.
+    @param {number} y: y-coordinaat van nieuwe positie.
     @returns {boolean} de nieuwe positie botst met wand (true) of niet (false).
 */
 function collisionWithWall(x, y) {
-    return (x > snakeCanvas.xmax || x < snakeCanvas.xmin || 
+    return (x > snakeCanvas.xmax || x < snakeCanvas.xmin ||
             y > snakeCanvas.ymax || y < snakeCanvas.ymin)
 }

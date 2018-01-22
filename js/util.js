@@ -14,24 +14,24 @@ function getRandomInt(min, max) {
 }
 
 /**
-    @function indexOf(segments, x, y) -> number
-    @desc Controleer of er een element is met coordinaten {x, y}. 
-          Geeft de index van het gevonden element terug of -1 als geen 
+    @function indexOf(elements, x, y) -> number
+    @desc Controleer of er een element is met coordinaten {x, y}.
+          Geeft de index van het gevonden element terug of -1 als geen
           element gevonden is.
-    @param {[element]} segments: Een array van elementen
+    @param {[element]} elements: Een array van elementen
     @param {number} x: een x coordinaat
     @param {number} y: een y coordinaat
-    @returns {number} index van element met coordinaten {x, y} of - 1 als 
+    @returns {number} index van element met coordinaten {x, y} of - 1 als
                       er geen element met de gegeven coordinaten is.
 */
-function indexOf(segments, x, y) {
+function indexOf(elements, x, y) {
     var i = 0;        // iterator
     var result = - 1; // resultaat
-    
-    while (i < segments.length) {
-        if (segments[i].x == x && segments[i].y == y) {
+
+    while (i < elements.length) {
+        if (elements[i].x == x && elements[i].y == y) {
             result = i;
-            i = segments.length;
+            i = elements.length;
         }
         i++;
     }
