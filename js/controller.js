@@ -140,7 +140,7 @@ function createFoods() {
         // maak een nieuw element op een random location.
         x = snakeCanvas.xmin + getRandomInt(0, snakeCanvas.max) * STEP;
         y = snakeCanvas.ymin + getRandomInt(0, snakeCanvas.max) * STEP;
-        if (!snake.collision(x, y)) {
+        if (!snake.collision(x, y) && !food.collision(x, y)) {
             food.addFood(R, x, y);
         }
 

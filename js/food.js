@@ -24,8 +24,8 @@ function Food(segments) {
      **             Publieke attibuten                                    **
      ***********************************************************************/
     var food = {
-        addFood: function(x, y) {
-            addFood(x, y)
+        addFood: function(radius, x, y) {
+            addFood(radius, x, y)
         },
         remaining: function() {
             return segments.length
@@ -35,6 +35,9 @@ function Food(segments) {
         },
         eatFood: function(radius, x, y) {
             return eatFood(radius, x, y)
+        },
+        collision: function(x, y) {
+            return collision(x, y);
         }
     }
 
@@ -55,6 +58,16 @@ function Food(segments) {
         }
     }
 
+    /**
+        @function colission(x,y) -> boolean
+        @desc Controleert of de x- en y-coordinaten al 'bezet' zijn
+        @param {number} x x-coordinaat
+        @param {number} y y-coordinaat
+        @returns {boolean} er staat al voedsel op deze plek (true) of niet (false)
+    */
+    var collision = function (x, y) {
+        return indexOf(segments, x, y) >= 0;
+    }
     /***********************************************************************
      **             Prive Methodes                                        **
      ***********************************************************************/
