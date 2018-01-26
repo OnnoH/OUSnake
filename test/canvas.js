@@ -2,7 +2,7 @@ var expect = chai.expect;
 
 describe("Canvas", function() {
   describe("new Canvas", function() {
-    var canvas = new Canvas("#testCanvas", 10, 20);
+    var canvas = new Canvas($("#testCanvas"), 10, 20);
     it("an object of type Canvas should be created", function() {
       expect(typeof(canvas)).to.equal("object");
     });
@@ -16,7 +16,7 @@ describe("Canvas", function() {
       expect(canvas.ymax).to.equal(710);
     });
     it("the public methods should be available", function() {
-      expect(typeof(canvas.clearCanvas)).to.equal("function");
+      expect(typeof(canvas.clear)).to.equal("function");
       expect(typeof(canvas.drawText)).to.equal("function");
       expect(typeof(canvas.drawElement)).to.equal("function");
     });

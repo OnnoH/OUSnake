@@ -5,27 +5,27 @@
 /**
    @constructor Canvas() -> void
    @desc vult de afmetingen op basis van het canvas
-   @param {string} canvasId naam van het canvast element uit de html
+   @param {object} canvas object met canvas element uit de html
    @param {number} radius straal van een element om min/max te berekenen
    @param {number} step stapgrootte voor het berekenen van de veldbreedte
 */
-function Canvas(canvasId, radius, step) {
+function Canvas(canvas, radius, step) {
 
-    var area = $(canvasId);
-    var height = area[0].height; // canvas height
-    var width = area[0].width;   // canvas width
-    var max = width / step - 1;    // netto veldbreedte
-    var xmin = radius;             // minimale x waarde
-    var xmax = width - radius      // maximale x waarde
-    var ymin = radius;             // minimale y waarde
-    var ymax = height - radius;    // maximale y waarde
+    var _canvas = canvas;
+    var _height = _canvas[0].height; // canvas height
+    var _width = _canvas[0].width;   // canvas width
+    var _max = _width / step - 1;    // netto veldbreedte
+    var _xmin = radius;             // minimale x waarde
+    var _xmax = _width - radius      // maximale x waarde
+    var _ymin = radius;             // minimale y waarde
+    var _ymax = _height - radius;    // maximale y waarde
 
     /***********************************************************************
      **             Publieke attibuten                                    **
      ***********************************************************************/
     var canvas = {
-        clearCanvas: function() {
-            area.clearCanvas();
+        clear: function() {
+            _canvas.clearCanvas();
         },
         drawElement: function(element) {
             drawElement(element);
@@ -33,13 +33,13 @@ function Canvas(canvasId, radius, step) {
         drawText: function(text, color) {
             drawText(text, color);
         },
-        max : max,
-        xmin : xmin,
-        xmax : xmax,
-        ymin : ymin,
-        ymax : ymax,
-        height : height,
-        width : width
+        max : _max,
+        xmin : _xmin,
+        xmax : _xmax,
+        ymin : _ymin,
+        ymax : _ymax,
+        height : _height,
+        width : _width
     };
     /***********************************************************************
      **             Methodes                                              **
@@ -51,7 +51,7 @@ function Canvas(canvasId, radius, step) {
         @param {Element} element een Element object
     */
     var drawElement = function(element) {
-        area.drawArc({
+        _canvas.drawArc({
             draggable : false,
             fillStyle : element.color,
             x : element.x,
@@ -67,11 +67,11 @@ function Canvas(canvasId, radius, step) {
         @param {string} color de kleur
     */
     var drawText = function(text, color) {
-      var context = area[0].getContext("2d");
+      var context = _canvas[0].getContext("2d");
       context.font = "50px Comic Sans MS";
       context.fillStyle = color;
       context.textAlign = "center";
-      context.fillText(text, width / 2, height / 2);
+      context.fillText(text, _width / 2, _height / 2);
     }
 
     /***********************************************************************
@@ -82,6 +82,6 @@ function Canvas(canvasId, radius, step) {
      **             Return                                                **
      ***********************************************************************/
 
-     return canvas
+     return canvas;
 
 }

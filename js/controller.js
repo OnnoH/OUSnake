@@ -59,7 +59,7 @@ document.addEventListener('keydown', function(e) {
      @desc Bepaal de afmetingen, creeer de geluidenverzameling, een slang, genereer voedsel, en teken alles
  */
  function init() {
-   createCanvas();
+   createCanvas("#mySnakeCanvas");
    createSounds();
    createSnake(); // maak de slang voor het voedsel
    createFoods();
@@ -141,9 +141,8 @@ function createFoods() {
         x = snakeCanvas.xmin + getRandomInt(0, snakeCanvas.max) * STEP;
         y = snakeCanvas.ymin + getRandomInt(0, snakeCanvas.max) * STEP;
         if (!snake.collision(x, y) && !food.collision(x, y)) {
-            food.addFood(R, x, y);
+            food.add(R, x, y);
         }
-
     }
 }
 
@@ -174,8 +173,8 @@ function createSnake() {
     @desc Maakt het canvas op basis van het gegeven HTML element
     @returns {Canvas} canvas volgens HTML definitie
 */
-function createCanvas() {
-    snakeCanvas = new Canvas("#mySnakeCanvas", R, STEP);
+function createCanvas(canvasId) {
+    snakeCanvas = new Canvas($(canvasId), R, STEP);
 }
 
 /**
@@ -237,13 +236,13 @@ function move() {
     // test of stap gemaakt kan worden
     if (canMove(x, y)) {
         // bepaal of er eten gegeten wordt.
-        eatFood = food.eatFood(x, y);
+        eaten = food.eat(x, y);
 
         // Laat de slang een stap zetten.
-        snake.move(x, y, eatFood);
+        snake.move(x, y, eaten);
         draw();
 
-        if (eatFood) {
+        if (eaten) {
             sound.play("food");
             console.log("munch");
             if (food.remaining() == 0) {
@@ -282,7 +281,7 @@ function canMove(x, y) {
     @desc Teken de slang en het voedsel
 */
 function draw() {
-    snakeCanvas.clearCanvas();
+    snakeCanvas.clear();
 
     if (snake) {
         snake.getSegments().forEach(function (segment) {

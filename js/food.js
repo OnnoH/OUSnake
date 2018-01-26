@@ -24,8 +24,8 @@ function Food(segments) {
      **             Publieke attibuten                                    **
      ***********************************************************************/
     var food = {
-        addFood: function(radius, x, y) {
-            addFood(radius, x, y)
+        add: function(radius, x, y) {
+            add(radius, x, y)
         },
         remaining: function() {
             return segments.length
@@ -33,15 +33,15 @@ function Food(segments) {
         getSegments: function() {
             return segments;
         },
-        eatFood: function(radius, x, y) {
-            return eatFood(radius, x, y)
+        eat: function(x, y) {
+            return eat(x, y)
         },
         collision: function(x, y) {
             return collision(x, y);
         }
     }
 
-    var eatFood = function(x, y) {
+    var eat = function(x, y) {
         var index = indexOf(segments, x, y);
         var result = false;
 
@@ -52,7 +52,7 @@ function Food(segments) {
         return result;
     }
 
-    var addFood = function(radius, x, y) {
+    var add = function(radius, x, y) {
         if (indexOf(segments, x, y) == -1) {
             segments.push(createNewFood(radius, x, y))
         }
