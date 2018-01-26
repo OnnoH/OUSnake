@@ -3,58 +3,55 @@
  ***************************************************************************/
 
  /**
-    @constructor Food(segments)
+    @constructor Food(radius)
     @desc Deze klasse beschrijft het voedsel.
-          De constructor maakt voedsel van de gegeven elementen.
-    @param {[Element]} segments: De voedsel segmenten
+          De constructor maakt een nieuw object waar voedsel toegevoegd 
+          of verwijdert kan worden. 
+    @param {radius} radius: De straal van voedsel segmenten
 */
-function Food(segments) {
+function Food(radius) {
     // prive constanten
-    const FOOD     = "Olive";      // kleur van voedsel
+    const _FOOD     = "Olive";      // kleur van voedsel
 
     // prive attributen
-    var segments = segments;
-
-    // zet de kleur van het voedsel.
-    for (i = 0; i < segments.length; i++) {
-        segments[i].color = FOOD;
-    }
+    var _segments = [];
+    var _radius = radius;
 
     /***********************************************************************
      **             Publieke attibuten                                    **
      ***********************************************************************/
     var food = {
-        add: function(radius, x, y) {
-            add(radius, x, y)
+        add: function(x, y) {
+            _add(x, y)
         },
         remaining: function() {
-            return segments.length
+            return _segments.length
         },
         getSegments: function() {
-            return segments;
+            return _segments;
         },
         eat: function(x, y) {
-            return eat(x, y)
+            return _eat(x, y)
         },
         collision: function(x, y) {
-            return collision(x, y);
+            return _collision(x, y);
         }
     }
 
-    var eat = function(x, y) {
-        var index = indexOf(segments, x, y);
+    var _eat = function(x, y) {
+        var index = indexOf(_segments, x, y);
         var result = false;
 
         if (index >= 0) {
-            segments.splice(index, 1);
+            _segments.splice(index, 1);
             result = true;
         }
         return result;
     }
 
-    var add = function(radius, x, y) {
-        if (indexOf(segments, x, y) == -1) {
-            segments.push(createNewFood(radius, x, y))
+    var _add = function(x, y) {
+        if (indexOf(_segments, x, y) == -1) {
+            _segments.push(createNewFood(x, y))
         }
     }
 
@@ -65,8 +62,8 @@ function Food(segments) {
         @param {number} y y-coordinaat
         @returns {boolean} er staat al voedsel op deze plek (true) of niet (false)
     */
-    var collision = function (x, y) {
-        return indexOf(segments, x, y) >= 0;
+    var _collision = function (x, y) {
+        return indexOf(_segments, x, y) >= 0;
     }
     /***********************************************************************
      **             Prive Methodes                                        **
@@ -78,10 +75,10 @@ function Food(segments) {
     @param {number} radius: the size of the food
     @param {number} x: een x coordinaat
     @param {number} y: een y coordinaat
-    @returns {Element} met straal R en color FOOD
+    @returns {Element} met eerder gegeven radius, coordinaten en color FOOD
     */
-    createNewFood = function(radius, x, y) {
-        return new Element(radius, x, y, FOOD);
+    createNewFood = function(x, y) {
+        return new Element(_radius, x, y, _FOOD);
     }
 
     /***********************************************************************

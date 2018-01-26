@@ -2,8 +2,8 @@ const LEFT     = "left";      // bewegingsrichtingen
 const RIGHT    = "right";
 const UP       = "up";
 const DOWN     = "down";
-const R        = 10;     // straal van een element
-const STEP     = 2 * R;  // stapgrootte
+const R        = 10;          // straal van een element
+const STEP     = 2 * R;       // stapgrootte
 
 const NUMFOODS = 5;           // aantal voedselelementen
 const SLEEPTIME = 500;        // snelheid van spel (ms per stap)
@@ -134,14 +134,16 @@ function gameWon() {
 function createFoods() {
     var x, y // coordinaten voor nieuw voedsel
 
-    food = new Food([]);    // maak leeg voedselveld aan
+    // maak leeg voedselveld aan
+    food = new Food(R);    
 
     while (food.remaining() < NUMFOODS ) {
         // maak een nieuw element op een random location.
         x = snakeCanvas.xmin + getRandomInt(0, snakeCanvas.max) * STEP;
         y = snakeCanvas.ymin + getRandomInt(0, snakeCanvas.max) * STEP;
+        // voeg nieuw voedsel toe als de lokatie nog vrij is.
         if (!snake.collision(x, y) && !food.collision(x, y)) {
-            food.add(R, x, y);
+            food.add(x, y);
         }
     }
 }
@@ -152,17 +154,12 @@ function createFoods() {
           in het midden van het veld
 */
 function createSnake() {
-    // private functie voor het aanmaken van elementen.
-    function createElement(x, y) {
-        return new Element(R, x, y, null);
-    }
-
-    // maak de segmenten voor de slang.
-    var segments = [createElement(R + snakeCanvas.width / 2, R + snakeCanvas.width / 2),
-                    createElement(R + snakeCanvas.width / 2, snakeCanvas.width / 2 - R)];
-
-    // maak de slang.
-    snake = new Snake(segments);
+    // maak een nieuwe lege slang aan.
+    snake = new Snake(R);
+    
+    // voeg twee elementen aan de slang toe.
+    snake.move(R + snakeCanvas.width / 2, R + snakeCanvas.width / 2, true);
+    snake.move(R + snakeCanvas.width / 2, snakeCanvas.width / 2 - R, true);
 
     // zet bewegingsrichting
     direction = UP;

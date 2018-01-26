@@ -15,9 +15,9 @@ function Canvas(canvas, radius, step) {
     var _height = _canvas[0].height; // canvas height
     var _width = _canvas[0].width;   // canvas width
     var _max = _width / step - 1;    // netto veldbreedte
-    var _xmin = radius;             // minimale x waarde
+    var _xmin = radius;              // minimale x waarde
     var _xmax = _width - radius      // maximale x waarde
-    var _ymin = radius;             // minimale y waarde
+    var _ymin = radius;              // minimale y waarde
     var _ymax = _height - radius;    // maximale y waarde
 
     /***********************************************************************

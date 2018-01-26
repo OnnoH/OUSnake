@@ -9,37 +9,31 @@
     @param {[Element]} segments: De segmenten van de slang.
                                  Het laatste segment is het hoofd.
 */
-function Snake(segments) {
+function Snake(radius) {
     // prive constanten
-    const SNAKE   = "DarkRed";    // kleur van een slangsegment
-    const HEAD    = "DarkOrange"; // kleur van de kop van de slang
+    const _SNAKE   = "DarkRed";    // kleur van een slangsegment
+    const _HEAD    = "DarkOrange"; // kleur van de kop van de slang
 
     // prive attributen
-    var segments = segments;     // segmenten van de slang
-    var head = segments[segments.length-1];  // hoofd segment
-
-    // zet de kleur van de slang
-    head.color = HEAD;
-    for (i = 0; i < segments.length - 1; i++) {
-        segments[i].color = SNAKE;
-    }
-
+    var _radius = radius;
+    var _segments = [];     // segmenten van de slang
+    var _head;  // hoofd segment
 
     /***********************************************************************
      **             Publieke attibuten                                    **
      ***********************************************************************/
     var snake = {
         getHead: function() {
-            return head;
+            return _head;
         },
         getSegments: function () {
-            return segments;
+            return _segments;
         },
         move: function(x, y, grow) {
-            move(x, y, grow);
+            _move(x, y, grow);
         },
         collision: function(x, y) {
-            return collision(x, y);
+            return _collision(x, y);
         }
     };
 
@@ -53,18 +47,21 @@ function Snake(segments) {
         @param {number} x x-coordinaat
         @param {number} y y-coordinaat
         @param {boolean} grow: geeft aan of de slang 1 segment groeit als
-                               resultaatvan de beweging.
+                               resultaat van de beweging.
     */
-    var move = function (x, y, grow) {
-        // verander de kleur van het huidige hoofd in snake
-        head.color = SNAKE;
+    var _move = function (x, y, grow) {
+        // verander de kleur van het huidige hoofd (indien aanwezig) in snake
+        if (_head) {
+            _head.color = _SNAKE;
+        }
+        
         // voeg een nieuw hoofd toe
-        segments.push(createNewHead(x, y));
-        // update head attribuut
-        head = segments[segments.length-1];
+        _segments.push(createNewHead(x, y));
+        _head = _segments[_segments.length-1];
+        
         // verwijder staart als de slang niet groeit.
         if (!grow) {
-            segments.shift();
+            _segments.shift();
         }
     }
 
@@ -75,8 +72,8 @@ function Snake(segments) {
         @param {number} y y-coordinaat
         @returns {boolean} de slang botst met zichzelf (true) of niet (false)
     */
-    var collision = function (x, y) {
-        return indexOf(segments, x, y) >= 0;
+    var _collision = function (x, y) {
+        return indexOf(_segments, x, y) >= 0;
     }
 
     /***********************************************************************
@@ -88,10 +85,10 @@ function Snake(segments) {
     @desc maak een nieuw Slangenhoofdsegment op de gegeven coordinaten.
     @param {number} x: een x coordinaat
     @param {number} y: een y coordinaat
-    @returns {Element} met straal R en color HEAD
+    @returns {Element} met straal gelijk aan huidige kop en color HEAD
     */
     createNewHead = function(x, y) {
-        return new Element(R, x, y, HEAD);
+        return new Element(_radius, x, y, _HEAD);
     }
 
     /***********************************************************************
