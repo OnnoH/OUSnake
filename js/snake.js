@@ -1,27 +1,72 @@
-/***************************************************************************
- **                 Snake                                                 **
- ***************************************************************************/
-
 /**
-    @constructor Snake(segments)
-    @desc Deze klasse beschrijft de slang.
-          De constructor maakt een slang uit de gegeven elementen.
-    @param {[Element]} segments: De segmenten van de slang.
-                                 Het laatste segment is het hoofd.
-*/
+ * @class Snake
+ * @desc Create a snake object.
+ * @param {array} segments Array with elements. The final element contains the snake's head.
+ * @returns Snake
+ * @see Element
+ * @see util indexOf
+ */
 function Snake(radius) {
-    // prive constanten
-    const _SNAKE   = "DarkRed";    // kleur van een slangsegment
-    const _HEAD    = "DarkOrange"; // kleur van de kop van de slang
+    // private constants
+    const _SNAKE   = "DarkRed";    // color of the snake's body
+    const _HEAD    = "DarkOrange"; // color of the snake's head
 
-    // prive attributen
-    var _radius = radius;
-    var _segments = [];     // segmenten van de slang
-    var _head;  // hoofd segment
+    // private properties
+    var _radius = radius
+    var _segments = [];     // snake elements
+    var _head;              // head segment
+    var _segments = [];     // snake elements
 
-    /***********************************************************************
-     **             Publieke attibuten                                    **
-     ***********************************************************************/
+    /**
+     * @private
+     * @desc Executes snake movement in the current direction.
+     * @param {number} x X-coordinate
+     * @param {number} y Y-coordinate
+     * @param {boolean} grow Indicates if the snake grows (e.g. because he has eaten food)
+     */
+    var _move = function (x, y, grow) {
+        // change the current head into a body part
+        if (_head) {
+            _head.color = _SNAKE;
+        }
+        
+        // add a new head
+        _segments.push(_createNewHead(x, y));
+        _head = _segments[_segments.length-1];
+        
+        // remove the tail if the snake doesn't grow
+        if (!grow) {
+            _segments.shift();
+        }
+    }
+
+    /**
+     * @private
+     * @desc Checks if the given x- and y-coordinates are 'occupied'.
+     * @param {number} x X-coordinate
+     * @param {number} y Y-coordinate
+     * @returns {boolean} Snake hits itself (true) or not (false)
+    */
+    var _collision = function (x, y) {
+        return indexOf(_segments, x, y) >= 0;
+    }
+
+    /**
+     * @private
+     * @desc Creates a new snake head on the given coordinates.
+     * @param {number} x X-coordinate
+     * @param {number} y Y-coordinate
+     * @returns {Element} Element with radius of the tail and color _HEAD.
+    */
+    _createNewHead = function(x, y) {
+        return new Element(_radius, x, y, _HEAD);
+    }
+
+    /**
+     * @public
+     * @desc Snake object which is returned.
+     * @member {Object}
+     */
     var snake = {
         getHead: function() {
             return _head;
@@ -37,63 +82,5 @@ function Snake(radius) {
         }
     };
 
-    /***********************************************************************
-     **             Methodes                                              **
-     ***********************************************************************/
-
-    /**
-        @function move(x,y,grow) -> void
-        @desc Voert een beweging uit in de huidige bewegingsrichting.
-        @param {number} x x-coordinaat
-        @param {number} y y-coordinaat
-        @param {boolean} grow: geeft aan of de slang 1 segment groeit als
-                               resultaat van de beweging.
-    */
-    var _move = function (x, y, grow) {
-        // verander de kleur van het huidige hoofd (indien aanwezig) in snake
-        if (_head) {
-            _head.color = _SNAKE;
-        }
-        
-        // voeg een nieuw hoofd toe
-        _segments.push(createNewHead(x, y));
-        _head = _segments[_segments.length-1];
-        
-        // verwijder staart als de slang niet groeit.
-        if (!grow) {
-            _segments.shift();
-        }
-    }
-
-    /**
-        @function colission(x,y) -> boolean
-        @desc Controleert of de x- en y-coordinaten al 'bezet' zijn
-        @param {number} x x-coordinaat
-        @param {number} y y-coordinaat
-        @returns {boolean} de slang botst met zichzelf (true) of niet (false)
-    */
-    var _collision = function (x, y) {
-        return indexOf(_segments, x, y) >= 0;
-    }
-
-    /***********************************************************************
-     **             Prive Methodes                                        **
-     ***********************************************************************/
-
-    /**
-    @function createNewHead(x, y) -> segment
-    @desc maak een nieuw Slangenhoofdsegment op de gegeven coordinaten.
-    @param {number} x: een x coordinaat
-    @param {number} y: een y coordinaat
-    @returns {Element} met straal gelijk aan huidige kop en color HEAD
-    */
-    createNewHead = function(x, y) {
-        return new Element(_radius, x, y, _HEAD);
-    }
-
-    /***********************************************************************
-     **             Return                                                **
-     ***********************************************************************/
-
-    return snake
+    return snake;
 }

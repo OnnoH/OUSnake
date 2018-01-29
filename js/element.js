@@ -1,39 +1,32 @@
-/***************************************************************************
- **                 Element                                               **
- ***************************************************************************/
-
 /**
-    @constructor Element(radius, x, y, color)
-    @desc deze klasse beschrijft een element met een gegeven positie (x, y), 
-          radius en kleur. 
-    @param {number} radius: straal
-    @param {number} x: x-coordinaat middelpunt
-    @param {number} y: y-coordinaat middelpunt
-    @param {string} color: kleur van het element
-*/
+ * @class Element
+ * @desc Create an element object.
+ *
+ * This class is a generalization for the snake and food elements.
+ * @param {number} radius circle radius
+ * @param {number} x center x-coordinate
+ * @param {number} y center y-coordinate
+ * @param {string} color element color
+ * @returns Element
+ */
 function Element(radius, x, y, color) {
-    var radius = radius;
-    var x = x;
-    var y = y;
-    var color = color;
-    
-    /***********************************************************************
-     **             Publieke attibuten                                    **
-     ***********************************************************************/
+    // private properties
+    var _radius = radius;
+    var _x = x;
+    var _y = y;
+    var _color = color;
+
+    /**
+     * @public
+     * @desc Element object which is returned.
+     * @member {Object}
+     */
     var element = {
-        radius: radius,
-        x: x,
-        y: y,
-        color: color
+      radius: _radius,
+      x: _x,
+      y: _y,
+      color: _color
     };
-    
-    /***********************************************************************
-     **             Return                                                **
-     ***********************************************************************/
-    
-    return element
+
+    return element;
 }
-
-
-
-

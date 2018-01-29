@@ -1,56 +1,34 @@
-/***************************************************************************
- **                 Canvas                                                **
- ***************************************************************************/
-
 /**
-   @constructor Canvas() -> void
-   @desc vult de afmetingen op basis van het canvas
-   @param {object} canvas object met canvas element uit de html
-   @param {number} radius straal van een element om min/max te berekenen
-   @param {number} step stapgrootte voor het berekenen van de veldbreedte
-*/
-function Canvas(canvas, radius, step) {
-
+ * @namespace SnakeModel
+ * @module snake/model
+ * @class Canvas
+ * @desc Create a canvas object with boundaries.
+ * @param {object} canvas Object with canvas element from html
+ * @param {number} radius Element radius for calculating boundaries
+ * @param {number} step Stepsize for calculating field width
+ * @returns Canvas
+ */
+function Canvas(canvas) {
+    // private constants
+    const _RADIUS   = 10;          // radius of an element
+    const _STEP     = 2 * _RADIUS;       // step length
+    
+    // private properties
     var _canvas = canvas;
-    var _height = _canvas[0].height; // canvas height
-    var _width = _canvas[0].width;   // canvas width
-    var _max = _width / step - 1;    // netto veldbreedte
-    var _xmin = radius;              // minimale x waarde
-    var _xmax = _width - radius      // maximale x waarde
-    var _ymin = radius;              // minimale y waarde
-    var _ymax = _height - radius;    // maximale y waarde
-
-    /***********************************************************************
-     **             Publieke attibuten                                    **
-     ***********************************************************************/
-    var canvas = {
-        clear: function() {
-            _canvas.clearCanvas();
-        },
-        drawElement: function(element) {
-            drawElement(element);
-        },
-        drawText: function(text, color) {
-            drawText(text, color);
-        },
-        max : _max,
-        xmin : _xmin,
-        xmax : _xmax,
-        ymin : _ymin,
-        ymax : _ymax,
-        height : _height,
-        width : _width
-    };
-    /***********************************************************************
-     **             Methodes                                              **
-     ***********************************************************************/
+    var _height = _canvas[0].height;  // canvas height
+    var _width = _canvas[0].width;    // canvas width
+    var _max = _width / _STEP - 1;    // field width
+    var _xmin = _RADIUS;              // minimum x value
+    var _xmax = _width - _RADIUS;     // maximum x value
+    var _ymin = _RADIUS;              // minimum y value
+    var _ymax = _height - _RADIUS;    // maximum y value
 
     /**
-        @function drawElement(element) -> void
-        @desc Een element tekenen
-        @param {Element} element een Element object
-    */
-    var drawElement = function(element) {
+     * @private
+     * @desc Draw an element on the canvas
+     * @param {Element} element The element object to be drawn.
+     */
+    var _drawElement = function(element) {
         _canvas.drawArc({
             draggable : false,
             fillStyle : element.color,
@@ -61,27 +39,59 @@ function Canvas(canvas, radius, step) {
     }
 
     /**
-        @function drawText(text,color) -> void
-        @desc drukt gegeven tekst af op het canvas in de gegeven kleur
-        @param {string} text de tekst
-        @param {string} color de kleur
+     * @private
+     * @desc Draw a text on the canvas in the given color.
+     * @param {string} text The text to be drawn.
+     * @param {string} color The color of the text.
     */
-    var drawText = function(text, color) {
-      var context = _canvas[0].getContext("2d");
-      context.font = "50px Comic Sans MS";
-      context.fillStyle = color;
-      context.textAlign = "center";
-      context.fillText(text, _width / 2, _height / 2);
+    var _drawText = function(text, color) {
+        var context = _canvas[0].getContext("2d");
+        context.font = "50px Comic Sans MS";
+        context.fillStyle = color;
+        context.textAlign = "center";
+        context.fillText(text, _width / 2, _height / 2);
+    }
+    
+    /**
+     * @private
+     * @desc Checks if the given x- and y-coordinates are within the playing field.
+     * @param {number} x X-coordinate
+     * @param {number} y Y-coordinate
+     * @returns {boolean} Location is within playing field (true) or not (false)
+    */
+    var _collision = function(x, y) {
+        return (x > _xmax || x < _xmin ||
+                y > _ymax || y < _ymin)
     }
 
-    /***********************************************************************
-     **             Prive Methodes                                        **
-     ***********************************************************************/
+    /**
+     * @public
+     * @desc Canvas object which is returned.
+     * @member {Object}
+     */
+    var canvas = {
+        clear: function() {
+            _canvas.clearCanvas();
+        },
+        drawElement: function(element) {
+            _drawElement(element);
+        },
+        drawText: function(text, color) {
+            _drawText(text, color);
+        },
+        collision: function(x, y) {
+            return _collision(x, y);
+        },
+        radius : _RADIUS,
+        step   : _STEP,
+        max    : _max,
+        xmin   : _xmin,
+        xmax   : _xmax,
+        ymin   : _ymin,
+        ymax   : _ymax,
+        height : _height,
+        width  : _width
+    };
 
-    /***********************************************************************
-     **             Return                                                **
-     ***********************************************************************/
-
-     return canvas;
-
+    return canvas;
 }

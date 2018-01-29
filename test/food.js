@@ -14,17 +14,16 @@ describe("Food", function() {
       expect(typeof(food.getSegments)).to.equal("function");
     });
     it("the inital size should be zero", function() {
-      expect(food.remaining()).to.equal(0);
+      expect(food.getSegments().length).to.equal(0);
     });
-    it("and one if food is added", function() {
-      food.add(10, 10);
+    it("the food should be present if added", function() {
+      food.add(10, 10, 10);
       expect(food.remaining()).to.equal(1);
     });
-    it("and collides with itself", function() {
-      food.add(10, 10);
+    it("the food should collide with itself", function() {
       expect(food.collision(10, 10)).to.equal(true);
     });
-    it("and back to zero if food is eaten", function() {
+    it("the food should be gone if eaten", function() {
       food.eat(10, 10);
       expect(food.remaining()).to.equal(0);
     });

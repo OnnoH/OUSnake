@@ -1,79 +1,68 @@
-/***************************************************************************
- **                 Sound                                                 **
- ***************************************************************************/
-
- /**
-     @constructor Sound()
-     @desc Deze klasse beschrijft de geluidenverzameling.
+/**
+ * @class Sound
+ * @desc Create a sound library object.
+ * @returns Sound
+ * @see Audio
  */
 function Sound() {
-    // prive constanten
-    const SOUND_PATH  = "snd/";
-    const SOUND_EXT   = ".wav";
+    // private constants
+    const _SOUND_PATH  = "snd/";
+    const _SOUND_EXT   = ".wav";
+    // private properties
+    var _sounds = {};
+    var _playSounds = false;
+    // private methods
+    /**
+     * @private
+     * @desc Plays the sound (if the player appreciates that)
+     * @param {string} sound The sound to be played.
+     */
+    var _play = function(sound) {
+        if (_playSounds) {
+            _sounds[sound].play();
+        }
+    }
 
-    // prive attributen
-    var sounds = {};
-    var playSounds = false;
+    /**
+     * @private
+     * @desc Adds the sound to the library.
+     * @param {string} sound The sound to be added.
+     */
+    var _add = function(sound) {
+        _sounds[sound] = new Audio();
+        _sounds[sound].src = _SOUND_PATH + sound + _SOUND_EXT;
+    }
 
-    /***********************************************************************
-     **             Publieke attibuten/methodes                           **
-     ***********************************************************************/
+    /**
+     * @private
+     * @desc Turns the sound on or off.
+     */
+    var _toggle = function() {
+        _playSounds = !_playSounds;
+    }
+
+    /**
+     * @public
+     * @desc Sound object which is returned.
+     * @member {Object}
+     */
     var sound = {
         play: function(sound) {
-            play(sound);
+            _play(sound);
         },
         add: function(sound) {
-            add(sound);
+            _add(sound);
         },
         toggle: function() {
-            toggle();
+            _toggle();
         },
         playSounds : function() {
-            return playSounds;
+            return _playSounds;
+        },
+        getSounds : function() {
+            return _sounds;
         }
     };
-
-    /***********************************************************************
-     **             Methodes                                              **
-     ***********************************************************************/
-
-    /**
-        @function play(sound) -> void
-        @desc speelt het opgegeven geluid af (mits de gebruiker
-              dit op prijs stelt)
-        @param {string} sound het geluid
-    */
-    var play = function(sound) {
-        if (playSounds) {
-            sounds[sound].play();
-        }
-    }
-
-    /**
-        @function add(sound) -> void
-        @desc voegt het geluid toe aan de verzameling
-        @param {string} sound het geluid
-    */
-    var add = function(sound) {
-        sounds[sound] = new Audio();
-        sounds[sound].src = SOUND_PATH + sound + SOUND_EXT;
-    }
-
-    /**
-        @function toggle() -> void
-        @desc zet het afspelen van het geluid aan of uit
-    */
-    var toggle = function() {
-        playSounds = !playSounds;
-    }
-
-    /***********************************************************************
-     **             Prive Methodes                                        **
-     ***********************************************************************/
-
-    /***********************************************************************
-     **             Return                                                **
-     ***********************************************************************/
 
     return sound;
 }
