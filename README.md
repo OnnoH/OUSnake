@@ -41,13 +41,33 @@ An attempt was made to execute the tests from the command line using mocha/chai.
 ## Snake part Two
 In this part refactoring the code into modules is needed. Separate the model from the view and controller.
 
-The code follows the Constructor/Prototype pattern. Element, Food, Snake and Canvas are the core models for this application. They are structured according to the object model pattern which is a specific form of the model pattern with a single object per module. The objects are structured strictly hierarchical. Food, Snake and Canvas use Element, but no other dependencies exist between the models. 
+Architecture:
+The application follows the MVC architecture pattern. 
+
+The HTML of assignment 1 acts as the view.
+
+The Controller is contained in a single controller module which retrieves the canvas from the view, listens for user input and draws the result bases on the state of the game. 
+
+The model is split up in several parts: sound, canvas and game objects. 
+Element, Food, Snake and Canvas are the core models for this application. They are structured according to the object model pattern which is a specific form of the model pattern with a single object per module. The objects are structured strictly hierarchical. Food, Snake and Canvas use Element, but no other dependencies exist between the models. 
 The Sound module has been added with the same object model pattern. It is completely independent of other modules. 
 Util acts as as a library of functions. The module structure does not provide any benefits here, so it was decided to format it as a plain javascript library.
+
+
 
 In order to play the game a controller class is created which controls the view (DOM, UI, HTML) and communicates with the model to instantiate the required objects.
 
 The view has been updated with [Font Awesome](http://fontawesome.io/) so the buttons now contain icons instead of text.
+
+Design decisions:
+It has been decided separate the playing grid from the pixel location. The X and Y coordinates used in the game refer to a grid number. The canvas module will determine how the grid needs to be drawn in pixels to fill the maximum canvas area. A rectangular canvas is also supported. 
+
+It has been decided to pass x and y coordinates instead of an element. This was discussed during the lecture as a suitable alternative from recreating objects for the purpose of canMove, doMove and collision. It is also considered more intuitively correct to move to a coordinate rather then to an element. As a result, the dependency between the controller and elements object is reduced. 
+
+It was decided to make the food and snake object very similar. Both are create as an empty object, both have an add function to add new elements and both have a collision function to test for existing elements.
+
+It has been decided to move the indexOf function to the util library. Although it depends on Element and therefore might not belong in a functional library, the function is reused by both food and snake. It was preferred to keep food and snake independent of each other.
+
 
 # Documentation
 The code is annotated with [JSdoc3](http://usejsdoc.org/). The generator is installed using node/npm. An extra module (docstrap) is added to allow the use of templates. Versions of node and npm are controlled by [nvm](https://github.com/creationix/nvm).
