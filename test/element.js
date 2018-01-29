@@ -1,9 +1,8 @@
 var expect = chai.expect;
 
-var element = new Element(100, 10, 20, "Red");
-
 describe("Element", function() {
   describe("new Element", function() {
+    var element = new Element(100, 10, 20, "Red");
     it("should create an object of type Element", function() {
       expect(typeof(element)).to.equal("object");
     });
