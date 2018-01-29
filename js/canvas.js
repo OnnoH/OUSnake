@@ -16,11 +16,11 @@ function Canvas(canvas, gridSize) {
     var _width = _canvas[0].width;    // canvas width
     var _step = _width / _gridSize;   // step length
     var _radius = _step / 2;          // radius of an element
-    var _max = _width / _step - 1;    // field width
-    var _xmin = _radius;              // minimum x value
-    var _xmax = _width - _radius;     // maximum x value
-    var _ymin = _radius;              // minimum y value
-    var _ymax = _height - _radius;    // maximum y value
+    var _max = gridSize -1;    // field width
+    var _xmin = 0;              // minimum x value
+    var _xmax = gridSize -1;     // maximum x value
+    var _ymin = 0;              // minimum y value
+    var _ymax = gridSize -1;    // maximum y value
 
     /**
      * @private
@@ -31,8 +31,8 @@ function Canvas(canvas, gridSize) {
         _canvas.drawArc({
             draggable : false,
             fillStyle : element.color,
-            x : element.x,
-            y : element.y,
+            x : element.x * _step + _radius,
+            y : element.y * _step + _radius,
             radius : _radius
         });
     }
@@ -89,7 +89,7 @@ function Canvas(canvas, gridSize) {
         ymin   : _ymin,
         ymax   : _ymax,
         height : _height,
-        width  : _width
+        width  : _width,
     };
 
     return canvas;

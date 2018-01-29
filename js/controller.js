@@ -127,7 +127,7 @@ function gameWon() {
     @returns {Element} array met food
 */
 function createFoods() {
-    var step = snakeCanvas.step;
+    var step = 1;
     console.log(snakeCanvas);
     var x, y // coordinaten voor nieuw voedsel
 
@@ -136,8 +136,8 @@ function createFoods() {
 
     while (food.remaining() < NUMFOODS ) {
         // maak een nieuw element op een random location.
-        x = snakeCanvas.xmin + getRandomInt(0, snakeCanvas.max) * step;
-        y = snakeCanvas.ymin + getRandomInt(0, snakeCanvas.max) * step;
+        x = getRandomInt(0, snakeCanvas.max) * step;
+        y = getRandomInt(0, snakeCanvas.max) * step;
         // voeg nieuw voedsel toe als de lokatie nog vrij is.
         if (!snake.collision(x, y) && !food.collision(x, y)) {
             food.add(x, y);
@@ -152,12 +152,12 @@ function createFoods() {
 */
 function createSnake() {
     // maak een nieuwe lege slang aan.
-    var radius = snakeCanvas.radius;
+    //var radius = snakeCanvas.radius;
     snake = new Snake();
 
     // voeg twee elementen aan de slang toe.
-    snake.move(radius + snakeCanvas.width / 2, radius + snakeCanvas.height / 2, true);
-    snake.move(radius + snakeCanvas.width / 2, snakeCanvas.height / 2 - radius, true);
+    snake.move(Math.round(snakeCanvas.max / 2), Math.round(snakeCanvas.max / 2), true);
+    snake.move(Math.round(snakeCanvas.max / 2), Math.round(snakeCanvas.max / 2) - 1, true);
 
     // zet bewegingsrichting
     direction = UP;
@@ -211,7 +211,7 @@ function toggleSound() {
     @param {string} direction de richting (een van de constanten UP, DOWN, LEFT of RIGHT)
 */
 function move() {
-    var step = snakeCanvas.step;
+    var step = 1;
     // bepaal coordinaten van volgende stap
     var x = snake.getHead().x;
     var y = snake.getHead().y;
@@ -230,6 +230,8 @@ function move() {
             y = y + step;
             break;
     }
+    
+    console.log(x + " " + y);
 
     // test of stap gemaakt kan worden
     if (canMove(x, y)) {
