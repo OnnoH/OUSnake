@@ -6,13 +6,12 @@
  * @see Element
  * @see util indexOf
  */
-function Food(radius) {
+function Food() {
     // private constants
     const _FOOD = "Olive";      // food color
     
     // private properties
     var _segments = [];         // food segments
-    var _radius = radius;       // radius of food segment
 
     /**
      * @private
@@ -35,13 +34,12 @@ function Food(radius) {
 
     /**
      * @private
-     * @desc Creates a food segment on the given x- and y-coordinates with given radius.
-     * @param {number} radius Element radius
+     * @desc Creates a food segment on the given x- and y-coordinates.
      * @param {number} x X-coordinate
      * @param {number} y Y-coordinate
     */
     var _add = function(x, y) {
-        _segments.push(new Element(_radius, x, y, _FOOD));
+        _segments.push(new Element(x, y, _FOOD));
     }
 
     /**
@@ -61,8 +59,8 @@ function Food(radius) {
      * @member {Object}
      */
     var food = {
-        add: function(radius, x, y) {
-            _add(radius, x, y);
+        add: function(x, y) {
+            _add(x, y);
         },
         remaining: function() {
             return _segments.length;

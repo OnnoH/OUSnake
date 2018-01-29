@@ -6,13 +6,12 @@
  * @see Element
  * @see util indexOf
  */
-function Snake(radius) {
+function Snake() {
     // private constants
     const _SNAKE   = "DarkRed";    // color of the snake's body
     const _HEAD    = "DarkOrange"; // color of the snake's head
 
     // private properties
-    var _radius = radius
     var _segments = [];     // snake elements
     var _head;              // head segment
     var _segments = [];     // snake elements
@@ -56,10 +55,10 @@ function Snake(radius) {
      * @desc Creates a new snake head on the given coordinates.
      * @param {number} x X-coordinate
      * @param {number} y Y-coordinate
-     * @returns {Element} Element with radius of the tail and color _HEAD.
+     * @returns {Element} Element on given coordinates and color _HEAD.
     */
     _createNewHead = function(x, y) {
-        return new Element(_radius, x, y, _HEAD);
+        return new Element(x, y, _HEAD);
     }
 
     /**

@@ -8,20 +8,19 @@
  * @param {number} step Stepsize for calculating field width
  * @returns Canvas
  */
-function Canvas(canvas) {
-    // private constants
-    const _RADIUS   = 10;          // radius of an element
-    const _STEP     = 2 * _RADIUS;       // step length
-    
+function Canvas(canvas, gridSize) {   
     // private properties
     var _canvas = canvas;
+    var _gridSize = gridSize;
     var _height = _canvas[0].height;  // canvas height
     var _width = _canvas[0].width;    // canvas width
-    var _max = _width / _STEP - 1;    // field width
-    var _xmin = _RADIUS;              // minimum x value
-    var _xmax = _width - _RADIUS;     // maximum x value
-    var _ymin = _RADIUS;              // minimum y value
-    var _ymax = _height - _RADIUS;    // maximum y value
+    var _step = _width / _gridSize;   // step length
+    var _radius = _step / 2;          // radius of an element
+    var _max = _width / _step - 1;    // field width
+    var _xmin = _radius;              // minimum x value
+    var _xmax = _width - _radius;     // maximum x value
+    var _ymin = _radius;              // minimum y value
+    var _ymax = _height - _radius;    // maximum y value
 
     /**
      * @private
@@ -34,7 +33,7 @@ function Canvas(canvas) {
             fillStyle : element.color,
             x : element.x,
             y : element.y,
-            radius : element.radius
+            radius : _radius
         });
     }
 
@@ -82,8 +81,8 @@ function Canvas(canvas) {
         collision: function(x, y) {
             return _collision(x, y);
         },
-        radius : _RADIUS,
-        step   : _STEP,
+        radius : _radius,
+        step   : _step,
         max    : _max,
         xmin   : _xmin,
         xmax   : _xmax,

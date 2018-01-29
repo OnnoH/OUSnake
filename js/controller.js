@@ -3,7 +3,7 @@ const RIGHT    = "right";
 const UP       = "up";
 const DOWN     = "down";
 
-
+const GRIDSIZE = 18;
 const NUMFOODS = 5;           // aantal voedselelementen
 const SLEEPTIME = 500;        // snelheid van spel (ms per stap)
 
@@ -54,7 +54,7 @@ document.addEventListener('keydown', function(e) {
      @desc Bepaal de afmetingen, creeer de geluidenverzameling, een slang, genereer voedsel, en teken alles
  */
  function init() {
-   createCanvas("#mySnakeCanvas");
+   createCanvas("#mySnakeCanvas", GRIDSIZE);
    createSounds();
    createSnake(); // maak de slang voor het voedsel
    createFoods();
@@ -132,7 +132,7 @@ function createFoods() {
     var x, y // coordinaten voor nieuw voedsel
 
     // maak leeg voedselveld aan
-    food = new Food(snakeCanvas.radius);    
+    food = new Food();    
 
     while (food.remaining() < NUMFOODS ) {
         // maak een nieuw element op een random location.
@@ -153,7 +153,7 @@ function createFoods() {
 function createSnake() {
     // maak een nieuwe lege slang aan.
     var radius = snakeCanvas.radius;
-    snake = new Snake(radius);
+    snake = new Snake();
 
     // voeg twee elementen aan de slang toe.
     snake.move(radius + snakeCanvas.width / 2, radius + snakeCanvas.height / 2, true);
@@ -168,8 +168,10 @@ function createSnake() {
     @desc Maakt het canvas op basis van het gegeven HTML element
     @returns {Canvas} canvas volgens HTML definitie
 */
-function createCanvas(canvasId) {
-    snakeCanvas = new Canvas($(canvasId));
+function createCanvas(canvasId, gridSize) {
+    snakeCanvas = new Canvas($(canvasId), gridSize);
+    console.log(gridSize);
+    console.log(snakeCanvas);
 }
 
 /**
