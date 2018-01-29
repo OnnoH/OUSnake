@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Snake Game Source: controller.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.journal.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">Snake Game</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="Canvas.html">Canvas</a></li><li><a href="Element.html">Element</a></li><li><a href="Food.html">Food</a></li><li><a href="Snake.html">Snake</a></li><li><a href="Sound.html">Sound</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="global.html#createCanvas()-%253ECanvas">createCanvas() -> Canvas</a></li><li><a href="global.html#createFoods()-%253Earraymetfood">createFoods() -> array met food</a></li><li><a href="global.html#createSnake()-%253Evoid">createSnake() -> void</a></li><li><a href="global.html#createSounds()-%253ESound">createSounds() -> Sound</a></li><li><a href="global.html#draw()-%253Evoid">draw() -> void</a></li><li><a href="global.html#gameOver()-%253Evoid">gameOver() -> void</a></li><li><a href="global.html#gameWon()-%253Evoid">gameWon() -> void</a></li><li><a href="global.html#init()-%253Evoid">init() -> void</a></li><li><a href="global.html#move(direction)-%253Evoid">move(direction) -> void</a></li><li><a href="global.html#start()-%253Evoid">start() -> void</a></li><li><a href="global.html#stop()-%253Evoid">stop() -> void</a></li><li><a href="global.html#toggleSound()-%253Evoid">toggleSound() -> void</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: controller.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">const LEFT     = "left";      // bewegingsrichtingen
+const RIGHT    = "right";
+const UP       = "up";
+const DOWN     = "down";
+const R        = 10;     // straal van een element
+const STEP     = 2 * R;  // stapgrootte
+
+const NUMFOODS = 5;           // aantal voedselelementen
+const SLEEPTIME = 500;        // snelheid van spel (ms per stap)
+
+var timer;                    // timer event
+var snake;                    // de slang met kop en staart elementen
+var food;                     // voedsel voor de slang
+var direction;                // bewegingsrichting van de slang
+var sound;                    // de spelgeluiden
+var canvas;                   // het speelveld
+
+var running = false;          // geeft aan of het spel loopt of niet.
+
+$(document).ready(function() {
+    $("#startSnake").click(start);
+    $("#stopSnake").click(stop);
+    $('#toggleSound').click(toggleSound);
+});
+
+
+/***************************************************************************
+ **                 Game Keyboard                                         **
+ ***************************************************************************/
+
+ /**
+    @function addEventListener(event, listener(e)) -> void
+    @desc luister naar keydown events an update snake met nieuwe richting.
+    @param {event} e het event waar naar geluisterd worden.
+*/
+document.addEventListener('keydown', function(e) {
+    switch (e.which) {
+        case 37: // left
+            direction = LEFT;
+            break;
+        case 38: // up
+            direction = UP;
+            break;
+        case 39: // right
+            direction = RIGHT;
+            break;
+        case 40: // down
+            direction = DOWN;
+            break;
+    }
+});
+
+
+/***************************************************************************
+ **                 Game                                                  **
+ ***************************************************************************/
+ /**
+     @function init() -> void
+     @desc Bepaal de afmetingen, creeer de geluidenverzameling, een slang, genereer voedsel, en teken alles
+ */
+ function init() {
+   createCanvas("#mySnakeCanvas");
+   createSounds();
+   createSnake(); // maak de slang voor het voedsel
+   createFoods();
+ }
+
+/**
+    @function start() -> void
+    @desc Initializeer het spel in start positie en begin met spelen.
+          Doe niets als het spel al loopt.
+*/
+function start() {
+    if (!running) {
+        init();         // zet spel op
+        draw();         // teken begin stand
+        running = true; // start het spel
+
+        // voor een move op elke gegeven interval
+        timer = setInterval(function() {
+            move();
+        }, SLEEPTIME);
+    }
+}
+
+/**
+    @function stop() -> void
+    @desc Stop het spel en verwijder slang en voedsel
+          Doe niets als het spel niet loopt.
+*/
+function stop() {
+    if (running) {
+        clearInterval(timer);
+        running = false;
+        snake = null;
+        food = null;
+        draw();
+    }
+}
+
+/**
+    @function gameOver() -> void
+    @desc Het spel is verloren. Stop het spel.
+*/
+function gameOver() {
+    snakeCanvas.drawText("Game Over!", "OrangeRed");
+    sound.play("looser");
+    console.log("VERLOREN!!!");
+    clearInterval(timer);
+    running = false;
+}
+
+/**
+    @function gameWon() -> void
+    @desc Het spel is gewonnen. Stop het spel.
+*/
+function gameWon() {
+    snakeCanvas.drawText("Well Done!", "LawnGreen");
+    sound.play("winner");
+    console.log("GEWONNEN!!!");
+    clearInterval(timer);
+    running = false;
+}
+
+/***************************************************************************
+ **                 Game Init Methods                                     **
+ ***************************************************************************/
+
+/**
+    @function createFoods() -> array met food
+    @desc array van random verdeelde voedselpartikelen
+    @returns {Element} array met food
+*/
+function createFoods() {
+    var x, y // coordinaten voor nieuw voedsel
+
+    food = new Food([]);    // maak leeg voedselveld aan
+
+    while (food.remaining() &lt; NUMFOODS ) {
+        // maak een nieuw element op een random location.
+        x = snakeCanvas.xmin + getRandomInt(0, snakeCanvas.max) * STEP;
+        y = snakeCanvas.ymin + getRandomInt(0, snakeCanvas.max) * STEP;
+        if (!snake.collision(x, y) &amp;&amp; !food.collision(x, y)) {
+            food.add(R, x, y);
+        }
+    }
+}
+
+/**
+    @function createSnake() -> void
+    @desc Slang creëren, bestaande uit  twee segmenten,
+          in het midden van het veld
+*/
+function createSnake() {
+    // private functie voor het aanmaken van elementen.
+    function createElement(x, y) {
+        return new Element(R, x, y, null);
+    }
+
+    // maak de segmenten voor de slang.
+    var segments = [createElement(R + snakeCanvas.width / 2, R + snakeCanvas.width / 2),
+                    createElement(R + snakeCanvas.width / 2, snakeCanvas.width / 2 - R)];
+
+    // maak de slang.
+    snake = new Snake(segments);
+
+    // zet bewegingsrichting
+    direction = UP;
+}
+
+/**
+    @function createCanvas() -> Canvas
+    @desc Maakt het canvas op basis van het gegeven HTML element
+    @returns {Canvas} canvas volgens HTML definitie
+*/
+function createCanvas(canvasId) {
+    snakeCanvas = new Canvas($(canvasId), R, STEP);
+}
+
+/**
+    @function createSounds() -> Sound
+    @desc maak de geluidenverzameling
+*/
+function createSounds() {
+  sound = new Sound();
+  // definieer geluiden
+  sound.add("move");
+  sound.add("food");
+  sound.add("winner");
+  sound.add("looser");
+}
+
+/**
+    @function toggleSound() -> void
+    @desc zet geluid aan of uit
+*/
+function toggleSound() {
+    if (sound) {
+        sound.toggle();
+        if (sound.playSounds()) {
+          $("#toggleSound").html('&lt;i class="fa fa-volume-off">&lt;/i>');
+        } else {
+          $("#toggleSound").html('&lt;i class="fa fa-volume-up">&lt;/i>');
+        }
+    }
+}
+/***************************************************************************
+ **                 Game Move Methods                                     **
+ ***************************************************************************/
+
+/**
+    @function move(direction) -> void
+    @desc verander bewegingsrichting slang in aangegeven richting.
+    @param {string} direction de richting (een van de constanten UP, DOWN, LEFT of RIGHT)
+*/
+function move() {
+    // bepaal coordinaten van volgende stap
+    var x = snake.getHead().x;
+    var y = snake.getHead().y;
+
+    switch(direction) {
+        case LEFT:
+            x = x - STEP;
+            break;
+        case RIGHT:
+            x = x + STEP;
+            break;
+        case UP:
+            y = y - STEP;
+            break;
+        case DOWN:
+            y = y + STEP;
+            break;
+    }
+
+    // test of stap gemaakt kan worden
+    if (canMove(x, y)) {
+        // bepaal of er eten gegeten wordt.
+        eaten = food.eat(x, y);
+
+        // Laat de slang een stap zetten.
+        snake.move(x, y, eaten);
+        draw();
+
+        if (eaten) {
+            sound.play("food");
+            console.log("munch");
+            if (food.remaining() == 0) {
+                gameWon();
+            }
+        } else {
+            sound.play("move");
+        }
+    } else {
+        gameOver();
+    }
+}
+
+function canMove(x, y) {
+    result = true;
+
+    if (collisionWithWall(x, y)) {
+        console.log("Snake hit a wall");
+        result = false;
+    }
+
+    if (snake.collision(x, y)) {
+        console.log("Snake hit itself");
+        result = false;
+    }
+
+    return result;
+}
+
+/***************************************************************************
+ **                 Canvas                                                **
+ ***************************************************************************/
+
+/**
+    @function draw() -> void
+    @desc Teken de slang en het voedsel
+*/
+function draw() {
+    snakeCanvas.clear();
+
+    if (snake) {
+        snake.getSegments().forEach(function (segment) {
+            snakeCanvas.drawElement(segment);
+        });
+    }
+
+    if (food) {
+        food.getSegments().forEach(function (food) {
+          snakeCanvas.drawElement(food);
+        });
+    }
+}
+
+/**
+    @function collisionWithWall(x, y) -> boolean
+    @desc Controleert of de nieuwe positie binnen het veld blijft
+          en of er geen botsing plaats vindt.
+    @param {number} x: x-coordinaat van nieuwe positie.
+    @param {number} y: y-coordinaat van nieuwe positie.
+    @returns {boolean} de nieuwe positie botst met wand (true) of niet (false).
+*/
+function collisionWithWall(x, y) {
+    return (x > snakeCanvas.xmax || x &lt; snakeCanvas.xmin ||
+            y > snakeCanvas.ymax || y &lt; snakeCanvas.ymin)
+}
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+	<p style='font-size: 8pt; text-align: center; color: blue;'>This game is developed by Jaap Pelt and Onno Huijgen as part of an assignment for the Open University.</p>
+
+
+	<span class="copyright">
+	DocStrap Copyright © 2012-2015 The contributors to the JSDoc3 and DocStrap projects.
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+	
+		on Mon Jan 29th 2018
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

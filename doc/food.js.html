@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Snake Game Source: food.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.journal.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">Snake Game</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="Canvas.html">Canvas</a></li><li><a href="Element.html">Element</a></li><li><a href="Food.html">Food</a></li><li><a href="Snake.html">Snake</a></li><li><a href="Sound.html">Sound</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="global.html#createCanvas()-%253ECanvas">createCanvas() -> Canvas</a></li><li><a href="global.html#createFoods()-%253Earraymetfood">createFoods() -> array met food</a></li><li><a href="global.html#createSnake()-%253Evoid">createSnake() -> void</a></li><li><a href="global.html#createSounds()-%253ESound">createSounds() -> Sound</a></li><li><a href="global.html#draw()-%253Evoid">draw() -> void</a></li><li><a href="global.html#gameOver()-%253Evoid">gameOver() -> void</a></li><li><a href="global.html#gameWon()-%253Evoid">gameWon() -> void</a></li><li><a href="global.html#init()-%253Evoid">init() -> void</a></li><li><a href="global.html#move(direction)-%253Evoid">move(direction) -> void</a></li><li><a href="global.html#start()-%253Evoid">start() -> void</a></li><li><a href="global.html#stop()-%253Evoid">stop() -> void</a></li><li><a href="global.html#toggleSound()-%253Evoid">toggleSound() -> void</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: food.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">/**
+ * @class Food
+ * @desc Create a food collection object.
+ * @param {array} segments Array with food elements
+ * @returns Food
+ * @see Element
+ * @see util indexOf
+ */
+function Food(segments) {
+
+    // private constants
+    const _FOOD = "Olive"; // food color
+    // put parameters in private properties
+    var _segments = segments;
+    // private methods
+    /**
+     * @private
+     * @desc Removes the food segment on the given x- and y-coordinates if present.
+     * @param {number} x X-coordinate
+     * @param {number} y Y-coordinate
+     * @returns {boolean} Snake has eaten (true) or not (false)
+    */
+    var _eat = function(x, y) {
+        var _result = false;
+
+        var _index = indexOf(_segments, x, y);
+        if (_index >= 0) {
+            _segments.splice(_index, 1);
+            _result = true;
+        }
+
+        return _result;
+    }
+
+    /**
+     * @private
+     * @desc Creates a food segment on the given x- and y-coordinates with given radius.
+     * @param {number} radius Element radius
+     * @param {number} x X-coordinate
+     * @param {number} y Y-coordinate
+     * @returns {boolean} Food segment was added (true) or not (false)
+    */
+    var _add = function(radius, x, y) {
+        var _result = false;
+
+        if (indexOf(_segments, x, y) == -1) {
+            segments.push(new Element(radius, x, y, _FOOD));
+            _result = true;
+        }
+
+        return _result;
+    }
+
+    /**
+     * @private
+     * @desc Checks if the given x- and y-coordinates are 'occupied'.
+     * @param {number} x X-coordinate
+     * @param {number} y Y-coordinate
+     * @returns {boolean} Location is occupied (true) or not (false)
+    */
+    var _collision = function(x, y) {
+        return indexOf(_segments, x, y) >= 0;
+    }
+
+    /**
+     * @public
+     * @desc Food object which is returned.
+     * @member {Object}
+     */
+    var food = {
+        add: function(radius, x, y) {
+            _add(radius, x, y);
+        },
+        remaining: function() {
+            return _segments.length;
+        },
+        getSegments: function() {
+            return _segments;
+        },
+        eat: function(x, y) {
+            return _eat(x, y);
+        },
+        collision: function(x, y) {
+            return _collision(x, y);
+        }
+    }
+
+    return food;
+}
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+	<p style='font-size: 8pt; text-align: center; color: blue;'>This game is developed by Jaap Pelt and Onno Huijgen as part of an assignment for the Open University.</p>
+
+
+	<span class="copyright">
+	DocStrap Copyright © 2012-2015 The contributors to the JSDoc3 and DocStrap projects.
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+	
+		on Mon Jan 29th 2018
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>
