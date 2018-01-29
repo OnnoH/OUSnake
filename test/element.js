@@ -13,9 +13,5 @@ describe("Element", function() {
       expect(element.y).to.equal(20);
       expect(element.color).to.equal("Red");
     });
-    it("the public methods should be available", function() {
-      expect(typeof(element.isPresent)).to.equal("function");
-      expect(typeof(element.indexOf)).to.equal("function");
-    });
   });
 });
