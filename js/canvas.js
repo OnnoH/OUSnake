@@ -12,15 +12,12 @@ function Canvas(canvas, gridSize) {
     // private properties
     var _canvas = canvas;
     var _gridSize = gridSize;
-    var _height = _canvas[0].height;  // canvas height
-    var _width = _canvas[0].width;    // canvas width
-    var _step = _width / _gridSize;   // step length
-    var _radius = _step / 2;          // radius of an element
-    var _max = gridSize -1;    // field width
-    var _xmin = 0;              // minimum x value
-    var _xmax = gridSize -1;     // maximum x value
-    var _ymin = 0;              // minimum y value
-    var _ymax = gridSize -1;    // maximum y value
+    var _height = _canvas[0].height;                   // canvas height
+    var _width = _canvas[0].width;                     // canvas width
+    var _step = Math.max(_width, _height) / _gridSize; // pixel size of a step
+    var _radius = _step / 2;                           // pixel radius of an element
+    var _xmax = Math.floor(_width/_step) - 1;          // maximum x value
+    var _ymax = Math.floor(_height/_step) - 1;         // maximum y value
 
     /**
      * @private
@@ -59,8 +56,8 @@ function Canvas(canvas, gridSize) {
      * @returns {boolean} Location is within playing field (true) or not (false)
     */
     var _collision = function(x, y) {
-        return (x > _xmax || x < _xmin ||
-                y > _ymax || y < _ymin)
+        return (x > _xmax || x < 0 ||
+                y > _ymax || y < 0)
     }
 
     /**
@@ -81,15 +78,9 @@ function Canvas(canvas, gridSize) {
         collision: function(x, y) {
             return _collision(x, y);
         },
-        radius : _radius,
-        step   : _step,
-        max    : _max,
-        xmin   : _xmin,
-        xmax   : _xmax,
-        ymin   : _ymin,
-        ymax   : _ymax,
-        height : _height,
-        width  : _width,
+        xmax : _xmax,
+        ymax : _ymax
+        
     };
 
     return canvas;
