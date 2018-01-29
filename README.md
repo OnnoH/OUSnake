@@ -41,7 +41,11 @@ An attempt was made to execute the tests from the command line using mocha/chai.
 ## Snake part Two
 In this part refactoring the code into modules is needed. Separate the model from the view and controller.
 
-The code follow the Constructor/Prototype pattern. The canvas, element, food and snake are part of the model. On top of that a sound class has been added. Some generic functions are stored in a separate Javascript file called util.js. In order to play the game a controller class is created which controls the view (DOM, UI, HTML) and communicates with the model to instantiate the required objects.
+The code follows the Constructor/Prototype pattern. Element, Food, Snake and Canvas are the core models for this application. They are structured according to the object model pattern which is a specific form of the model pattern with a single object per module. The objects are structured strictly hierarchical. Food, Snake and Canvas use Element, but no other dependencies exist between the models. 
+The Sound module has been added with the same object model pattern. It is completely independent of other modules. 
+Util acts as as a library of functions. The module structure does not provide any benefits here, so it was decided to format it as a plain javascript library.
+
+In order to play the game a controller class is created which controls the view (DOM, UI, HTML) and communicates with the model to instantiate the required objects.
 
 The view has been updated with [Font Awesome](http://fontawesome.io/) so the buttons now contain icons instead of text.
 
