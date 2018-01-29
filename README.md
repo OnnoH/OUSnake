@@ -2,7 +2,7 @@
 
 This repository contains code for the Open University course: Webapplicaties: de clientkant (Webapplications: the client side)
 
-The result: <a href="../index.html" target="_blank">The Game Site</a> or <a href="../snake.html" target="_blank">The Snake Game</a>
+The result: [The Game Site](index.html) or [The Snake Game](snake.html)
 
 ### Collaborators:
 
@@ -46,23 +46,23 @@ The code follow the Constructor/Prototype pattern. The canvas, element, food and
 The view has been updated with [Font Awesome](http://fontawesome.io/) so the buttons now contain icons instead of text.
 
 # Documentation
-The code is annotated with [JSdoc3](http://usejsdoc.org/). The generator is installed using node/npm. An extra module (docstrap) is added to allow the use of templates.
+The code is annotated with [JSdoc3](http://usejsdoc.org/). The generator is installed using node/npm. An extra module (docstrap) is added to allow the use of templates. Versions of node and npm are controlled by [nvm](https://github.com/creationix/nvm).
 ```
 npm install -g jsdoc ink-docstrap
 ```
 In order to configure the generator a JSON file **snake.jsdoc.json** is present.
-See: <a href="http://usejsdoc.org/about-configuring-jsdoc.html" target="_blank">http://usejsdoc.org/about-configuring-jsdoc.html</a>
+See: [http://usejsdoc.org/about-configuring-jsdoc.html](http://usejsdoc.org/about-configuring-jsdoc.html)
 
 The documentation is generated with the following command:
 ```
-jsdoc --access all --verbose --configure snake.jsdoc.json --template /Users/onnoh/.nvm/versions/node/v8.9.3/lib/node_modules/ink-docstrap/template --readme README.md --destination doc
+jsdoc --access all --verbose --configure snake.jsdoc.json --template ~/.nvm/versions/node/v8.9.3/lib/node_modules/ink-docstrap/template --readme README.md --destination doc
 ```
-See also: <a href="http://usejsdoc.org/about-commandline.html" target="_blank">http://usejsdoc.org/about-commandline.html</a>
+See also: [http://usejsdoc.org/about-commandline.html](http://usejsdoc.org/about-commandline.html)
 
-And can be accessed from <a href="doc/index.html" target="_blank">here</a>.
+And can be accessed from [here](doc/index.html).
 
 # Testing
-The testing framework that is used is Mocha in combination with Chai. Due to the absence of a build system the tests are executed from the <a href="../snake-test.html" target="_blank">test page</a>.
+The testing framework that is used is Mocha in combination with Chai. Due to the absence of a build system the tests are executed from the [test page](snake-test.html).
 
 # TO DO
 1. ~~Submit code to version control (git).~~
