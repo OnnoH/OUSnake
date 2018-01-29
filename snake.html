@@ -3,16 +3,26 @@
     <title lang="nl">Mijn spelletjessite - Snake</title>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/stijl.css" />
+    <link rel="stylesheet" href="css/fontawesome-all.min.css" />
     <script src="lib/jquery-3.2.1.min.js"></script>
     <script src="lib/jcanvas.min.js"></script>
+    <script data-main="js/snakeGame" src="lib/require.min.js"></script>
+    <!-- Replace 7 files below with snakeGame.js -->
+    <!-- <script src="js/element.js"></script>
+    <script src="js/canvas.js"></script>
+    <script src="js/food.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/sound.js"></script>
     <script src="js/snake.js"></script>
+    <script src="js/controller.js"></script> -->
   </head>
   <body>
     <div class="gameCanvas">
       <p class="gameTitle">Snake</p>
       <form>
-        <button id="startSnake" type="button" name="startButton" class="gameButton">Start</button>
-        <button id="stopSnake" type="button" name="stopButton" class="gameButton">Stop</button>
+        <button id="startSnake" type="button" name="startButton" class="gameButton"><i class="fa fa-play"></i></button>
+        <button id="stopSnake" type="button" name="stopButton" class="gameButton"><i class="fa fa-stop"></i></button>
+        <button id="toggleSound" type="button" name="toggleButton" class="gameButton"><i class="fa fa-volume-up"></i></button>
       </form>
       <canvas id="mySnakeCanvas" width="360" height="360" title="Zit hier een addertje onder?"></canvas>
     </div>

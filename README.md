@@ -1,59 +1,83 @@
-# OU Snake
+# Introduction
 
 This repository contains code for the Open University course: Webapplicaties: de clientkant (Webapplications: the client side)
 
-###Collaborators:
+The result: <a href="../index.html" target="_blank">The Game Site</a> or <a href="../snake.html" target="_blank">The Snake Game</a>
+
+### Collaborators:
 
 * Aart Pelt (a.j.w.pelt@gmail.com)
 * Onno Huijgen (o.huijgen@gmail.com)
 
-# Opdracht 1
-## Mijn Spelletjessite
+# Assignment 1
+## Main site
+This part focusses on the HTML and CSS bit.
 
 Layout:
-header : titel van de website
-center : een omkaderd vlak (arena) met daarbinnen het menu (nav) en iframe (gameFrame)
-footer : copyright notice en datum laatste wijziging
+header : title of the website
+center : an area with a border (arena) and a menu (nav) and iframe (gameFrame) within
+footer : copyright notice and last modification date
 
 Styling:
-Expliciet benoemen van margins en paddings, kleuren en tekstsattributen. Dit maakt het makkelijker
-om te experimenteren met stijlen. Mogelijk dat hier nog opkuising nodig is, op het moment dat de
-website productierijp moet worden.
+Margins and paddings, colors and text attributes are explicitly named. This makes it easier to experiment with different styles. Before the site enters the production stage, it's possible to refactor some of the styles.
 
 Positioning:
-Om een zo responsive mogelijke website te krijgen gekozen voor relative maatvoering in em en %.
-Ook zijn de 'arena'-elementen floating gepositioneerd.
+In order to create a responsive website relative measurements like **em** and **%** have been chosen.
+Also the 'arena'-elements are positioned in a floating manner.
 
-De website is getest met de browsers Google Chrome en Safari op Apple OSX.
+The website has been tested with the browsers Google Chrome and Safari on Apple OS X.
 
-# Opdracht 2
+# Assignment 2
 ## Snake part One
+This part focusses on Javascript. In order to let the code be tested by the instructor the requirements have to be met precisely.
 
-De gevraagde functies collidesWithOneOf en canMove/doMove zijn als methode toegevoegd aan resp. Element en Snake.
+The functions collidesWithOneOf and canMove/doMove are added as methods to Element and Snake respectively.
 
-Om de nieuwe positie van de kop te bepalen is de method Snake.createNewHead toegevoegd. Deze methode wordt nu zowel uitgevoerd in canMove als doMove. Beter zou zijn dat canMove een segment (type Element) retourneert als de beweging mogelijk is. De doMove kan dan de slangsegmenten aanpassen.
+In order to determine the new position of the snake's head the method Snake.createNewHead was added. This method is now called both in canMove as doMove. It would be better if canMove returned a segment (type Element) if movement is possible. The doMove modify the snake segments.
 
-Uiteindelijk zijn de tests in het hoofd Javascript-bestand snake.js terecht gekomen. Bij het schrijven van een
-mocha test bleek jQuery in de weg te zitten. Dit vraagt nader onderzoek.
+An attempt was made to execute the tests from the command line using mocha/chai. Because of the difference in coding for the browser and coding for node, you would need something like **browserify** and a build system in place. Because this falls outside the scope of this course, tests are executed from a webpage.
 
-# Opdracht 3
+# Assignment 3
 ## Snake part Two
+In this part refactoring the code into modules is needed. Separate the model from the view and controller.
 
-<not yet implemented>
+The code follow the Constructor/Prototype pattern. The canvas, element, food and snake are part of the model. On top of that a sound class has been added. Some generic functions are stored in a separate Javascript file called util.js. In order to play the game a controller class is created which controls the view (DOM, UI, HTML) and communicates with the model to instantiate the required objects.
 
+The view has been updated with [Font Awesome](http://fontawesome.io/) so the buttons now contain icons instead of text.
 
-#TO DO
-1. ~~Code onder versie controle brengen (git)~~
-2. ~~Deze readme omzetten naar MarkDown syntax~~
-3. ~~IDE selecteren voor het ontwikkelwerk of volstaat Atom met Chrome (en debugtools)?~~ => Atom/Chrome
-4. CSS height: 100% verder onderzoeken
-5. Lastig om een beetje gevoel te krijgen bij relatieve maatvoering. Mogelijk dat er toch nog wat absolute maten in moeten.
-6. Het resizen van de site is nog niet ideaal
-7. ~~Teamlid werven~~
-8. CSS structuur documenteren
-9. ~~CSS validatie fouten oplossen: color names vervangen door color numbers (schijnbaar kunnen niet alle browsers met de kleurnamen omgaan)~~
-10. HTML fouten oplossen
-11. Bedenken of de documentatie en commentaren in het Engels of Nederlands moeten. De opleiding is Nederlandstalig, maar de taal Javascript afgeleid van het Engels.
-12. JSlint operationaliseren
-13. Tests refactoren naar mocha/chai
-14. ...
+# Documentation
+The code is annotated with [JSdoc3](http://usejsdoc.org/). The generator is installed using node/npm. An extra module (docstrap) is added to allow the use of templates.
+```
+npm install -g jsdoc ink-docstrap
+```
+In order to configure the generator a JSON file **snake.jsdoc.json** is present.
+See: <a href="http://usejsdoc.org/about-configuring-jsdoc.html" target="_blank">http://usejsdoc.org/about-configuring-jsdoc.html</a>
+
+The documentation is generated with the following command:
+```
+jsdoc --access all --verbose --configure snake.jsdoc.json --template /Users/onnoh/.nvm/versions/node/v8.9.3/lib/node_modules/ink-docstrap/template --readme README.md --destination doc
+```
+See also: <a href="http://usejsdoc.org/about-commandline.html" target="_blank">http://usejsdoc.org/about-commandline.html</a>
+
+And can be accessed from <a href="doc/index.html" target="_blank">here</a>.
+
+# Testing
+The testing framework that is used is Mocha in combination with Chai. Due to the absence of a build system the tests are executed from the <a href="../snake-test.html" target="_blank">test page</a>.
+
+# TO DO
+1. ~~Submit code to version control (git).~~
+2. ~~Convert this readme to MarkDown syntax.~~
+3. ~~Select IDE for development or can we live with Atom and Chrome (using debug tools)?~~ => Atom/Chrome
+4. CSS height: 100% needs further examination.
+5. Trying to get a grip on relative measurements. It's possible some values need to be fixed.
+6. Resizing of the site is not yet optimal.
+7. ~~Recruit team member~~
+8. Document CSS structure
+9. ~~Solve CSS validation errors: replaced color names by color numbers (apparently not all browsers can handle these names)~~
+10. Fix HTML errors
+11. ~~Are we using the English or Dutch language for documentation and comments. The course is in Dutch, but the code has English language elements and if you decide to release the code to an international public, the Dutch language might seem a little odd~~ => English.
+12. Get JSlint to work
+13. ~~Refactor test to mocha/chai framework~~
+14. Util tests are executed, but no output is shown.
+15. Get rid of the iFrame and use jQuery to load/display html content.
+16. ...
