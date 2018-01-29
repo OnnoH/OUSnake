@@ -8,13 +8,13 @@
  */
 function Snake(segments) {
     // private constants
-    const SNAKE   = "DarkRed";    // color of the snake's body
-    const HEAD    = "DarkOrange"; // color of the snake's head
+    const _SNAKE   = "DarkRed";    // color of the snake's body
+    const _HEAD    = "DarkOrange"; // color of the snake's head
     // put parameters in private properties
     var _segments = segments;     // snake elements
     // private properties
     var _head = _segments[_segments.length-1];  // head segment
-    _head.color = HEAD;
+    _head.color = _HEAD;
     // private methods
     /**
      * @private
@@ -25,7 +25,7 @@ function Snake(segments) {
      */
     var _move = function (x, y, grow) {
         // change the current head into a body part
-        _head.color = SNAKE;
+        _head.color = _SNAKE;
         // add a new head
         _segments.push(_createNewHead(x, y));
         // update head position
@@ -52,10 +52,10 @@ function Snake(segments) {
      * @desc Creates a new snake head on the given coordinates.
      * @param {number} x X-coordinate
      * @param {number} y Y-coordinate
-     * @returns {Element} Element with radius R and color HEAD.
+     * @returns {Element} Element with radius of the tail and color _HEAD.
     */
     _createNewHead = function(x, y) {
-        return new Element(R, x, y, HEAD);
+        return new Element(_segments[0].radius, x, y, _HEAD);
     }
 
     /**
