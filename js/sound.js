@@ -6,8 +6,8 @@
  */
 function Sound() {
     // private constants
-    const SOUND_PATH  = "snd/";
-    const SOUND_EXT   = ".wav";
+    const _SOUND_PATH  = "snd/";
+    const _SOUND_EXT   = ".wav";
     // private properties
     var _sounds = {};
     var _playSounds = false;
@@ -30,14 +30,14 @@ function Sound() {
      */
     var _add = function(sound) {
         _sounds[sound] = new Audio();
-        _sounds[sound].src = SOUND_PATH + sound + SOUND_EXT;
+        _sounds[sound].src = _SOUND_PATH + sound + _SOUND_EXT;
     }
 
     /**
      * @private
      * @desc Turns the sound on or off.
      */
-    var toggle = function() {
+    var _toggle = function() {
         _playSounds = !_playSounds;
     }
 
@@ -58,6 +58,9 @@ function Sound() {
         },
         playSounds : function() {
             return _playSounds;
+        },
+        getSounds : function() {
+            return _sounds;
         }
     };
 
