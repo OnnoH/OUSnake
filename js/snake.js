@@ -1,102 +1,82 @@
-/***************************************************************************
- **                 Snake                                                 **
- ***************************************************************************/
-
 /**
-    @constructor Snake(segments)
-    @desc Deze klasse beschrijft de slang.
-          De constructor maakt een slang uit de gegeven elementen.
-    @param {[Element]} segments: De segmenten van de slang.
-                                 Het laatste segment is het hoofd.
-*/
+ * @class Snake
+ * @desc Create a snake object.
+ * @param {array} segments Array with elements. The final element contains the snake's head.
+ * @returns Snake
+ * @see Element
+ * @see util indexOf
+ */
 function Snake(segments) {
-    // prive constanten
-    const SNAKE   = "DarkRed";    // kleur van een slangsegment
-    const HEAD    = "DarkOrange"; // kleur van de kop van de slang
-
-    // prive attributen
-    var segments = segments;     // segmenten van de slang
-    var head = segments[segments.length-1];  // hoofd segment
-
-    // zet de kleur van de slang
-    head.color = HEAD;
-    for (i = 0; i < segments.length - 1; i++) {
-        segments[i].color = SNAKE;
-    }
-
-
-    /***********************************************************************
-     **             Publieke attibuten                                    **
-     ***********************************************************************/
-    var snake = {
-        getHead: function() {
-            return head;
-        },
-        getSegments: function () {
-            return segments;
-        },
-        move: function(x, y, grow) {
-            move(x, y, grow);
-        },
-        collision: function(x, y) {
-            return collision(x, y);
-        }
-    };
-
-    /***********************************************************************
-     **             Methodes                                              **
-     ***********************************************************************/
-
+    // private constants
+    const SNAKE   = "DarkRed";    // color of the snake's body
+    const HEAD    = "DarkOrange"; // color of the snake's head
+    // put parameters in private properties
+    var _segments = segments;     // snake elements
+    // private properties
+    var _head = _segments[_segments.length-1];  // head segment
+    _head.color = HEAD;
+    // private methods
     /**
-        @function move(x,y,grow) -> void
-        @desc Voert een beweging uit in de huidige bewegingsrichting.
-        @param {number} x x-coordinaat
-        @param {number} y y-coordinaat
-        @param {boolean} grow: geeft aan of de slang 1 segment groeit als
-                               resultaatvan de beweging.
-    */
-    var move = function (x, y, grow) {
-        // verander de kleur van het huidige hoofd in snake
-        head.color = SNAKE;
-        // voeg een nieuw hoofd toe
-        segments.push(createNewHead(x, y));
-        // update head attribuut
-        head = segments[segments.length-1];
-        // verwijder staart als de slang niet groeit.
+     * @private
+     * @desc Executes snake movement in the current direction.
+     * @param {number} x X-coordinate
+     * @param {number} y Y-coordinate
+     * @param {boolean} grow Indicates if the snake grows (e.g. because he has eaten food)
+     */
+    var _move = function (x, y, grow) {
+        // change the current head into a body part
+        _head.color = SNAKE;
+        // add a new head
+        _segments.push(_createNewHead(x, y));
+        // update head position
+        _head = _segments[_segments.length-1];
+        // remove the tail if the snake doesn't grow
         if (!grow) {
-            segments.shift();
+            _segments.shift();
         }
     }
 
     /**
-        @function colission(x,y) -> boolean
-        @desc Controleert of de x- en y-coordinaten al 'bezet' zijn
-        @param {number} x x-coordinaat
-        @param {number} y y-coordinaat
-        @returns {boolean} de slang botst met zichzelf (true) of niet (false)
+     * @private
+     * @desc Checks if the given x- and y-coordinates are 'occupied'.
+     * @param {number} x X-coordinate
+     * @param {number} y Y-coordinate
+     * @returns {boolean} Snake hits itself (true) or not (false)
     */
-    var collision = function (x, y) {
-        return indexOf(segments, x, y) >= 0;
+    var _collision = function (x, y) {
+        return indexOf(_segments, x, y) >= 0;
     }
 
-    /***********************************************************************
-     **             Prive Methodes                                        **
-     ***********************************************************************/
-
     /**
-    @function createNewHead(x, y) -> segment
-    @desc maak een nieuw Slangenhoofdsegment op de gegeven coordinaten.
-    @param {number} x: een x coordinaat
-    @param {number} y: een y coordinaat
-    @returns {Element} met straal R en color HEAD
+     * @private
+     * @desc Creates a new snake head on the given coordinates.
+     * @param {number} x X-coordinate
+     * @param {number} y Y-coordinate
+     * @returns {Element} Element with radius R and color HEAD.
     */
-    createNewHead = function(x, y) {
+    _createNewHead = function(x, y) {
         return new Element(R, x, y, HEAD);
     }
 
-    /***********************************************************************
-     **             Return                                                **
-     ***********************************************************************/
+    /**
+     * @public
+     * @desc Snake object which is returned.
+     * @member {Object}
+     */
+    var snake = {
+        getHead: function() {
+            return _head;
+        },
+        getSegments: function () {
+            return _segments;
+        },
+        move: function(x, y, grow) {
+            _move(x, y, grow);
+        },
+        collision: function(x, y) {
+            return _collision(x, y);
+        }
+    };
 
-    return snake
+    return snake;
 }
