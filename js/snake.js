@@ -1,7 +1,6 @@
 /**
  * @class Snake
  * @desc Create a snake object.
- * @param {array} segments Array with elements. The final element contains the snake's head.
  * @returns Snake
  * @see Element
  * @see util indexOf
@@ -28,11 +27,11 @@ function Snake() {
         if (_head) {
             _head.color = _SNAKE;
         }
-        
+
         // add a new head
         _segments.push(_createNewHead(x, y));
         _head = _segments[_segments.length-1];
-        
+
         // remove the tail if the snake doesn't grow
         if (!grow) {
             _segments.shift();
@@ -46,8 +45,8 @@ function Snake() {
      * @param {number} y Y-coordinate
      * @returns {boolean} Snake hits itself (true) or not (false)
     */
-    var _collision = function (x, y) {
-        return indexOf(_segments, x, y) >= 0;
+    var _collision = function(x, y) {
+        return _createNewHead(x, y).indexOf(_segments) >= 0;
     }
 
     /**
@@ -67,15 +66,19 @@ function Snake() {
      * @member {Object}
      */
     var snake = {
+        // Returns the head (final segment)
         getHead: function() {
             return _head;
         },
+        // Returns the snake's segments
         getSegments: function () {
             return _segments;
         },
+        // Move (and grow) the snake
         move: function(x, y, grow) {
             _move(x, y, grow);
         },
+        // Check if the snake collides with itself
         collision: function(x, y) {
             return _collision(x, y);
         }

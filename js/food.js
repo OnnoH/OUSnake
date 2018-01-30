@@ -1,7 +1,6 @@
 /**
  * @class Food
  * @desc Create a food collection object.
- * @param {array} segments Array with food elements
  * @returns Food
  * @see Element
  * @see util indexOf
@@ -9,48 +8,48 @@
 function Food() {
     // private constants
     const _FOOD = "Olive";      // food color
-    
+
     // private properties
     var _segments = [];         // food segments
 
     /**
      * @private
      * @desc Removes the food segment on the given x- and y-coordinates if present.
-     * @param {number} x X-coordinate
-     * @param {number} y Y-coordinate
-     * @returns {boolean} Snake has eaten (true) or not (false)
+     * @param {object} element The eater, e.g. the snake's head
     */
-    var _eat = function(x, y) {
-        var _result = false;
-
-        var _index = indexOf(_segments, x, y);
-        if (_index >= 0) {
-            _segments.splice(_index, 1);
-            _result = true;
-        }
-
-        return _result;
+    var _remove = function(element) {
+        _segments.splice(element.indexOf(_segments), 1);
     }
 
     /**
      * @private
      * @desc Creates a food segment on the given x- and y-coordinates.
-     * @param {number} x X-coordinate
-     * @param {number} y Y-coordinate
+     * @param {object} element The food element
     */
-    var _add = function(x, y) {
-        _segments.push(new Element(x, y, _FOOD));
+    var _add = function(element) {
+        _segments.push(element);
     }
+
+    // /**
+    //  * @private
+    //  * @desc Checks if the given x- and y-coordinates are 'occupied'.
+    //  * @param {number} x X-coordinate
+    //  * @param {number} y Y-coordinate
+    //  * @returns {boolean} Location is occupied (true) or not (false)
+    // */
+    // var _collision = function() {
+    //     return indexOf(_segments) >= 0;
+    // }
 
     /**
      * @private
-     * @desc Checks if the given x- and y-coordinates are 'occupied'.
+     * @desc Creates a new snake head on the given coordinates.
      * @param {number} x X-coordinate
      * @param {number} y Y-coordinate
-     * @returns {boolean} Location is occupied (true) or not (false)
+     * @returns {Element} Element on given coordinates and color _FOOD.
     */
-    var _collision = function(x, y) {
-        return indexOf(_segments, x, y) >= 0;
+    _createNewFood = function(x, y) {
+        return new Element(x, y, _FOOD);
     }
 
     /**
@@ -59,21 +58,30 @@ function Food() {
      * @member {Object}
      */
     var food = {
-        add: function(x, y) {
-            _add(x, y);
+        // Create food element on given coordinates
+        createNewFood: function(x, y) {
+            return _createNewFood(x, y);
         },
+        // Add food element to the collection
+        add: function(element) {
+            _add(element);
+        },
+        // Return the number of food elements left
         remaining: function() {
             return _segments.length;
         },
+        // Return the food elements
         getSegments: function() {
             return _segments;
         },
-        eat: function(x, y) {
-            return _eat(x, y);
-        },
-        collision: function(x, y) {
-            return _collision(x, y);
+        // Delete food element if eaten
+        remove: function(element) {
+            return _remove(element);
         }
+        // // Checks if food element is present on given coordinates
+        // collision: function(x, y) {
+        //     return _collision(x, y);
+        // }
     }
 
     return food;

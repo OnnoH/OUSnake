@@ -127,18 +127,17 @@ function gameWon() {
     @returns {Element} array met food
 */
 function createFoods() {
-    var x, y // coordinaten voor nieuw voedsel
-
     // maak leeg voedselveld aan
     food = new Food();
 
     while (food.remaining() < NUMFOODS ) {
         // maak een nieuw element op een random location.
-        x = getRandomInt(0, snakeCanvas.xmax);
-        y = getRandomInt(0, snakeCanvas.ymax);
+        var x = Math.floor(Math.random() * (snakeCanvas.xmax + 1));
+        var y = Math.floor(Math.random() * (snakeCanvas.ymax + 1));
+        var foodElement = food.createNewFood(x, y);
         // voeg nieuw voedsel toe als de lokatie nog vrij is.
-        if (!snake.collision(x, y) && !food.collision(x, y)) {
-            food.add(x, y);
+        if (!foodElement.isPresent(snake.getSegments()) && !foodElement.isPresent(food.getSegments())) {
+            food.add(foodElement);
         }
     }
 }
@@ -225,23 +224,22 @@ function move() {
             break;
     }
 
-    // test of stap gemaakt kan worden
+    // Can we make a move?
     if (canMove(x, y)) {
-        // bepaal of er eten gegeten wordt.
-        eaten = food.eat(x, y);
-
-        // Laat de slang een stap zetten.
-        snake.move(x, y, eaten);
-        draw();
-
+        // Have we had lunch yet?
+        eaten = snake.getHead().isPresent(food.getSegments());
         if (eaten) {
+            food.remove(snake.getHead());
             sound.play("food");
             console.log("munch");
-            if (food.remaining() == 0) {
-                gameWon();
-            }
         } else {
             sound.play("move");
+        }
+        // Make a move.
+        snake.move(x, y, eaten);
+        draw();
+        if (food.remaining() === 0) {
+            gameWon();
         }
     } else {
         gameOver();
