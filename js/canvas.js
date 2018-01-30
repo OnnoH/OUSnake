@@ -4,11 +4,10 @@
  * @class Canvas
  * @desc Create a canvas object with boundaries.
  * @param {object} canvas Object with canvas element from html
- * @param {number} radius Element radius for calculating boundaries
- * @param {number} step Stepsize for calculating field width
+ * @param {number} gridSize Size (n x n) of the playing field
  * @returns Canvas
  */
-function Canvas(canvas, gridSize) {   
+function Canvas(canvas, gridSize) {
     // private properties
     var _canvas = canvas;
     var _gridSize = gridSize;
@@ -47,7 +46,7 @@ function Canvas(canvas, gridSize) {
         context.textAlign = "center";
         context.fillText(text, _width / 2, _height / 2);
     }
-    
+
     /**
      * @private
      * @desc Checks if the given x- and y-coordinates are within the playing field.
@@ -57,7 +56,7 @@ function Canvas(canvas, gridSize) {
     */
     var _collision = function(x, y) {
         return (x > _xmax || x < 0 ||
-                y > _ymax || y < 0)
+                y > _ymax || y < 0);
     }
 
     /**
@@ -66,21 +65,25 @@ function Canvas(canvas, gridSize) {
      * @member {Object}
      */
     var canvas = {
+        // Clears the canvas
         clear: function() {
             _canvas.clearCanvas();
         },
+        // Draw the given element on the canvas
         drawElement: function(element) {
             _drawElement(element);
         },
+        // Draw the given text on the canvas
         drawText: function(text, color) {
             _drawText(text, color);
         },
+        // Check if the x/y-coordinates are out of bounds
         collision: function(x, y) {
             return _collision(x, y);
         },
+        // The x- and y-boundaries
         xmax : _xmax,
         ymax : _ymax
-        
     };
 
     return canvas;
