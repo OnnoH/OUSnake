@@ -3,7 +3,7 @@ var expect = chai.expect;
 // Also need element module for this, so make sure it's loaded
 describe("Snake", function() {
   describe("new Snake", function() {
-    var snake = new Snake([new Element(10, 10, 10, "Red"), new Element(10, 10, 20, "DarkOrange")]);
+    var snake = new Snake();
     it("should create an object of type Snake", function() {
       expect(typeof(snake)).to.equal("object");
     });
@@ -13,19 +13,24 @@ describe("Snake", function() {
       expect(typeof(snake.collision)).to.equal("function");
       expect(typeof(snake.move)).to.equal("function");
     });
-    it("the snake should be two segments large", function() {
+    it("the snake should be one segment after first move", function() {
+      snake.move(10, 10, true);
+      expect(snake.getSegments().length).to.equal(1);
+    });
+    it("the snake should be two segments after second move", function() {
+      snake.move(10, 20, true);
       expect(snake.getSegments().length).to.equal(2);
     });
     it("the snake should move without growing", function() {
-      snake.move(10, 10, false);
+      snake.move(10, 30, false);
       expect(snake.getSegments().length).to.equal(2);
     });
     it("the snake should move and grow at the same time", function() {
-      snake.move(10, 10, true);
+      snake.move(10, 40, true);
       expect(snake.getSegments().length).to.equal(3);
     });
     it("the snake should have hit itself", function() {
-      expect(snake.collision(10, 10)).to.equal(true);
+      expect(snake.collision(10, 30)).to.equal(true);
     });
     it("the snake should have an orange head", function() {
       expect(snake.getHead().color).to.equal("DarkOrange");

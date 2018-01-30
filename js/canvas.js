@@ -4,26 +4,20 @@
  * @class Canvas
  * @desc Create a canvas object with boundaries.
  * @param {object} canvas Object with canvas element from html
- * @param {number} radius Element radius for calculating boundaries
- * @param {number} step Stepsize for calculating field width
+ * @param {number} gridSize Size (n x n) of the playing field
  * @returns Canvas
  */
-function Canvas(canvas, radius, step) {
-
-    // put parameters in private properties
-    var _canvas = canvas;
-    var _radius = radius;
-    var _step = step;
+function Canvas(canvas, gridSize) {
     // private properties
-    var _height = _canvas[0].height;  // canvas height
-    var _width = _canvas[0].width;    // canvas width
-    var _max = _width / _step - 1;    // field width
-    var _xmin = _radius;              // minimum x value
-    var _xmax = _width - _radius      // maximum x value
-    var _ymin = _radius;              // minimum y value
-    var _ymax = _height - _radius;    // maximum y value
+    var _canvas = canvas;
+    var _gridSize = gridSize;
+    var _height = _canvas[0].height;                   // canvas height
+    var _width = _canvas[0].width;                     // canvas width
+    var _step = Math.max(_width, _height) / _gridSize; // pixel size of a step
+    var _radius = _step / 2;                           // pixel radius of an element
+    var _xmax = Math.floor(_width/_step) - 1;          // maximum x value
+    var _ymax = Math.floor(_height/_step) - 1;         // maximum y value
 
-    // private methods
     /**
      * @private
      * @desc Draw an element on the canvas
@@ -33,9 +27,9 @@ function Canvas(canvas, radius, step) {
         _canvas.drawArc({
             draggable : false,
             fillStyle : element.color,
-            x : element.x,
-            y : element.y,
-            radius : element.radius
+            x : element.x * _step + _radius,
+            y : element.y * _step + _radius,
+            radius : _radius
         });
     }
 
@@ -54,29 +48,43 @@ function Canvas(canvas, radius, step) {
     }
 
     /**
+     * @private
+     * @desc Checks if the given x- and y-coordinates are within the playing field.
+     * @param {number} x X-coordinate
+     * @param {number} y Y-coordinate
+     * @returns {boolean} Location is within playing field (true) or not (false)
+    */
+    var _collision = function(x, y) {
+        return (x > _xmax || x < 0 ||
+                y > _ymax || y < 0);
+    }
+
+    /**
      * @public
      * @desc Canvas object which is returned.
      * @member {Object}
      */
     var canvas = {
+        // Clears the canvas
         clear: function() {
             _canvas.clearCanvas();
         },
+        // Draw the given element on the canvas
         drawElement: function(element) {
             _drawElement(element);
         },
+        // Draw the given text on the canvas
         drawText: function(text, color) {
             _drawText(text, color);
         },
-        max : _max,
-        xmin : _xmin,
+        // Check if the x/y-coordinates are out of bounds
+        collision: function(x, y) {
+            return _collision(x, y);
+        },
+        // The x- and y-boundaries
         xmax : _xmax,
-        ymin : _ymin,
-        ymax : _ymax,
-        height : _height,
-        width : _width
+        ymax : _ymax
     };
 
     return canvas;
-
 }

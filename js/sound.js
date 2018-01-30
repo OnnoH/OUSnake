@@ -47,18 +47,23 @@ function Sound() {
      * @member {Object}
      */
     var sound = {
+        // Play the sound
         play: function(sound) {
             _play(sound);
         },
+        // Add the sound to the library
         add: function(sound) {
             _add(sound);
         },
+        // Turn the playing of sounds on or off
         toggle: function() {
             _toggle();
         },
+        // Are sounds on or off?
         playSounds : function() {
             return _playSounds;
         },
+        // Return the sound library
         getSounds : function() {
             return _sounds;
         }

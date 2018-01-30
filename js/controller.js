@@ -2,9 +2,8 @@ const LEFT     = "left";      // bewegingsrichtingen
 const RIGHT    = "right";
 const UP       = "up";
 const DOWN     = "down";
-const R        = 10;     // straal van een element
-const STEP     = 2 * R;  // stapgrootte
 
+const GRIDSIZE = 18;
 const NUMFOODS = 5;           // aantal voedselelementen
 const SLEEPTIME = 500;        // snelheid van spel (ms per stap)
 
@@ -13,8 +12,6 @@ var snake;                    // de slang met kop en staart elementen
 var food;                     // voedsel voor de slang
 var direction;                // bewegingsrichting van de slang
 var sound;                    // de spelgeluiden
-var canvas;                   // het speelveld
-
 var running = false;          // geeft aan of het spel loopt of niet.
 
 $(document).ready(function() {
@@ -22,7 +19,6 @@ $(document).ready(function() {
     $("#stopSnake").click(stop);
     $('#toggleSound').click(toggleSound);
 });
-
 
 /***************************************************************************
  **                 Game Keyboard                                         **
@@ -50,7 +46,6 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-
 /***************************************************************************
  **                 Game                                                  **
  ***************************************************************************/
@@ -59,7 +54,7 @@ document.addEventListener('keydown', function(e) {
      @desc Bepaal de afmetingen, creeer de geluidenverzameling, een slang, genereer voedsel, en teken alles
  */
  function init() {
-   createCanvas("#mySnakeCanvas");
+   createCanvas("#mySnakeCanvas", GRIDSIZE);
    createSounds();
    createSnake(); // maak de slang voor het voedsel
    createFoods();
@@ -134,14 +129,16 @@ function gameWon() {
 function createFoods() {
     var x, y // coordinaten voor nieuw voedsel
 
-    food = new Food([]);    // maak leeg voedselveld aan
+    // maak leeg voedselveld aan
+    food = new Food();
 
     while (food.remaining() < NUMFOODS ) {
         // maak een nieuw element op een random location.
-        x = snakeCanvas.xmin + getRandomInt(0, snakeCanvas.max) * STEP;
-        y = snakeCanvas.ymin + getRandomInt(0, snakeCanvas.max) * STEP;
+        x = getRandomInt(0, snakeCanvas.xmax);
+        y = getRandomInt(0, snakeCanvas.ymax);
+        // voeg nieuw voedsel toe als de lokatie nog vrij is.
         if (!snake.collision(x, y) && !food.collision(x, y)) {
-            food.add(R, x, y);
+            food.add(x, y);
         }
     }
 }
@@ -152,17 +149,12 @@ function createFoods() {
           in het midden van het veld
 */
 function createSnake() {
-    // private functie voor het aanmaken van elementen.
-    function createElement(x, y) {
-        return new Element(R, x, y, null);
-    }
+    // maak een nieuwe lege slang aan.
+    snake = new Snake();
 
-    // maak de segmenten voor de slang.
-    var segments = [createElement(R + snakeCanvas.width / 2, R + snakeCanvas.width / 2),
-                    createElement(R + snakeCanvas.width / 2, snakeCanvas.width / 2 - R)];
-
-    // maak de slang.
-    snake = new Snake(segments);
+    // voeg twee elementen aan de slang toe.
+    snake.move(Math.round(snakeCanvas.xmax / 2), Math.round(snakeCanvas.ymax / 2), true);
+    snake.move(Math.round(snakeCanvas.xmax / 2), Math.round(snakeCanvas.ymax / 2) - 1, true);
 
     // zet bewegingsrichting
     direction = UP;
@@ -173,8 +165,8 @@ function createSnake() {
     @desc Maakt het canvas op basis van het gegeven HTML element
     @returns {Canvas} canvas volgens HTML definitie
 */
-function createCanvas(canvasId) {
-    snakeCanvas = new Canvas($(canvasId), R, STEP);
+function createCanvas(canvasId, gridSize) {
+    snakeCanvas = new Canvas($(canvasId), gridSize);
 }
 
 /**
@@ -198,9 +190,9 @@ function toggleSound() {
     if (sound) {
         sound.toggle();
         if (sound.playSounds()) {
-          $("#toggleSound").html('<i class="fa fa-volume-off"></i>');
+          $("#toggleSound").html('<i class="fa fa-volume-off fa-fw"></i>');
         } else {
-          $("#toggleSound").html('<i class="fa fa-volume-up"></i>');
+          $("#toggleSound").html('<i class="fa fa-volume-up fa-fw"></i>');
         }
     }
 }
@@ -220,16 +212,16 @@ function move() {
 
     switch(direction) {
         case LEFT:
-            x = x - STEP;
+            x = x - 1;
             break;
         case RIGHT:
-            x = x + STEP;
+            x = x + 1;
             break;
         case UP:
-            y = y - STEP;
+            y = y - 1;
             break;
         case DOWN:
-            y = y + STEP;
+            y = y + 1;
             break;
     }
 
@@ -259,7 +251,7 @@ function move() {
 function canMove(x, y) {
     result = true;
 
-    if (collisionWithWall(x, y)) {
+    if (snakeCanvas.collision(x, y)) {
         console.log("Snake hit a wall");
         result = false;
     }
@@ -294,17 +286,4 @@ function draw() {
           snakeCanvas.drawElement(food);
         });
     }
-}
-
-/**
-    @function collisionWithWall(x, y) -> boolean
-    @desc Controleert of de nieuwe positie binnen het veld blijft
-          en of er geen botsing plaats vindt.
-    @param {number} x: x-coordinaat van nieuwe positie.
-    @param {number} y: y-coordinaat van nieuwe positie.
-    @returns {boolean} de nieuwe positie botst met wand (true) of niet (false).
-*/
-function collisionWithWall(x, y) {
-    return (x > snakeCanvas.xmax || x < snakeCanvas.xmin ||
-            y > snakeCanvas.ymax || y < snakeCanvas.ymin)
 }

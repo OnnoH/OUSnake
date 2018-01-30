@@ -6,13 +6,13 @@
  * @see Element
  * @see util indexOf
  */
-function Food(segments) {
-
+function Food() {
     // private constants
-    const _FOOD = "Olive"; // food color
-    // put parameters in private properties
-    var _segments = segments;
-    // private methods
+    const _FOOD = "Olive";      // food color
+    
+    // private properties
+    var _segments = [];         // food segments
+
     /**
      * @private
      * @desc Removes the food segment on the given x- and y-coordinates if present.
@@ -34,21 +34,12 @@ function Food(segments) {
 
     /**
      * @private
-     * @desc Creates a food segment on the given x- and y-coordinates with given radius.
-     * @param {number} radius Element radius
+     * @desc Creates a food segment on the given x- and y-coordinates.
      * @param {number} x X-coordinate
      * @param {number} y Y-coordinate
-     * @returns {boolean} Food segment was added (true) or not (false)
     */
-    var _add = function(radius, x, y) {
-        var _result = false;
-
-        if (indexOf(_segments, x, y) == -1) {
-            segments.push(new Element(radius, x, y, _FOOD));
-            _result = true;
-        }
-
-        return _result;
+    var _add = function(x, y) {
+        _segments.push(new Element(x, y, _FOOD));
     }
 
     /**
@@ -68,8 +59,8 @@ function Food(segments) {
      * @member {Object}
      */
     var food = {
-        add: function(radius, x, y) {
-            _add(radius, x, y);
+        add: function(x, y) {
+            _add(x, y);
         },
         remaining: function() {
             return _segments.length;
