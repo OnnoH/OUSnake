@@ -3,7 +3,6 @@ const RIGHT    = "right";
 const UP       = "up";
 const DOWN     = "down";
 
-const GRIDSIZE = 18;
 const NUMFOODS = 5;           // aantal voedselelementen
 const SLEEPTIME = 500;        // snelheid van spel (ms per stap)
 
@@ -54,7 +53,7 @@ document.addEventListener('keydown', function(e) {
      @desc Bepaal de afmetingen, creeer de geluidenverzameling, een slang, genereer voedsel, en teken alles
  */
  function init() {
-   createCanvas("#mySnakeCanvas", GRIDSIZE);
+   createCanvas("#mySnakeCanvas");
    createSounds();
    createSnake(); // maak de slang voor het voedsel
    createFoods();

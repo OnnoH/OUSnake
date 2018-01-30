@@ -7,16 +7,27 @@
  * @param {number} gridSize Size (n x n) of the playing field
  * @returns Canvas
  */
-function Canvas(canvas, gridSize) {
+function Canvas(canvas) {
     // private properties
     var _canvas = canvas;
-    var _gridSize = gridSize;
-    var _height = _canvas[0].height;                   // canvas height
-    var _width = _canvas[0].width;                     // canvas width
-    var _step = Math.max(_width, _height) / _gridSize; // pixel size of a step
-    var _radius = _step / 2;                           // pixel radius of an element
-    var _xmax = Math.floor(_width/_step) - 1;          // maximum x value
-    var _ymax = Math.floor(_height/_step) - 1;         // maximum y value
+    var _radius = 10; // pixel radius of an element
+    var _height = _canvas[0].height; // canvas height
+    var _width = _canvas[0].width; // canvas width
+    var _step = _radius * 2; // pixel size of a step
+    var _xmax = Math.floor(_width / _step) - 1; // maximum x value
+    var _ymax = Math.floor(_height / _step) - 1; // maximum y value
+
+    /**
+     * @private
+     * @desc Resizes the elements
+     * @param {number} newRadius The new radius
+     */
+    var _resize = function(newRadius) {
+        _radius = newRadius;
+        _step = _radius * 2; // pixel size of a step
+        _xmax = Math.floor(_width / _step) - 1; // maximum x value
+        _ymax = Math.floor(_height / _step) - 1; // maximum y value
+    }
 
     /**
      * @private
@@ -80,6 +91,10 @@ function Canvas(canvas, gridSize) {
         // Check if the x/y-coordinates are out of bounds
         collision: function(x, y) {
             return _collision(x, y);
+        },
+        // Resizes the elements and set new boundaries
+        resize: function(newRadius) {
+            _resize(newRadius);
         },
         // The x- and y-boundaries
         xmax : _xmax,
