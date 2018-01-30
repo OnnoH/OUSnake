@@ -302,7 +302,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_add"><span class="type-signature">&lt;private, inner> </span>_add(x, y)</h4>
+    <h4 class="name" id="~_add"><span class="type-signature">&lt;private, inner> </span>_add(element)</h4>
     
     
 </dt>
@@ -345,13 +345,13 @@
 
         <tr>
             
-                <td class="name"><code>x</code></td>
+                <td class="name"><code>element</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">object</span>
 
 
 
@@ -362,31 +362,7 @@
 
             
 
-            <td class="description last"><p>X-coordinate</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Y-coordinate</p></td>
+            <td class="description last"><p>The food element</p></td>
         </tr>
 
     
@@ -431,7 +407,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="food.js.html">food.js</a>,
-				 <a href="food.js.html#sunlight-1-line-40">line 40</a>
+				 <a href="food.js.html#sunlight-1-line-29">line 29</a>
 			</li>
 		</ul>
 	</dd>
@@ -464,7 +440,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_collision"><span class="type-signature">&lt;private, inner> </span>_collision(x, y)</h4>
+    <h4 class="name" id="~_createNewFood"><span class="type-signature">&lt;private, inner> </span>_createNewFood(x, y)</h4>
     
     
 </dt>
@@ -472,7 +448,7 @@
 
     
     <div class="description">
-        <p>Checks if the given x- and y-coordinates are 'occupied'.</p>
+        <p>Creates a new snake head on the given coordinates.</p>
     </div>
     
 
@@ -622,7 +598,7 @@
     
             
 <div class="param-desc">
-    <p>Location is occupied (true) or not (false)</p>
+    <p>Element on given coordinates and color _FOOD.</p>
 </div>
 
 
@@ -633,7 +609,7 @@
     </dt>
     <dd>
         
-<span class="param-type">boolean</span>
+<span class="param-type"><a href="Element.html">Element</a></span>
 
 
 
@@ -650,7 +626,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_eat"><span class="type-signature">&lt;private, inner> </span>_eat(x, y)</h4>
+    <h4 class="name" id="~_remove"><span class="type-signature">&lt;private, inner> </span>_remove(element)</h4>
     
     
 </dt>
@@ -693,13 +669,13 @@
 
         <tr>
             
-                <td class="name"><code>x</code></td>
+                <td class="name"><code>element</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">object</span>
 
 
 
@@ -710,31 +686,7 @@
 
             
 
-            <td class="description last"><p>X-coordinate</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Y-coordinate</p></td>
+            <td class="description last"><p>The eater, e.g. the snake's head</p></td>
         </tr>
 
     
@@ -779,7 +731,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="food.js.html">food.js</a>,
-				 <a href="food.js.html#sunlight-1-line-22">line 22</a>
+				 <a href="food.js.html#sunlight-1-line-20">line 20</a>
 			</li>
 		</ul>
 	</dd>
@@ -804,30 +756,6 @@
     
 
     
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>Snake has eaten (true) or not (false)</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
 
     
 </dd>

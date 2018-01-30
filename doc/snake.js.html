@@ -124,8 +124,8 @@ function Snake() {
      * @param {number} y Y-coordinate
      * @returns {boolean} Snake hits itself (true) or not (false)
     */
-    var _collision = function (x, y) {
-        return indexOf(_segments, x, y) >= 0;
+    var _collision = function(x, y) {
+        return _createNewHead(x, y).indexOf(_segments) >= 0;
     }
 
     /**
