@@ -30,16 +30,15 @@ function Food() {
         _segments.push(element);
     }
 
-    // /**
-    //  * @private
-    //  * @desc Checks if the given x- and y-coordinates are 'occupied'.
-    //  * @param {number} x X-coordinate
-    //  * @param {number} y Y-coordinate
-    //  * @returns {boolean} Location is occupied (true) or not (false)
-    // */
-    // var _collision = function() {
-    //     return indexOf(_segments) >= 0;
-    // }
+    /**
+     * @private
+     * @desc Checks if the given x- and y-coordinates are 'occupied'.
+     * @param {object} element The element to be found in the food collection
+     * @returns {boolean} Location is occupied (true) or not (false)
+    */
+    var _collision = function(element) {
+        return element.indexOf(_segments) >= 0;
+    }
 
     /**
      * @private
@@ -77,11 +76,11 @@ function Food() {
         // Delete food element if eaten
         remove: function(element) {
             return _remove(element);
+        },
+        // Checks if element is present in food collection
+        collision: function(element) {
+            return _collision(element);
         }
-        // // Checks if food element is present on given coordinates
-        // collision: function(x, y) {
-        //     return _collision(x, y);
-        // }
     }
 
     return food;

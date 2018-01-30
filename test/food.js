@@ -2,7 +2,7 @@ var expect = chai.expect;
 
 describe("Food", function() {
   describe("new Food", function() {
-    var food = new Food([]);
+    var food = new Food();
     it("should create an object of type Food", function() {
       expect(typeof(food)).to.equal("object");
     });
@@ -12,6 +12,7 @@ describe("Food", function() {
       expect(typeof(food.createNewFood)).to.equal("function");
       expect(typeof(food.remaining)).to.equal("function");
       expect(typeof(food.getSegments)).to.equal("function");
+      expect(typeof(food.collision)).to.equal("function");
     });
     it("the inital size should be zero", function() {
       expect(food.getSegments().length).to.equal(0);
@@ -24,6 +25,10 @@ describe("Food", function() {
     it("the food should be gone if eaten", function() {
       food.remove(foodElement);
       expect(food.remaining()).to.equal(0);
+    });
+    var newFoodElement = food.createNewFood(10, 10);
+    it("the new food should be causing a collision", function() {
+      expect(food.collision(newFoodElement)).to.equal(true);
     });
   });
 });
