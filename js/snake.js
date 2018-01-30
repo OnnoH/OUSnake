@@ -18,18 +18,17 @@ function Snake() {
     /**
      * @private
      * @desc Executes snake movement in the current direction.
-     * @param {number} x X-coordinate
-     * @param {number} y Y-coordinate
+     * @param {object} element containing the new head
      * @param {boolean} grow Indicates if the snake grows (e.g. because he has eaten food)
      */
-    var _move = function (x, y, grow) {
+    var _move = function (element, grow) {
         // change the current head into a body part
         if (_head) {
             _head.color = _SNAKE;
         }
 
         // add a new head
-        _segments.push(_createNewHead(x, y));
+        _segments.push(element);
         _head = _segments[_segments.length-1];
 
         // remove the tail if the snake doesn't grow
@@ -70,13 +69,17 @@ function Snake() {
         getHead: function() {
             return _head;
         },
+        // Returns the new head element on the give coordinates
+        getNewHead: function(x, y) {
+            return _createNewHead(x, y);
+        },
         // Returns the snake's segments
         getSegments: function () {
             return _segments;
         },
         // Move (and grow) the snake
-        move: function(x, y, grow) {
-            _move(x, y, grow);
+        move: function(element, grow) {
+            _move(element, grow);
         },
         // Check if the snake collides with itself
         collision: function(x, y) {

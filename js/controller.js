@@ -150,10 +150,13 @@ function createFoods() {
 function createSnake() {
     // maak een nieuwe lege slang aan.
     snake = new Snake();
+    var newHead;
 
     // voeg twee elementen aan de slang toe.
-    snake.move(Math.round(snakeCanvas.xmax / 2), Math.round(snakeCanvas.ymax / 2), true);
-    snake.move(Math.round(snakeCanvas.xmax / 2), Math.round(snakeCanvas.ymax / 2) - 1, true);
+    newHead = snake.getNewHead(Math.round(snakeCanvas.xmax / 2), Math.round(snakeCanvas.ymax / 2));
+    snake.move(newHead, true);
+    newHead = snake.getNewHead(Math.round(snakeCanvas.xmax / 2), Math.round(snakeCanvas.ymax / 2) - 1);
+    snake.move(newHead, true);
 
     // zet bewegingsrichting
     direction = UP;
@@ -226,17 +229,18 @@ function move() {
 
     // Can we make a move?
     if (canMove(x, y)) {
+        // Create a new head
+        var newHead = snake.getNewHead(x, y);
         // Have we had lunch yet?
-        eaten = snake.getHead().isPresent(food.getSegments());
+        eaten = newHead.isPresent(food.getSegments());
         if (eaten) {
-            food.remove(snake.getHead());
+            food.remove(newHead);
             sound.play("food");
             console.log("munch");
         } else {
             sound.play("move");
         }
-        // Make a move.
-        snake.move(x, y, eaten);
+        snake.move(newHead, eaten);
         draw();
         if (food.remaining() === 0) {
             gameWon();
