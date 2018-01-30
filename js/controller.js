@@ -130,7 +130,7 @@ function createFoods() {
     var x, y // coordinaten voor nieuw voedsel
 
     // maak leeg voedselveld aan
-    food = new Food();    
+    food = new Food();
 
     while (food.remaining() < NUMFOODS ) {
         // maak een nieuw element op een random location.
@@ -190,9 +190,9 @@ function toggleSound() {
     if (sound) {
         sound.toggle();
         if (sound.playSounds()) {
-          $("#toggleSound").html('<i class="fa fa-volume-off"></i>');
+          $("#toggleSound").html('<i class="fa fa-volume-off fa-fw"></i>');
         } else {
-          $("#toggleSound").html('<i class="fa fa-volume-up"></i>');
+          $("#toggleSound").html('<i class="fa fa-volume-up fa-fw"></i>');
         }
     }
 }
