@@ -22,13 +22,13 @@ describe("Food", function() {
       food.add(foodElement);
       expect(food.remaining()).to.equal(1);
     });
-    it("the food should be gone if eaten", function() {
-      food.remove(foodElement);
-      expect(food.remaining()).to.equal(0);
-    });
     var newFoodElement = food.createNewFood(10, 10);
     it("the new food should be causing a collision", function() {
       expect(food.collision(newFoodElement)).to.equal(true);
+    });    
+    it("the food should be gone if eaten", function() {
+      food.remove(foodElement);
+      expect(food.remaining()).to.equal(0);
     });
   });
 });
