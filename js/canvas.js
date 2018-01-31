@@ -4,7 +4,6 @@
  * @class Canvas
  * @desc Create a canvas object with boundaries.
  * @param {object} canvas Object with canvas element from html
- * @param {number} gridSize Size (n x n) of the playing field
  * @returns Canvas
  */
 function Canvas(canvas) {

@@ -166,8 +166,8 @@ function createSnake() {
     @desc Maakt het canvas op basis van het gegeven HTML element
     @returns {Canvas} canvas volgens HTML definitie
 */
-function createCanvas(canvasId, gridSize) {
-    snakeCanvas = new Canvas($(canvasId), gridSize);
+function createCanvas(canvasId) {
+    snakeCanvas = new Canvas($(canvasId));
 }
 
 /**
