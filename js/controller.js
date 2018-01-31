@@ -4,18 +4,17 @@
  **                 Game                                                  **
  ***************************************************************************/
  
-function SnakeController(canvas, sound) {
-    // private constants
-    const NUMFOODS = 5;           // number of food elements
-    const STARTLENGTH = 2;        // number of snake elements
-    
+function SnakeController(xmax, ymax, numFood, numSnake) {
     // private properties
     var _snake;                    // de slang met kop en staart elementen
     var _food;                     // voedsel voor de slang
     var _direction = UP;           // bewegingsrichting van de slang
     
-    var _canvas = canvas;
-    var _sound = sound;
+    var _numFood = numFood;        // number of food elements
+    var _numSnake = numSnake;      // number of snake elements
+    
+    var _xmax = xmax;
+    var _ymax = ymax;
     
     /**
         @function createSnake() -> void
@@ -28,9 +27,9 @@ function SnakeController(canvas, sound) {
         var newHead;
 
         // voeg twee elementen aan de slang toe.
-        newHead = _snake.getNewHead(Math.round(_canvas.xmax / 2), Math.round(_canvas.ymax / 2));
+        newHead = _snake.getNewHead(Math.round(xmax / 2), Math.round(ymax / 2));
         _snake.move(newHead, true);
-        newHead = _snake.getNewHead(Math.round(_canvas.xmax / 2), Math.round(_canvas.ymax / 2) - 1);
+        newHead = _snake.getNewHead(Math.round(xmax / 2), Math.round(ymax / 2) - 1);
         _snake.move(newHead, true);
 
         // zet bewegingsrichting
@@ -46,10 +45,10 @@ function SnakeController(canvas, sound) {
         // maak leeg voedselveld aan
         _food = new Food();
 
-        while (_food.remaining() < NUMFOODS ) {
+        while (_food.remaining() < _numFood ) {
             // maak een nieuw element op een random location.
-            var x = Math.floor(Math.random() * (_canvas.xmax + 1));
-            var y = Math.floor(Math.random() * (_canvas.ymax + 1));
+            var x = Math.floor(Math.random() * (xmax + 1));
+            var y = Math.floor(Math.random() * (ymax + 1));
             
             var foodElement = _food.createNewFood(x, y);
             // voeg nieuw voedsel toe als de lokatie nog vrij is.
@@ -92,10 +91,10 @@ function SnakeController(canvas, sound) {
             eaten = newHead.isPresent(_food.getSegments());
             if (eaten) {
                 _food.remove(newHead);
-                _sound.play("food");
+                jQuery(document).trigger(new jQuery.Event("playFood"));
                 console.log("munch");
             } else {
-                _sound.play("move");
+                jQuery(document).trigger(new jQuery.Event("playMove"));
             }
             _snake.move(newHead, eaten);
 
@@ -112,7 +111,7 @@ function SnakeController(canvas, sound) {
     function canMove(x, y) {
         result = true;
 
-        if (_canvas.collision(x, y)) {
+        if (x < 0 || x > xmax || y < 0 || y > ymax) {
             console.log("Snake hit a wall");
             result = false;
         }
@@ -124,30 +123,17 @@ function SnakeController(canvas, sound) {
 
         return result;
     }
-
-    /**
-    @function draw() -> void
-    @desc Teken de slang en het voedsel
-    */
-    function draw() {
-        if (_snake) {
-            _snake.getSegments().forEach(function (segment) {
-                _canvas.drawElement(segment);
-            });
-        }
-
-        if (_food) {
-            _food.getSegments().forEach(function (food) {
-              _canvas.drawElement(food);
-            });
-        }
-    }
     
     return {
         createSnake, createSnake,
         createFoods, createFoods,
         move: move, 
-        draw: draw,
+        getFood: function() {
+            return _food.getSegments();
+        },
+        getSnake: function() {
+            return _snake.getSegments();
+        },
         setDirection: function(direction) {
             _direction = direction;
         }

@@ -52,6 +52,9 @@ document.addEventListener('keydown', function(e) {
 
 jQuery(document).on("gameOverEvent", game.gameOver);
 jQuery(document).on("gameWonEvent", game.gameWon);
+// todo: check if these events can be combined.
+jQuery(document).on("playFood", game.playSound("food"));
+jQuery(document).on("playMove", game.playSound("move"));
 
 
 function GameController() {
@@ -63,6 +66,10 @@ function GameController() {
     var snakeSound;                    // de spelgeluiden
     var snakeController;
     var snakeCanvas;
+    
+    // todo: adjust these values to go to the next level
+    var numFood = 5;            // number of food to start with
+    var snakeLength = 2;        // initial length of the snake
      
      /**
     @function start() -> void
@@ -82,7 +89,7 @@ function GameController() {
         
         // initiate a new game if the game is not running
         if (!snakeController) {
-            snakeController = new SnakeController(snakeCanvas, snakeSound);
+            snakeController = new SnakeController(snakeCanvas.xmax, snakeCanvas.ymax, numFood, snakeLength);
             
             //todo: move to controller
             snakeController.createSnake(); // maak de slang voor het voedsel
@@ -115,7 +122,14 @@ function GameController() {
     function draw() {
         if (snakeController) {
             snakeCanvas.clear();
-            snakeController.draw(snakeCanvas);
+            
+            //todo: move the foreach into canvas. only pass [segments]
+            snakeController.getFood().forEach(function (segment) {
+                snakeCanvas.drawElement(segment);
+            });
+            snakeController.getSnake().forEach(function (segment) {
+                snakeCanvas.drawElement(segment);
+            });
         }
     }
     
@@ -170,6 +184,12 @@ function GameController() {
         toggleSound: toggleSound,
         go: go,
         gameOver: gameOver,
-        gameWon: gameWon
+        gameWon: gameWon,
+        playSound: function(sound) {
+            console.log(sound);
+            if (snakeSound) {
+                snakeSound.play(sound);
+            }
+        }
     }
 }
