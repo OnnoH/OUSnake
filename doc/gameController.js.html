@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Snake Game Classes</title>
+	<title>Snake Game Source: gameController.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -60,118 +60,182 @@
 <div class="row">
 
 	
-	<div class="col-md-8">
+	<div class="col-md-12">
 	
 		<div id="main">
 			
 
-	<h1 class="page-title">Classes</h1>
+		<h1 class="page-title">Source: gameController.js</h1>
+    
 <section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">/**
+ * @class GameController
+ * @desc Create a game controller object.
+ * @returns GameController
+ */
+function GameController() {
+    // private constants
+    const _SLEEPTIME = 500;  // speed of the game (no. ms per step)
 
-<header>
-    
-        <h2>
-        
-        </h2>
-        
-    
-</header>
+    // private properties
+    var _timer;  // timer event
+    var _snakeSound; // game sounds
+    var _snakeController; // snake controller
+    var _snakeCanvas; // game canvas
 
+    // todo: adjust these values to go to the next level
+    var _numFood = 5; // number of food to start with
+    var _snakeLength = 4; // initial length of the snake
 
-<article>
-    <div class="container-overview">
-    
-        
+    // private methods
+    /**
+     * @private
+     * @desc Initialize the start position of the game and begin (if not already running)
+     */
+    function _start() {
+        // initiate canvas if this isn't done so already
+        if (!_snakeCanvas) {
+            _snakeCanvas = new Canvas($("#mySnakeCanvas"));
+        }
 
-        
-<dl class="details">
-    
+        // initiate sound if this isn't done so already
+        if (!_snakeSound) {
+            _snakeSound = new Sound();
+        }
 
-	
+        // initiate a new game if the game is not running
+        if (!_snakeController) {
+            _snakeController = new SnakeController(_snakeCanvas.xmax, _snakeCanvas.ymax, _numFood, _snakeLength);
 
-	
+            //todo: move to controller
+            _snakeController.createSnake(); // create the snake before the food to avoid overlap
+            _snakeController.createFoods();
+            _draw(); // draw the start position
 
-	
+            // voor een move op elke gegeven interval
+            _timer = setInterval(function() {
+                if (_snakeController) {
+                    _snakeController.move();
+                    _draw();
+                }
+            }, _SLEEPTIME);
+        }
+    }
 
-    
+    /**
+     * @private
+     * @desc Stop the game and reset snakeController (if present)
+     */
+    function _stop() {
+        if (_snakeController) {
+            clearInterval(_timer);
+            _snakeController = null;
+        }
+    }
 
-    
+    /**
+     * @private
+     * @desc Draw the food and snake elements on the canvas
+     */
+    function _draw() {
+        if (_snakeController) {
+            _snakeCanvas.clear();
 
-    
+            //todo: move the foreach into canvas. only pass [segments]
+            _snakeController.getFood().forEach(function (segment) {
+                _snakeCanvas.drawElement(segment);
+            });
+            _snakeController.getSnake().forEach(function (segment) {
+                _snakeCanvas.drawElement(segment);
+            });
+        }
+    }
 
-    
+    /**
+     * @private
+     * @desc The game is lost. Stop it!
+     */
+    function _gameOver() {
+        _draw();
+        _snakeCanvas.drawText("Game Over!", "OrangeRed");
+        _snakeSound.play("looser");
+        console.log("VERLOREN!!!");
+        _stop();
+    }
 
-	
+    /**
+     * @private
+     * @desc The game is won. Stop it!
+     */
+    function _gameWon() {
+        _draw();
+        _snakeCanvas.drawText("Well Done!", "LawnGreen");
+        _snakeSound.play("winner");
+        console.log("GEWONNEN!!!");
+        _stop();
+    }
 
-	
+    /**
+     * @private
+     * @desc Play the sounds (if on)
+     * @param {string} sound The name of sound to be played
+     */
+    function _playSound(sound) {
+        if (_snakeSound) {
+            if (_snakeSound.playSounds()) {
+                _snakeSound.play(sound);
+            }
+        }
+    }
 
-	
+    /**
+     * @private
+     * @desc Turn the playing of sounds on or off.
+     */
+    function _toggleSound() {
+        if (_snakeSound) {
+            _snakeSound.toggle();
+            $(document).trigger(new jQuery.Event("toggleSound", [_snakeSound.playSounds()]));
+        }
+    }
 
-	
+    /**
+     * @private
+     * @desc Go snake! In the given direction that is...
+     */
+    function _keyPressed(event) {
+        if (_snakeController) {
+            _snakeController.keyPressed(event);
+        }
+    }
 
-	
+    /**
+     * @public
+     * @desc SnakeController object which is returned.
+     * @member {Object}
+     */
+     var gameController = {
+        start: _start,
+        stop: _stop,
+        toggleSound: _toggleSound,
+        gameOver: _gameOver,
+        gameWon: _gameWon,
+        keyPressed: function(event) {
+            _keyPressed(event);
+        },
+        playSound: function(sound) {
+            _playSound(sound);
+        }
+    }
 
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="Canvas.html">Canvas</a></dt>
-            <dd></dd>
-        
-            <dt><a href="Element.html">Element</a></dt>
-            <dd></dd>
-        
-            <dt><a href="Food.html">Food</a></dt>
-            <dd></dd>
-        
-            <dt><a href="GameController.html">GameController</a></dt>
-            <dd></dd>
-        
-            <dt><a href="Snake.html">Snake</a></dt>
-            <dd></dd>
-        
-            <dt><a href="SnakeController.html">SnakeController</a></dt>
-            <dd></dd>
-        
-            <dt><a href="Sound.html">Sound</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
+    return gameController;
+}
+</pre>
+    </article>
 </section>
+
 
 
 
@@ -181,10 +245,6 @@
 
 	<div class="clearfix"></div>
 
-	
-		<div class="col-md-3">
-			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
-		</div>
 	
 
 </div>

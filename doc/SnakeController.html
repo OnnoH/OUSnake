@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Snake Game Class: Snake</title>
+	<title>Snake Game Class: SnakeController</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -65,13 +65,13 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Class: Snake</h1>
+	<h1 class="page-title">Class: SnakeController</h1>
 <section>
 
 <header>
     
         <h2>
-        Snake
+        SnakeController
         </h2>
         
     
@@ -84,7 +84,7 @@
         
 <hr>
 <dt>
-    <h4 class="name" id="Snake"><span class="type-signature"></span>new Snake()</h4>
+    <h4 class="name" id="SnakeController"><span class="type-signature"></span>new SnakeController(xmax, ymax, numFoodElements, numSnakeElements)</h4>
     
     
 </dt>
@@ -92,7 +92,7 @@
 
     
     <div class="description">
-        <p>Create a snake object.</p>
+        <p>Create a snake controller object.</p>
     </div>
     
 
@@ -101,6 +101,128 @@
     
 
     
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>xmax</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Maximum X-coordinate (canvas boundary)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ymax</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Maximum Y-coordinate (canvas boundary)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>numFoodElements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Number of food element to start with</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>numSnakeElements</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Number of snake elements to start with</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
     
 
     
@@ -138,8 +260,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="snake.js.html">snake.js</a>,
-				 <a href="snake.js.html#sunlight-1-line-1">line 1</a>
+				<a href="snakeController.js.html">snakeController.js</a>,
+				 <a href="snakeController.js.html#sunlight-1-line-1">line 1</a>
 			</li>
 		</ul>
 	</dd>
@@ -147,15 +269,6 @@
 
 	
 
-	
-	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
-	<dd class="tag-see">
-		<ul>
-			<li><a href="Element.html">Element</a></li>
-			
-			<li>util indexOf</li>
-			</ul>
-	</dd>
 	
 
 	
@@ -177,7 +290,7 @@
     
             
 <div class="param-desc">
-    <p>Snake</p>
+    <p>SnakeController</p>
 </div>
 
 
@@ -207,15 +320,15 @@
         <dl>
             
 <hr>
-<dt class="name" id="~snake">
-    <h4 id="~snake"><span class="type-signature">&lt;inner> </span>snake<span class="type-signature"> :Object</span></h4>
+<dt class="name" id="~snakeController">
+    <h4 id="~snakeController"><span class="type-signature">&lt;inner> </span>snakeController<span class="type-signature"> :Object</span></h4>
 
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>Snake object which is returned.</p>
+        <p>SnakeController object which is returned.</p>
     </div>
     
 
@@ -267,8 +380,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="snake.js.html">snake.js</a>,
-				 <a href="snake.js.html#sunlight-1-line-67">line 67</a>
+				<a href="snakeController.js.html">snakeController.js</a>,
+				 <a href="snakeController.js.html#sunlight-1-line-162">line 162</a>
 			</li>
 		</ul>
 	</dd>
@@ -295,7 +408,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_collision"><span class="type-signature">&lt;private, inner> </span>_collision(x, y)</h4>
+    <h4 class="name" id="~_canMove"><span class="type-signature">&lt;private, inner> </span>_canMove(x, y)</h4>
     
     
 </dt>
@@ -303,7 +416,7 @@
 
     
     <div class="description">
-        <p>Checks if the given x- and y-coordinates are 'occupied'.</p>
+        <p>Check if the new coordinates are suitable to move to.</p>
     </div>
     
 
@@ -355,7 +468,7 @@
 
             
 
-            <td class="description last"><p>X-coordinate</p></td>
+            <td class="description last"><p>The new X-coordinate</p></td>
         </tr>
 
     
@@ -379,7 +492,7 @@
 
             
 
-            <td class="description last"><p>Y-coordinate</p></td>
+            <td class="description last"><p>The new Y-coordinate</p></td>
         </tr>
 
     
@@ -423,8 +536,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="snake.js.html">snake.js</a>,
-				 <a href="snake.js.html#sunlight-1-line-47">line 47</a>
+				<a href="snakeController.js.html">snakeController.js</a>,
+				 <a href="snakeController.js.html#sunlight-1-line-141">line 141</a>
 			</li>
 		</ul>
 	</dd>
@@ -453,7 +566,7 @@
     
             
 <div class="param-desc">
-    <p>Snake hits itself (true) or not (false)</p>
+    <p>The move can be made (true) or not (false)</p>
 </div>
 
 
@@ -481,7 +594,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_createNewHead"><span class="type-signature">&lt;private, inner> </span>_createNewHead(x, y)</h4>
+    <h4 class="name" id="~_createFoods"><span class="type-signature">&lt;private, inner> </span>_createFoods()</h4>
     
     
 </dt>
@@ -489,7 +602,7 @@
 
     
     <div class="description">
-        <p>Creates a new snake head on the given coordinates.</p>
+        <p>Create an array with random scattered food particles</p>
     </div>
     
 
@@ -498,80 +611,6 @@
     
 
     
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>x</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>X-coordinate</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Y-coordinate</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
     
 
     
@@ -609,8 +648,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="snake.js.html">snake.js</a>,
-				 <a href="snake.js.html#sunlight-1-line-58">line 58</a>
+				<a href="snakeController.js.html">snakeController.js</a>,
+				 <a href="snakeController.js.html#sunlight-1-line-47">line 47</a>
 			</li>
 		</ul>
 	</dd>
@@ -635,30 +674,6 @@
     
 
     
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>Element on given coordinates and color _HEAD.</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="Element.html">Element</a></span>
-
-
-
-    </dd>
-</dl>
-
-
-        
 
     
 </dd>
@@ -667,7 +682,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_move"><span class="type-signature">&lt;private, inner> </span>_move(element, grow)</h4>
+    <h4 class="name" id="~_createSnake"><span class="type-signature">&lt;private, inner> </span>_createSnake()</h4>
     
     
 </dt>
@@ -675,7 +690,95 @@
 
     
     <div class="description">
-        <p>Executes snake movement in the current direction.</p>
+        <p>Create the snake in the middle of the playing field</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="snakeController.js.html">snakeController.js</a>,
+				 <a href="snakeController.js.html#sunlight-1-line-33">line 33</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="~_keyPressed"><span class="type-signature">&lt;private, inner> </span>_keyPressed(event)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Handle arrow keys from keyboard</p>
     </div>
     
 
@@ -710,7 +813,7 @@
 
         <tr>
             
-                <td class="name"><code>element</code></td>
+                <td class="name"><code>event</code></td>
             
 
             <td class="type">
@@ -727,31 +830,7 @@
 
             
 
-            <td class="description last"><p>containing the new head</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>grow</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Indicates if the snake grows (e.g. because he has eaten food)</p></td>
+            <td class="description last"><p>The event object</p></td>
         </tr>
 
     
@@ -795,8 +874,96 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="snake.js.html">snake.js</a>,
-				 <a href="snake.js.html#sunlight-1-line-24">line 24</a>
+				<a href="snakeController.js.html">snakeController.js</a>,
+				 <a href="snakeController.js.html#sunlight-1-line-69">line 69</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="~_move"><span class="type-signature">&lt;private, inner> </span>_move()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Move the snake in the known direction</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="snakeController.js.html">snakeController.js</a>,
+				 <a href="snakeController.js.html#sunlight-1-line-91">line 91</a>
 			</li>
 		</ul>
 	</dd>
