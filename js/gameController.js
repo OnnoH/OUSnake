@@ -86,6 +86,7 @@ function GameController() {
      * @desc The game is lost. Stop it!
      */
     function _gameOver() {
+        _draw();
         _snakeCanvas.drawText("Game Over!", "OrangeRed");
         _snakeSound.play("looser");
         console.log("VERLOREN!!!");
@@ -97,6 +98,7 @@ function GameController() {
      * @desc The game is won. Stop it!
      */
     function _gameWon() {
+        _draw();
         _snakeCanvas.drawText("Well Done!", "LawnGreen");
         _snakeSound.play("winner");
         console.log("GEWONNEN!!!");
