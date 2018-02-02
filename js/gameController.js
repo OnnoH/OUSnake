@@ -123,13 +123,14 @@ function GameController() {
     function _toggleSound() {
         if (_snakeSound) {
             _snakeSound.toggle();
+            $(document).trigger(new jQuery.Event("toggleSound", [_snakeSound.playSounds()]));
             //todo: what happens here belongs in the view
             //toggle a css property of the icon and switch icon in css.
-            if (_snakeSound.playSounds()) {
-              $("#toggleSound").html('<i class="fa fa-volume-up fa-fw"></i>');
-            } else {
-              $("#toggleSound").html('<i class="fa fa-volume-off fa-fw"></i>');
-            }
+            // if (_snakeSound.playSounds()) {
+            //   $("#toggleSound").html('<i class="fa fa-volume-up fa-fw"></i>');
+            // } else {
+            //   $("#toggleSound").html('<i class="fa fa-volume-off fa-fw"></i>');
+            // }
         }
     }
 
