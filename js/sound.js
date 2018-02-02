@@ -8,18 +8,18 @@ function Sound() {
     // private constants
     const _SOUND_PATH  = "snd/";
     const _SOUND_EXT   = ".wav";
-    
+
     // private properties
     var _sounds = {};
     var _playSounds = false;
     // private methods
-    
+
     // initiate sounds
     _add("move");
     _add("food");
     _add("winner");
     _add("looser");
-    
+
     /**
      * @private
      * @desc Adds the sound to the library.
@@ -29,7 +29,7 @@ function Sound() {
         _sounds[sound] = new Audio();
         _sounds[sound].src = _SOUND_PATH + sound + _SOUND_EXT;
     }
-    
+
     /**
      * @private
      * @desc Plays the sound (if the player appreciates that)
@@ -70,7 +70,7 @@ function Sound() {
         // Return the sound library
         getSounds : function() {
             return _sounds;
-        },
+        }
     };
 
     return sound;

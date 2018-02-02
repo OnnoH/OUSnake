@@ -14,10 +14,16 @@ function SnakeController(xmax, ymax, numFoodElements, numSnakeElements) {
     var _numFoodElements = numFoodElements;
     var _numSnakeElements = numSnakeElements;
 
+    // constants to communicate key directions
+    const _LEFT = "left";
+    const _RIGHT = "right";
+    const _UP = "up";
+    const _DOWN = "down";
+
     // private properties
     var _snake; // the snake
     var _food; // the food
-    var _direction = UP; // default direction in which the snake moves
+    var _direction = _UP; // default direction in which the snake moves
 
     // private methods
     /**
@@ -57,24 +63,47 @@ function SnakeController(xmax, ymax, numFoodElements, numSnakeElements) {
 
     /**
      * @private
+     * @desc Handle arrow keys from keyboard
+     * @param {object} event The event object
+     */
+     function _keyPressed(event) {
+
+        switch (event.which) {
+            case 37: // left arrow
+                _direction = _LEFT;
+                break;
+            case 38: // up arrow key
+                _direction = _UP;
+                break;
+            case 39: // right arrow key
+                _direction = _RIGHT;
+                break;
+            case 40: // down arrow key
+                _direction = _DOWN;
+                break;
+        }
+    }
+
+    /**
+     * @private
      * @desc Move the snake in the known direction
      */
-    function move() {
+    function _move() {
         // determine the next x,y coordinates
         var x = _snake.getHead().x;
         var y = _snake.getHead().y;
 
         switch(_direction) {
-            case LEFT:
+            case _LEFT:
                 x = x - 1;
                 break;
-            case RIGHT:
+            case _RIGHT:
                 x = x + 1;
                 break;
-            case UP:
+            case _UP:
                 y = y - 1;
                 break;
-            case DOWN:
+            case _DOWN:
                 y = y + 1;
                 break;
         }
@@ -87,18 +116,18 @@ function SnakeController(xmax, ymax, numFoodElements, numSnakeElements) {
             var eaten = newHead.isPresent(_food.getSegments());
             if (eaten) {
                 _food.remove(newHead);
-                jQuery(document).trigger(new jQuery.Event("playFood"));
+                $(document).trigger(new jQuery.Event("playSound", ["food"]));
                 console.log("munch");
             } else {
-                jQuery(document).trigger(new jQuery.Event("playMove"));
+                $(document).trigger(new jQuery.Event("playSound", ["move"]));
             }
             _snake.move(newHead, eaten);
 
             if (_food.remaining() === 0) {
-                jQuery(document).trigger(new jQuery.Event("gameWonEvent"));
+                $(document).trigger(new jQuery.Event("gameWonEvent"));
             }
         } else {
-            jQuery(document).trigger(new jQuery.Event("gameOverEvent"));
+            $(document).trigger(new jQuery.Event("gameOverEvent"));
         }
     }
 
@@ -130,10 +159,11 @@ function SnakeController(xmax, ymax, numFoodElements, numSnakeElements) {
      * @desc SnakeController object which is returned.
      * @member {Object}
      */
-    var snakeController {
+    var snakeController = {
         createSnake: _createSnake,
         createFoods: _createFoods,
         move: _move,
+        keyPressed: _keyPressed,
         getFood: function() {
             return _food.getSegments();
         },
@@ -144,4 +174,6 @@ function SnakeController(xmax, ymax, numFoodElements, numSnakeElements) {
             _direction = direction;
         }
     }
+
+    return snakeController;
 }
