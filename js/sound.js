@@ -1,46 +1,38 @@
 /**
  * @class Sound
  * @module snake/view
- * @desc A sound library object.
- * @returns Sound
+ * @desc provide sound for the game.
+ * @returns Sound the object used to make sound.
  * @see Audio
  */
 function Sound() {
     // private constants
-    const _SOUND_PATH  = "snd/";
-    const _SOUND_EXT   = ".wav";
+    const _SOUND_PATH  = "snd/";    // path where sounds are located
+    const _SOUND_EXT   = ".wav";    // file extension of sounds. 
     
-    const _MOVE        = "move";
-    const _FOOD        = "food";
-    const _WIN         = "winner";
-    const _LOSE        = "looser";
-
+    const _MOVE        = "move";    // the sound of moving. 
+    const _FOOD        = "food";    // the sound of munching
+    const _WIN         = "winner";  // the sound of winning
+    const _LOSE        = "looser";  // the sound of losing
+    
+    const _SOUNDS = [_MOVE, _FOOD, _WIN, _LOSE];    // the gathering of sounds
+    
     // private properties
-    var _sounds = {};
-    var _playing = true;
+    var _audio = {};                // collection of playable sounds
+    var _playing = true;            // sound is on or off. 
     
     // initiate object on creation
     _init();
     
     /**
      * @private
-     * @desc initiate object.
+     * @desc initiate object by adding all the sounds to the library.
      */
     function _init() {
-        _add(_MOVE);
-        _add(_FOOD);
-        _add(_WIN);
-        _add(_LOSE);
-    }
-
-    /**
-     * @private
-     * @desc Adds the sound to the library.
-     * @param {string} sound The sound to be added.
-     */
-    function _add(sound) {
-        _sounds[sound] = new Audio();
-        _sounds[sound].src = _SOUND_PATH + sound + _SOUND_EXT;
+        _SOUNDS.forEach(function(sound) {
+            _audio[sound] = new Audio();
+            _audio[sound].src = _SOUND_PATH + sound + _SOUND_EXT;
+        });
     }
 
     /**
@@ -50,7 +42,7 @@ function Sound() {
      */
     function _play(sound) {
         if (_playing) {
-            _sounds[sound].play();
+            _audio[sound].play();
         }
     }
 
@@ -69,17 +61,13 @@ function Sound() {
      * @member {Object}
      */
     return {
+        // public constants
         MOVE: _MOVE,
         FOOD: _FOOD,
         WIN:  _WIN,
         LOSE: _LOSE,
-        
+        // public functions
         play: _play,
         toggle: _toggle,
-        
-        getPlaying: function() {
-            return _playing;
-        },
-        
     };
 }
