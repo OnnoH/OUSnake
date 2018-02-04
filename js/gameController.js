@@ -1,4 +1,4 @@
-require(["element", "food", "snake", "snakeController"]);
+require(["element", "food", "snake", "snakeGameData"]);
 
 /**
  * @class GameController
@@ -6,7 +6,7 @@ require(["element", "food", "snake", "snakeController"]);
  * @param {object} canvas The canvas used for this game. 
 
  * @returns GameController
- * @see SnakeController
+ * @see SnakeGameData
  * @see Snake 
  * @see Food
  * @see Element
@@ -17,7 +17,7 @@ function GameController(xmax, ymax) {
 
     // private properties
     var _timer;                 // timer event
-    var _snakeController;       // snake controller
+    var _snakeGameData;         // snake controller
     var _level = 1;             // current level.
     
     var _xmax = xmax
@@ -30,14 +30,13 @@ function GameController(xmax, ymax) {
      */
     function _start() {
         // initiate a new game if the game is not running
-        if (!_snakeController) {
-            _snakeController = new SnakeController(_xmax, _ymax);
-            _snakeController.init(_level);
+        if (!_snakeGameData) {
+            _snakeGameData = new SnakeGameData(_xmax, _ymax, _level);
             
             // voor een move op elke gegeven interval
             _timer = setInterval(function() {
-                if (_snakeController) {
-                    _snakeController.move();
+                if (_snakeGameData) {
+                    _snakeGameData.move();
                 }
             }, _GAMESPEED * Math.pow(0.8, _level));  // set game speed depending on level.
             
@@ -47,13 +46,12 @@ function GameController(xmax, ymax) {
 
     /**
      * @private
-     * @desc Stop the game and reset snakeController (if present)
+     * @desc Stop the game and reset level (if the game is running)
      */
     function _stop() {
-        if (_snakeController) {
+        if (_snakeGameData) {
             clearInterval(_timer);
-            _snakeController = null;
-            _level = 1;
+            _snakeGameData = null;
         }
     }
 
@@ -81,19 +79,19 @@ function GameController(xmax, ymax) {
      * @param {object} event The event object containing the key pressed
      */
     function _keyPressed(event) {
-        if (_snakeController) {
+        if (_snakeGameData) {
             switch (event.which) {
             case 37: // left arrow
-                _snakeController.setDirection(_snakeController.LEFT);
+                _snakeGameData.setDirection(_snakeGameData.LEFT);
                 break;
             case 38: // up arrow key
-                _snakeController.setDirection(_snakeController.UP);
+                _snakeGameData.setDirection(_snakeGameData.UP);
                 break;
             case 39: // right arrow key
-                _snakeController.setDirection(_snakeController.RIGHT);
+                _snakeGameData.setDirection(_snakeGameData.RIGHT);
                 break;
             case 40: // down arrow key
-                _snakeController.setDirection(_snakeController.DOWN);
+                _snakeGameData.setDirection(_snakeGameData.DOWN);
                 break;
             }
         }
@@ -101,17 +99,17 @@ function GameController(xmax, ymax) {
 
     /**
      * @public
-     * @desc SnakeController object which is returned.
+     * @desc gameController object which is returned.
      * @member {Object}
      */
      return {
+        // public properties
+        level: _level, 
+        // public functions
         start: _start,
         stop: _stop,
         gameOver: _gameOver,
         gameWon: _gameWon,
-        level: _level, 
-        keyPressed: function(event) {
-            _keyPressed(event);
-        },
+        keyPressed: _keyPressed,
     };
 }

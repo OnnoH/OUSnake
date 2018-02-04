@@ -10,8 +10,8 @@ require(["gameController", "sound", "canvas"], function() {
     console.log("All scripts are loaded.")
 
     var canvas = new Canvas($("#mySnakeCanvas"));
-    var sound = new Sound();
     var game = new GameController(canvas.xmax, canvas.ymax);    // The game;
+    var sound = new Sound();
     
     console.log("The game is afoot!");
 
