@@ -1,41 +1,33 @@
-require(["element", "canvas", "food", "sound", "snake", "snakeController"]);
+require(["element", "food", "snake", "snakeController"]);
 
 /**
  * @class GameController
  * @desc Create a game controller object.
+ * @param {object} canvas The canvas used for this game. 
+
  * @returns GameController
  * @see SnakeController
- * @see Sound 
- * @see Canvas
+ * @see Snake 
+ * @see Food
+ * @see Element
  */
-function GameController() {
+function GameController(canvas) {
     // private constants
     const _GAMESPEED = 600;     // base-speed of the game (ms per step)
 
     // private properties
     var _timer;                 // timer event
-    var _sound;                 // game sounds
     var _snakeController;       // snake controller
-    var _canvas;           // game canvas
-
     var _level = 1;             // current level.
-
+    
+    var _canvas = canvas;       // game canvas
+    
     // private methods
     /**
      * @private
      * @desc Initialize the start position of the game and begin (if not already running)
      */
     function _start() {
-        // initiate canvas if this isn't done so already
-        if (!_canvas) {
-            _canvas = new Canvas($("#mySnakeCanvas"));
-        }
-
-        // initiate sound if this isn't done so already
-        if (!_sound) {
-            _sound = new Sound();
-        }
-
         // initiate a new game if the game is not running
         if (!_snakeController) {
             _snakeController = new SnakeController(_canvas.xmax, _canvas.ymax);
@@ -95,8 +87,7 @@ function GameController() {
     function _gameOver() {
         _draw();
         _canvas.drawText("Game Over!", "OrangeRed");
-        _sound.play(_sound.LOSE);
-        console.log("VERLOREN!!!");
+
         _stop();
         _level = 1;
     }
@@ -108,36 +99,9 @@ function GameController() {
     function _gameWon() {
         _draw();
         _canvas.drawText("Well Done!", "LawnGreen");
-        _sound.play(_sound.WIN);
-        console.log("GEWONNEN!!!");
+
         _stop();
         _level += 1;
-    }
-
-    /**
-     * @private
-     * @desc Turn the playing of sounds on or off.
-     */
-    function _toggleSound() {
-        // initiate sound if this isn't done so already
-        if (!_sound) {
-            _sound = new Sound();
-        }
-        
-        // toggle the sound on/off
-        _sound.toggle();
-        
-        // trigger update of view.
-        $(document).trigger(new jQuery.Event("toggleSound", [_sound.getPlaying()]));
-    }
-    
-    /**
-     * @private
-     * @desc play the given sound.
-     * @param {string} sound The sound to be played.
-     */
-    function _playSound(sound) {
-        _sound.play(sound)
     }
 
     /**
@@ -172,10 +136,8 @@ function GameController() {
      return {
         start: _start,
         stop: _stop,
-        toggleSound: _toggleSound,
         gameOver: _gameOver,
         gameWon: _gameWon,
-        playSound: _playSound,
         keyPressed: function(event) {
             _keyPressed(event);
         },

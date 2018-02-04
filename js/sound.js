@@ -1,6 +1,7 @@
 /**
  * @class Sound
- * @desc Create a sound library object.
+ * @module snake/view
+ * @desc A sound library object.
  * @returns Sound
  * @see Audio
  */
@@ -59,6 +60,7 @@ function Sound() {
      */
     function _toggle() {
         _playing = !_playing;
+        $(document).trigger(new jQuery.Event("toggleSound", [_playing]));
     }
 
     /**
@@ -71,8 +73,10 @@ function Sound() {
         FOOD: _FOOD,
         WIN:  _WIN,
         LOSE: _LOSE,
+        
         play: _play,
         toggle: _toggle,
+        
         getPlaying: function() {
             return _playing;
         },

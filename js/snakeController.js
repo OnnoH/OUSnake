@@ -108,10 +108,10 @@ function SnakeController(xmax, ymax) {
             var eaten = newHead.isPresent(_food.getSegments());
             if (eaten) {
                 _food.remove(newHead);
-                $(document).trigger(new jQuery.Event("playSound", ["food"]));
+                $(document).trigger(new jQuery.Event("gameEatEvent"));
                 console.log("munch");
             } else {
-                $(document).trigger(new jQuery.Event("playSound", ["move"]));
+                $(document).trigger(new jQuery.Event("gameMoveEvent"));
             }
             _snake.move(newHead, eaten);
 

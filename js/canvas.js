@@ -2,34 +2,24 @@ require(["element"]);
 
 /**
  * @namespace SnakeModel
- * @module snake/model
+ * @module snake/view
  * @class Canvas
- * @desc Create a canvas object with boundaries.
+ * @desc A canvas object with boundaries.
  * @param {object} canvas Object with canvas element from html
  * @returns Canvas
  * @see Element
  */
 function Canvas(canvas) {
+    // private constants
+    const _RADIUS = 10;                             // pixel radius of an element
+    
     // private properties
     var _canvas = canvas;                           // the canvas
-    var _radius = 10;                               // pixel radius of an element
     var _height = _canvas[0].height;                // canvas height
     var _width = _canvas[0].width;                  // canvas width
-    var _step = _radius * 2;                        // pixel size of a step
+    var _step = _RADIUS * 2;                        // pixel size of a step
     var _xmax = Math.floor(_width / _step) - 1;     // maximum x value
     var _ymax = Math.floor(_height / _step) - 1;    // maximum y value
-
-    /**
-     * @private
-     * @desc Resizes the elements
-     * @param {number} newRadius The new radius
-     */
-    function _resize(newRadius) {
-        _radius = newRadius;
-        _step = _radius * 2; // pixel size of a step
-        _xmax = Math.floor(_width / _step) - 1; // maximum x value
-        _ymax = Math.floor(_height / _step) - 1; // maximum y value
-    }
 
     /**
      * @private
@@ -40,9 +30,9 @@ function Canvas(canvas) {
         _canvas.drawArc({
             draggable : false,
             fillStyle : element.color,
-            x : element.x * _step + _radius,
-            y : element.y * _step + _radius,
-            radius : _radius
+            x : element.x * _step + _RADIUS,
+            y : element.y * _step + _RADIUS,
+            radius : _RADIUS
         });
     }
 
@@ -78,28 +68,15 @@ function Canvas(canvas) {
      * @member {Object}
      */
     return {
-        // Clears the canvas
+        xmax : _xmax,
+        ymax : _ymax,
+        
         clear: function() {
             _canvas.clearCanvas();
         },
-        // Draw the given element on the canvas
-        drawElement: function(element) {
-            _drawElement(element);
-        },
-        // Draw the given text on the canvas
-        drawText: function(text, color) {
-            _drawText(text, color);
-        },
-        // Check if the x/y-coordinates are out of bounds
-        collision: function(x, y) {
-            return _collision(x, y);
-        },
-        // Resizes the elements and set new boundaries
-        resize: function(newRadius) {
-            _resize(newRadius);
-        },
-        // The x- and y-boundaries
-        xmax : _xmax,
-        ymax : _ymax
+        
+        drawElement: _drawElement,
+        drawText: _drawText,
+        collision: _collision,
     };
 }
