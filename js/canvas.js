@@ -86,8 +86,8 @@ function Canvas(canvas) {
         });
         
         // draw text
-        text.forEach(function(line) {
-            _drawText(line[0], line[1], text.indexOf(line));
+        texts.forEach(function(line) {
+            _drawText(line[0], line[1], texts.indexOf(line));
         });
     }
 

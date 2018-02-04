@@ -11,7 +11,7 @@ require(["element", "food", "snake", "snakeController"]);
  * @see Food
  * @see Element
  */
-function GameController(canvas) {
+function GameController(xmax, ymax) {
     // private constants
     const _GAMESPEED = 600;     // base-speed of the game (ms per step)
 
@@ -20,10 +20,8 @@ function GameController(canvas) {
     var _snakeController;       // snake controller
     var _level = 1;             // current level.
     
-    var _canvas = canvas;       // game canvas
-    
-    var _xmax = canvas.xmax
-    var _ymax = canvas.ymax;
+    var _xmax = xmax
+    var _ymax = ymax;
     
     // private methods
     /**
@@ -35,8 +33,6 @@ function GameController(canvas) {
         if (!_snakeController) {
             _snakeController = new SnakeController(_xmax, _ymax);
             _snakeController.init(_level);
-            
-            //_draw(); // draw the start position
             
             // voor een move op elke gegeven interval
             _timer = setInterval(function() {
@@ -58,27 +54,6 @@ function GameController(canvas) {
             clearInterval(_timer);
             _snakeController = null;
             _level = 1;
-        }
-    }
-
-    /**
-     * @private
-     * @desc Draw the food and snake elements on the canvas
-     */
-    function _draw() {        
-        if (_snakeController) {
-            // Clear the canvas
-            _canvas.clear();
-
-            // Draw food
-            _snakeController.getFood().forEach(function (segment) {
-                _canvas.drawElement(segment);
-            });
-            
-            // Draw snake
-            _snakeController.getSnake().forEach(function (segment) {
-                _canvas.drawElement(segment);
-            });
         }
     }
 
