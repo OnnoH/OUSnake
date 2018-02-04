@@ -42,21 +42,27 @@ In this part refactoring the code into modules is needed. Separate the model fro
 # 3.1. Architecture
 The application follows the MVC architecture pattern.
 
-View: The view is responsible DOM interaction and handling events (buttons, keys and custom events). 
+View: The view is responsible DOM interaction (including canvas and sound) and events (buttons, keys and custom events). 
 Model: The model is used to store data. They are ignorant to a wider context. 
 Controller: The controller handles the responses to events by updating the model and/or the view.
 
-The model and controller are structured according to the "object model pattern" which is a specific form of the model pattern with a single object per module. As a result, the model and controller each contain several modules. 
+most modules are structured according to the "object model pattern" which is a specific form of the model pattern. It has a single object per module. As a result, the model, view and controller each contain several modules. 
 
 # 3.1.1. View
-snakeGame acts as the view. It handles the events and key input.
+snakeGame acts as the view module. It handles the events and key input.
+Canvas and Sound are also part of the view. They are triggered using events. 
+The dependencies between view, model and controller objects are kept to a minimum with 2 notable exceptions:
+1) The size of the playing fields is communicated to the controller upon initialization of the view. 
+2) Canvas depends on the Element object to be able to draw elements efficiently. 
 
-Canvas and Sound are also part of the view. They should be controlled through events only rather then gameController, but was not yet fully implemented due to time constraints. Canvas depends on the Element model to be able to draw elements efficiently. 
+Decision: It was decided to place the timer in the controller (gameController) rather then in the view (snakeGame). Although the ticking of the timer can be seen as an event, gameController fully encapsulates its function. It did not seem justified to move it out of gameController and there was little benefit to use events on timer ticks.
 
-Decision: It was decided to place the timer in the controller (gameController) rather then in the view (snakeGame). Although the ticking of the timer can be seen as an event, gameController fully encapsulates its function. It did not seem justified to move it out of gameController.
+Note: The use of text in the view is a bit clunky. This is an area of improvement. A configuration file to store the text and formatting would be ideal. This was not implemented due to time constraints. 
 
 # 3.1.2 Model
-The model is split up into one module per object. Snake and Food are the main objects used in the model. They both depend on Element. 
+The model is split up into one module per object. 
+SnakeGameData is the main module. It contains Food and Snake and it offers a simple API to the gameController. 
+Snake and Food are independent of eachother. They only depend on element. 
 
 # 3.1.3 Controller
 The Controller is split up into 2 main modules: a generic gameController and a specific snakeController. 
