@@ -9,8 +9,8 @@ The result: [The Game Site](index.html) or [The Snake Game](snake.html)
 * Aart Pelt (a.j.w.pelt@gmail.com)
 * Onno Huijgen (o.huijgen@gmail.com)
 
-# Assignment 1
-## Main site
+# 1. Assignment 1
+## 1.1 Main site
 This part focusses on the HTML and CSS bit.
 
 Layout:
@@ -27,8 +27,7 @@ Also the 'arena'-elements are positioned in a floating manner.
 
 The website has been tested with the browsers Google Chrome and Safari on Apple OS X.
 
-# Assignment 2
-## Snake part One
+# 2. Assignment 2: Snake part One
 This part focusses on Javascript. In order to let the code be tested by the instructor the requirements have to be met precisely.
 
 The functions collidesWithOneOf and canMove/doMove are added as methods to Element and Snake respectively.
@@ -37,16 +36,36 @@ In order to determine the new position of the snake's head the method Snake.crea
 
 An attempt was made to execute the tests from the command line using mocha/chai. Because of the difference in coding for the browser and coding for node, you would need something like **browserify** and a build system in place. Because this falls outside the scope of this course, tests are executed from a webpage.
 
-# Assignment 3
-## Snake part Two
+# 3. Assignment 3: Snake part Two
 In this part refactoring the code into modules is needed. Separate the model from the view and controller.
 
-Architecture:
+# 3.1. Architecture
 The application follows the MVC architecture pattern.
 
+# 3.1.1. View
 The HTML of assignment 1 acts as the view.
 
-The Controller is contained in a single controller module which retrieves the canvas from the view, listens for user input and draws the result bases on the state of the game.
+# 3.1.2 Controller
+The Controller is split up into 3 modules. 
+SnakeGame is responsible for loading all the required classes, DOM interaction and events. 
+
+GameController is responsible for the basic operations of the game. This includes controlling the snakeController, Sound and Canvas. 
+
+Decision: It was decided to split up the controller into several files/modules to demonstrate the separation of generic and specific functionality. The result was separation of DOM Interaction & events, generic game mechanics (start, stop, etc) and specific game mechanics (snake, canvas & sound). 
+
+Decision: It was decided to trigger sounds on events to demonstrate the use of events. The alternative is to store the required information in the model (eat, move, gameover, gamewin, etc), let the controller check the model and trigger the corrisponding function in sound. 
+
+Decision: It was decided to change the sound icon in the controller rather then the view. It would have been better to include let the CSS change the icon based on an "active" state set by the controller. This was not implemented due to priorities and time constraints. 
+
+# 3.2 General
+
+Some additional features:
+CANVAS SIZE: 
+The canvas size can be changed to a rectangular (non-square) size. The game will adjust the size of the playing field and allow the snake to move over the entire field. 
+
+Decision: It was decided to use add a convention to let private attributes (constants, variables and functions) begin with an underscore. This ensures the developer is more contentious of the context and it result in errors due to switching between private and public are caught sooner.  
+
+ in a single controller module which retrieves the canvas from the view, listens for user input and draws the result bases on the state of the game.
 
 The model is split up in several parts: sound, canvas and game objects.
 Element, Food, Snake and Canvas are the core models for this application. They are structured according to the object model pattern which is a specific form of the model pattern with a single object per module. The objects are structured strictly hierarchical. Food, Snake and Canvas use Element, but no other dependencies exist between the models.

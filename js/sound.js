@@ -11,7 +11,7 @@ function Sound() {
 
     // private properties
     var _sounds = {};
-    var _playSounds = false;
+    var _playing = true;
     // private methods
 
     // initiate sounds
@@ -35,8 +35,8 @@ function Sound() {
      * @desc Plays the sound (if the player appreciates that)
      * @param {string} sound The sound to be played.
      */
-    var _play = function(sound) {
-        if (_playSounds) {
+    function _play(sound) {
+        if (_playing) {
             _sounds[sound].play();
         }
     }
@@ -45,8 +45,8 @@ function Sound() {
      * @private
      * @desc Turns the sound on or off.
      */
-    var _toggle = function() {
-        _playSounds = !_playSounds;
+    function _toggle() {
+        _playing = !_playing;
     }
 
     /**
@@ -54,24 +54,16 @@ function Sound() {
      * @desc Sound object which is returned.
      * @member {Object}
      */
-    var sound = {
+    return {
         // Play the sound
-        play: function(sound) {
-            _play(sound);
-        },
+        play: _play,
         // Turn the playing of sounds on or off
         toggle: function() {
             _toggle();
         },
-        // Are sounds on or off?
-        playSounds : function() {
-            return _playSounds;
+        getPlaying: function() {
+            return _playing;
         },
-        // Return the sound library
-        getSounds : function() {
-            return _sounds;
-        }
+        
     };
-
-    return sound;
 }

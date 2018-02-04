@@ -5,17 +5,15 @@
  */
 function GameController() {
     // private constants
-    const _SLEEPTIME = 500;  // speed of the game (no. ms per step)
+    const _GAMESPEED = 600;     // base-speed of the game (ms per step)
 
     // private properties
-    var _timer;  // timer event
-    var _snakeSound; // game sounds
-    var _snakeController; // snake controller
-    var _snakeCanvas; // game canvas
+    var _timer;                 // timer event
+    var _snakeSound;            // game sounds
+    var _snakeController;       // snake controller
+    var _snakeCanvas;           // game canvas
 
-    // todo: adjust these values to go to the next level
-    var _numFood = 5; // number of food to start with
-    var _snakeLength = 4; // initial length of the snake
+    var _level = 1;             // current level.
 
     // private methods
     /**
@@ -35,20 +33,20 @@ function GameController() {
 
         // initiate a new game if the game is not running
         if (!_snakeController) {
-            _snakeController = new SnakeController(_snakeCanvas.xmax, _snakeCanvas.ymax, _numFood, _snakeLength);
-
-            //todo: move to controller
-            _snakeController.createSnake(); // create the snake before the food to avoid overlap
-            _snakeController.createFoods();
+            _snakeController = new SnakeController(_snakeCanvas.xmax, _snakeCanvas.ymax);
+            _snakeController.init(_level);
+            
             _draw(); // draw the start position
-
+            
             // voor een move op elke gegeven interval
             _timer = setInterval(function() {
                 if (_snakeController) {
                     _snakeController.move();
                     _draw();
                 }
-            }, _SLEEPTIME);
+            }, _GAMESPEED * Math.pow(0.8, _level));  // set game speed depending on level.
+            
+            console.log("Level " + _level + " started at speed " + _GAMESPEED * Math.pow(0.8, _level));
         }
     }
 
@@ -60,6 +58,7 @@ function GameController() {
         if (_snakeController) {
             clearInterval(_timer);
             _snakeController = null;
+            _level = 1;
         }
     }
 
@@ -69,12 +68,15 @@ function GameController() {
      */
     function _draw() {
         if (_snakeController) {
+            // Clear the canvas
             _snakeCanvas.clear();
 
-            //todo: move the foreach into canvas. only pass [segments]
+            // Draw food
             _snakeController.getFood().forEach(function (segment) {
                 _snakeCanvas.drawElement(segment);
             });
+            
+            // Draw snake
             _snakeController.getSnake().forEach(function (segment) {
                 _snakeCanvas.drawElement(segment);
             });
@@ -91,6 +93,7 @@ function GameController() {
         _snakeSound.play("looser");
         console.log("VERLOREN!!!");
         _stop();
+        _level = 1;
     }
 
     /**
@@ -103,6 +106,7 @@ function GameController() {
         _snakeSound.play("winner");
         console.log("GEWONNEN!!!");
         _stop();
+        _level += 1;
     }
 
     /**
@@ -111,11 +115,7 @@ function GameController() {
      * @param {string} sound The name of sound to be played
      */
     function _playSound(sound) {
-        if (_snakeSound) {
-            if (_snakeSound.playSounds()) {
-                _snakeSound.play(sound);
-            }
-        }
+        _snakeSound.play(sound);
     }
 
     /**
@@ -123,10 +123,13 @@ function GameController() {
      * @desc Turn the playing of sounds on or off.
      */
     function _toggleSound() {
-        if (_snakeSound) {
-            _snakeSound.toggle();
-            $(document).trigger(new jQuery.Event("toggleSound", [_snakeSound.playSounds()]));
+        // initiate sound if this isn't done so already
+        if (!_snakeSound) {
+            _snakeSound = new Sound();
         }
+        
+        _snakeSound.toggle();
+        $(document).trigger(new jQuery.Event("toggleSound", [_snakeSound.getPlaying()]));
     }
 
     /**

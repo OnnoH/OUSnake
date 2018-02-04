@@ -1,5 +1,6 @@
 require(["element", "canvas", "food", "sound", "snake", "snakeController", "gameController"], function() {
     console.log("All scripts are loaded.")
+    
     var game = new GameController();
     console.log("The game is afoot!")
 
@@ -20,9 +21,7 @@ require(["element", "canvas", "food", "sound", "snake", "snakeController", "game
     $(document).on("gameOverEvent", game.gameOver);
     $(document).on("gameWonEvent", game.gameWon);
     $(document).on("playSound", function(event, sound) { game.playSound(event[0]); });
-    $(document).on("toggleSound", function(event, playSounds) { toggleSound(event[0]); });
-
-    function toggleSound(playSounds) {
-        $("#toggleSound").html('<i class="fa fa-volume-' + (playSounds ? "off" : "up") + ' fa-fw"></i>');
-    }
+    $(document).on("toggleSound", function(event, playSounds) { 
+        $("#toggleSound").html('<i class="fa fa-volume-' + (event[0] ? "up" : "off") + ' fa-fw"></i>');
+    });
 });

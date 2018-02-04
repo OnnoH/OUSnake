@@ -54,7 +54,7 @@ function Element(x, y, color) {
      * @desc Element object which is returned.
      * @member {Object}
      */
-    var element = {
+    return {
       // Return the index of the element in the given collection or -1 if it doesn't exist
       indexOf: function(elements) {
           return _indexOf(elements);
@@ -68,6 +68,4 @@ function Element(x, y, color) {
       y: _y,
       color: _color
     };
-
-    return element;
 }

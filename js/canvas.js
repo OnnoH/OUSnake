@@ -8,20 +8,20 @@
  */
 function Canvas(canvas) {
     // private properties
-    var _canvas = canvas;
-    var _radius = 10; // pixel radius of an element
-    var _height = _canvas[0].height; // canvas height
-    var _width = _canvas[0].width; // canvas width
-    var _step = _radius * 2; // pixel size of a step
-    var _xmax = Math.floor(_width / _step) - 1; // maximum x value
-    var _ymax = Math.floor(_height / _step) - 1; // maximum y value
+    var _canvas = canvas;                           // the canvas
+    var _radius = 10;                               // pixel radius of an element
+    var _height = _canvas[0].height;                // canvas height
+    var _width = _canvas[0].width;                  // canvas width
+    var _step = _radius * 2;                        // pixel size of a step
+    var _xmax = Math.floor(_width / _step) - 1;     // maximum x value
+    var _ymax = Math.floor(_height / _step) - 1;    // maximum y value
 
     /**
      * @private
      * @desc Resizes the elements
      * @param {number} newRadius The new radius
      */
-    var _resize = function(newRadius) {
+    function _resize(newRadius) {
         _radius = newRadius;
         _step = _radius * 2; // pixel size of a step
         _xmax = Math.floor(_width / _step) - 1; // maximum x value
@@ -33,7 +33,7 @@ function Canvas(canvas) {
      * @desc Draw an element on the canvas
      * @param {Element} element The element object to be drawn.
      */
-    var _drawElement = function(element) {
+    function _drawElement(element) {
         _canvas.drawArc({
             draggable : false,
             fillStyle : element.color,
@@ -49,7 +49,7 @@ function Canvas(canvas) {
      * @param {string} text The text to be drawn.
      * @param {string} color The color of the text.
     */
-    var _drawText = function(text, color) {
+    function _drawText(text, color) {
         var context = _canvas[0].getContext("2d");
         context.font = "50px Comic Sans MS";
         context.fillStyle = color;
@@ -64,7 +64,7 @@ function Canvas(canvas) {
      * @param {number} y Y-coordinate
      * @returns {boolean} Location is within playing field (true) or not (false)
     */
-    var _collision = function(x, y) {
+    function _collision(x, y) {
         return (x > _xmax || x < 0 ||
                 y > _ymax || y < 0);
     }
@@ -74,7 +74,7 @@ function Canvas(canvas) {
      * @desc Canvas object which is returned.
      * @member {Object}
      */
-    var canvas = {
+    return {
         // Clears the canvas
         clear: function() {
             _canvas.clearCanvas();
@@ -99,6 +99,4 @@ function Canvas(canvas) {
         xmax : _xmax,
         ymax : _ymax
     };
-
-    return canvas;
 }

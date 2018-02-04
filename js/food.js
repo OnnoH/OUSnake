@@ -3,7 +3,6 @@
  * @desc Create a food collection object.
  * @returns Food
  * @see Element
- * @see util indexOf
  */
 function Food() {
     // private constants
@@ -17,7 +16,7 @@ function Food() {
      * @desc Removes the food segment on the given x- and y-coordinates if present.
      * @param {object} element The eater, e.g. the snake's head
     */
-    var _remove = function(element) {
+    function _remove (element) {
         _segments.splice(element.indexOf(_segments), 1);
     }
 
@@ -26,7 +25,7 @@ function Food() {
      * @desc Creates a food segment on the given x- and y-coordinates.
      * @param {object} element The food element
     */
-    var _add = function(element) {
+    function _add (element) {
         _segments.push(element);
     }
 
@@ -36,7 +35,7 @@ function Food() {
      * @param {object} element The element to be found in the food collection
      * @returns {boolean} Location is occupied (true) or not (false)
     */
-    var _collision = function(element) {
+    function _collision (element) {
         return element.indexOf(_segments) >= 0;
     }
 
@@ -47,7 +46,7 @@ function Food() {
      * @param {number} y Y-coordinate
      * @returns {Element} Element on given coordinates and color _FOOD.
     */
-    _createNewFood = function(x, y) {
+    function _createNewFood(x, y) {
         return new Element(x, y, _FOOD);
     }
 
@@ -56,7 +55,7 @@ function Food() {
      * @desc Food object which is returned.
      * @member {Object}
      */
-    var food = {
+    return {
         // Create food element on given coordinates
         createNewFood: function(x, y) {
             return _createNewFood(x, y);
@@ -81,7 +80,5 @@ function Food() {
         collision: function(element) {
             return _collision(element);
         }
-    }
-
-    return food;
+    };
 }

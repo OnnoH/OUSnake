@@ -3,40 +3,54 @@
  * @desc Create a snake controller object.
  * @param {number} xmax Maximum X-coordinate (canvas boundary)
  * @param {number} ymax Maximum Y-coordinate (canvas boundary)
- * @param {number} numFoodElements Number of food element to start with
- * @param {number} numSnakeElements Number of snake elements to start with
  * @returns SnakeController
  */
-function SnakeController(xmax, ymax, numFoodElements, numSnakeElements) {
-    // put parameters in private properties
-    var _xmax = xmax;
-    var _ymax = ymax;
-    var _numFoodElements = numFoodElements;
-    var _numSnakeElements = numSnakeElements;
-
+function SnakeController(xmax, ymax) {
     // constants to communicate key directions
     const _LEFT = "left";
     const _RIGHT = "right";
     const _UP = "up";
     const _DOWN = "down";
-
+    
+    // constants
+    const _STARTFOOD = 4;
+    const _STARTLENGTH = 0;
+    
     // private properties
-    var _snake; // the snake
-    var _food; // the food
-    var _direction = _UP; // default direction in which the snake moves
+    var _xmax = xmax;
+    var _ymax = ymax;
 
+    var _snake;             // snake model
+    var _food;              // food  model
+    var _direction = _UP;   // default direction in which the snake moves
+    
     // private methods
+    /**
+     * @private
+     * @desc setup game with the given level. 
+     * @param {number} current level
+     */
+    function _init(level) {
+        _createSnake(_STARTLENGTH + 2 * level);
+        _createFoods(_STARTFOOD + level);
+    }
+    
     /**
      * @private
      * @desc Create the snake in the middle of the playing field
      */
-    function _createSnake() {
+    function _createSnake(snakeLength) {
         _snake = new Snake();
-        var newHead;
 
-        for (var i = 0; i < _numSnakeElements; i++) {
-          newHead = _snake.getNewHead(Math.round(_xmax / 2), Math.round(_ymax / 2) - i);
-          _snake.move(newHead, true);
+        for (var i = 0; i < snakeLength; i++) {
+            var newHead;
+            
+            // Snake will "coiled up it's tails" when it doesn't fit.
+            x = Math.round(_xmax / 2);
+            y = Math.max((Math.round(_ymax / 2) + (1 * snakeLength) - i), 0);
+            
+            newHead = _snake.getNewHead(x, y);
+            _snake.move(newHead, true);
         }
     }
 
@@ -44,12 +58,12 @@ function SnakeController(xmax, ymax, numFoodElements, numSnakeElements) {
      * @private
      * @desc Create an array with random scattered food particles
      */
-    function _createFoods() {
+    function _createFoods(numFoods) {
         _food = new Food();
         var x, y;
         var foodElement;
 
-        while (_food.remaining() < _numFoodElements ) {
+        while (_food.remaining() < numFoods ) {
             // create a new food element for the randomly chosen location
             x = Math.floor(Math.random() * (_xmax + 1));
             y = Math.floor(Math.random() * (_ymax + 1));
@@ -112,6 +126,7 @@ function SnakeController(xmax, ymax, numFoodElements, numSnakeElements) {
         if (_canMove(x, y)) {
             // Create a new head
             var newHead = _snake.getNewHead(x, y);
+            
             // Have we had lunch yet?
             var eaten = newHead.isPresent(_food.getSegments());
             if (eaten) {
@@ -159,9 +174,8 @@ function SnakeController(xmax, ymax, numFoodElements, numSnakeElements) {
      * @desc SnakeController object which is returned.
      * @member {Object}
      */
-    var snakeController = {
-        createSnake: _createSnake,
-        createFoods: _createFoods,
+    return {
+        init: _init,
         move: _move,
         keyPressed: _keyPressed,
         getFood: function() {
@@ -173,7 +187,5 @@ function SnakeController(xmax, ymax, numFoodElements, numSnakeElements) {
         setDirection: function(direction) {
             _direction = direction;
         }
-    }
-
-    return snakeController;
+    };
 }
