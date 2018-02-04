@@ -22,6 +22,9 @@ function GameController(canvas) {
     
     var _canvas = canvas;       // game canvas
     
+    var _xmax = canvas.xmax
+    var _ymax = canvas.ymax;
+    
     // private methods
     /**
      * @private
@@ -30,16 +33,15 @@ function GameController(canvas) {
     function _start() {
         // initiate a new game if the game is not running
         if (!_snakeController) {
-            _snakeController = new SnakeController(_canvas.xmax, _canvas.ymax);
+            _snakeController = new SnakeController(_xmax, _ymax);
             _snakeController.init(_level);
             
-            _draw(); // draw the start position
+            //_draw(); // draw the start position
             
             // voor een move op elke gegeven interval
             _timer = setInterval(function() {
                 if (_snakeController) {
                     _snakeController.move();
-                    _draw();
                 }
             }, _GAMESPEED * Math.pow(0.8, _level));  // set game speed depending on level.
             
@@ -63,7 +65,7 @@ function GameController(canvas) {
      * @private
      * @desc Draw the food and snake elements on the canvas
      */
-    function _draw() {
+    function _draw() {        
         if (_snakeController) {
             // Clear the canvas
             _canvas.clear();
@@ -85,9 +87,6 @@ function GameController(canvas) {
      * @desc The game is lost. Stop it!
      */
     function _gameOver() {
-        _draw();
-        _canvas.drawText("Game Over!", "OrangeRed");
-
         _stop();
         _level = 1;
     }
@@ -97,9 +96,6 @@ function GameController(canvas) {
      * @desc The game is won. Stop it!
      */
     function _gameWon() {
-        _draw();
-        _canvas.drawText("Well Done!", "LawnGreen");
-
         _stop();
         _level += 1;
     }
@@ -138,6 +134,7 @@ function GameController(canvas) {
         stop: _stop,
         gameOver: _gameOver,
         gameWon: _gameWon,
+        level: _level, 
         keyPressed: function(event) {
             _keyPressed(event);
         },

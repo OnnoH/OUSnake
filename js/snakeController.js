@@ -33,6 +33,10 @@ function SnakeController(xmax, ymax) {
     function _init(level) {
         _createSnake(_STARTLENGTH + 2 * level);
         _createFoods(_STARTFOOD + level);
+        
+        //trigger a draw event;
+        var allElements = _food.getSegments().concat(_snake.getSegments());
+        $(document).trigger(new jQuery.Event("gameMoveEvent", [allElements]));
     }
     
     /**
@@ -80,10 +84,11 @@ function SnakeController(xmax, ymax) {
      * @desc Move the snake in the known direction
      */
     function _move() {
-        // determine the next x,y coordinates
-        var x = _snake.getHead().x;
-        var y = _snake.getHead().y;
+        var allElements = [];       // all elements to be passed to view
+        var x = _snake.getHead().x; // next x coordinate
+        var y = _snake.getHead().y; // next y coordinate
 
+        // apply direction to coordinates
         switch(_direction) {
             case _LEFT:
                 x = x - 1;
@@ -104,22 +109,27 @@ function SnakeController(xmax, ymax) {
             // Create a new head
             var newHead = _snake.getNewHead(x, y);
             
+            //console.log(allElements);
+            
             // Have we had lunch yet?
             var eaten = newHead.isPresent(_food.getSegments());
             if (eaten) {
                 _food.remove(newHead);
-                $(document).trigger(new jQuery.Event("gameEatEvent"));
+                _snake.move(newHead, eaten);
+                allElements = _food.getSegments().concat(_snake.getSegments());
+                $(document).trigger(new jQuery.Event("gameEatEvent", [allElements]));
                 console.log("munch");
             } else {
-                $(document).trigger(new jQuery.Event("gameMoveEvent"));
+                _snake.move(newHead, eaten);
+                allElements = _food.getSegments().concat(_snake.getSegments());
+                $(document).trigger(new jQuery.Event("gameMoveEvent", [allElements]));
             }
-            _snake.move(newHead, eaten);
 
             if (_food.remaining() === 0) {
-                $(document).trigger(new jQuery.Event("gameWonEvent"));
+                $(document).trigger(new jQuery.Event("gameWonEvent", [allElements]));
             }
         } else {
-            $(document).trigger(new jQuery.Event("gameOverEvent"));
+            $(document).trigger(new jQuery.Event("gameOverEvent", [allElements]));
         }
     }
 
@@ -133,11 +143,13 @@ function SnakeController(xmax, ymax) {
     function _canMove(x, y) {
         var result = true;
 
+        // check for wall collisions
         if (x < 0 || x > _xmax || y < 0 || y > _ymax) {
             console.log("Snake hit a wall");
             result = false;
         }
 
+        // check for snake collisions
         if (_snake.collision(x, y)) {
             console.log("Snake hit itself");
             result = false;
@@ -152,20 +164,24 @@ function SnakeController(xmax, ymax) {
      * @member {Object}
      */
     return {
+        // public constants
         LEFT:  _LEFT,
         RIGHT: _RIGHT,
         UP:    _UP,
         DOWN:  _DOWN, 
-        init:  _init,
-        move:  _move,
+        // public properties (read only)
         getFood: function() {
             return _food.getSegments();
         },
         getSnake: function() {
             return _snake.getSegments();
         },
+        // public properties (write only)
         setDirection: function(direction) {
             _direction = direction;
-        }
+        },
+        // public functions
+        init:  _init,
+        move:  _move,
     };
 }

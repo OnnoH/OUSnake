@@ -1,25 +1,29 @@
 require(["element"]);
 
 /**
- * @namespace SnakeModel
- * @module snake/view
  * @class Canvas
- * @desc A canvas object with boundaries.
- * @param {object} canvas Object with canvas element from html
- * @returns Canvas
+ * @module snake/view
+ * @desc provide a canvas for the game.
+ * @param {object} canvas object with canvas element from HTML.
+ * @returns Canvas the object the game is drawn on.
  * @see Element
  */
 function Canvas(canvas) {
     // private constants
     const _RADIUS = 10;                             // pixel radius of an element
+
+    const _GOOD   = "LawnGreen"                     // good text style/color
+    const _BAD    = "OrangeRed"                     // bad text style/color
+    const _NORMAL = "White"                         // normal text style/color
+    const _FONT   = "Comic Sans MS"                 // if you can call this a font...
     
     // private properties
     var _canvas = canvas;                           // the canvas
     var _height = _canvas[0].height;                // canvas height
-    var _width = _canvas[0].width;                  // canvas width
-    var _step = _RADIUS * 2;                        // pixel size of a step
-    var _xmax = Math.floor(_width / _step) - 1;     // maximum x value
-    var _ymax = Math.floor(_height / _step) - 1;    // maximum y value
+    var _width  = _canvas[0].width;                 // canvas width
+    var _step   = _RADIUS * 2;                      // pixel size of a step
+    var _xmax   = Math.floor(_width / _step) - 1;   // maximum x value
+    var _ymax   = Math.floor(_height / _step) - 1;  // maximum y value
 
     /**
      * @private
@@ -38,28 +42,53 @@ function Canvas(canvas) {
 
     /**
      * @private
-     * @desc Draw a text on the canvas in the given color.
-     * @param {string} text The text to be drawn.
-     * @param {string} color The color of the text.
+     * @desc Draw a line of text on the canvas in the given color.
+     * @param {string} line The text to be drawn.
+     * @param {string} style The style and color of the text.
+     * @param {number} style line number of the text (up to 3).
     */
-    function _drawText(text, color) {
+    function _drawText(line, style, lineNumber) {
+        // get the context from canvas.
         var context = _canvas[0].getContext("2d");
-        context.font = "50px Comic Sans MS";
-        context.fillStyle = color;
         context.textAlign = "center";
-        context.fillText(text, _width / 2, _height / 2);
-    }
+        context.fillStyle = style;
+        
+        // determine how to draw the text.
+        switch(style) {
+            case _GOOD:
+                context.font = 50 + "px " + _FONT;
+                break;
+            case _BAD:
+                context.font = 50 + "px " + _FONT;
+                break;
+            case _NORMAL:
+                context.font = 24 + "px " + _FONT;
+                break;
+        }
 
+        // draw the text.
+        context.fillText(line, _width / 2, _height / 6 * (3 + lineNumber));
+    }
+    
     /**
      * @private
-     * @desc Checks if the given x- and y-coordinates are within the playing field.
-     * @param {number} x X-coordinate
-     * @param {number} y Y-coordinate
-     * @returns {boolean} Location is within playing field (true) or not (false)
+     * @desc Draw the elements and texts given.
+     * @param {[object]} elements array of elements to be drawn.
+     * @param {[[string, string]]} texts array of [text, style] to be drawn.
     */
-    function _collision(x, y) {
-        return (x > _xmax || x < 0 ||
-                y > _ymax || y < 0);
+    function _draw(elements, texts) {
+        // clear canvas
+        canvas.clearCanvas();
+        
+        // draw all elements 
+        elements.forEach(function(element) {
+            _drawElement(element);
+        });
+        
+        // draw text
+        text.forEach(function(line) {
+            _drawText(line[0], line[1], text.indexOf(line));
+        });
     }
 
     /**
@@ -68,15 +97,14 @@ function Canvas(canvas) {
      * @member {Object}
      */
     return {
+        // public constants
+        GOOD:   _GOOD,
+        BAD:    _BAD,
+        NORMAL: _NORMAL,
+        // public properties
         xmax : _xmax,
         ymax : _ymax,
-        
-        clear: function() {
-            _canvas.clearCanvas();
-        },
-        
-        drawElement: _drawElement,
-        drawText: _drawText,
-        collision: _collision,
+        // public functions        
+        draw: _draw,
     };
 }
