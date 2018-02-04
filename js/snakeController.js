@@ -41,13 +41,13 @@ function SnakeController(xmax, ymax) {
      */
     function _createSnake(snakeLength) {
         _snake = new Snake();
-
+        var newHead;
+        var x, y;
+        
         for (var i = 0; i < snakeLength; i++) {
-            var newHead;
-            
             // Snake will "coiled up it's tails" when it doesn't fit.
             x = Math.round(_xmax / 2);
-            y = Math.max((Math.round(_ymax / 2) + (1 * snakeLength) - i), 0);
+            y = Math.max((Math.round(_ymax / 2) + snakeLength - i), 0);
             
             newHead = _snake.getNewHead(x, y);
             _snake.move(newHead, true);
@@ -72,29 +72,6 @@ function SnakeController(xmax, ymax) {
             if (!foodElement.isPresent(_snake.getSegments()) && !foodElement.isPresent(_food.getSegments())) {
                 _food.add(foodElement);
             }
-        }
-    }
-
-    /**
-     * @private
-     * @desc Handle arrow keys from keyboard
-     * @param {object} event The event object
-     */
-     function _keyPressed(event) {
-
-        switch (event.which) {
-            case 37: // left arrow
-                _direction = _LEFT;
-                break;
-            case 38: // up arrow key
-                _direction = _UP;
-                break;
-            case 39: // right arrow key
-                _direction = _RIGHT;
-                break;
-            case 40: // down arrow key
-                _direction = _DOWN;
-                break;
         }
     }
 
@@ -175,9 +152,12 @@ function SnakeController(xmax, ymax) {
      * @member {Object}
      */
     return {
-        init: _init,
-        move: _move,
-        keyPressed: _keyPressed,
+        LEFT:  _LEFT,
+        RIGHT: _RIGHT,
+        UP:    _UP,
+        DOWN:  _DOWN, 
+        init:  _init,
+        move:  _move,
         getFood: function() {
             return _food.getSegments();
         },

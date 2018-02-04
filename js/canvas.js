@@ -1,3 +1,5 @@
+require(["element"]);
+
 /**
  * @namespace SnakeModel
  * @module snake/model
@@ -5,6 +7,7 @@
  * @desc Create a canvas object with boundaries.
  * @param {object} canvas Object with canvas element from html
  * @returns Canvas
+ * @see Element
  */
 function Canvas(canvas) {
     // private properties

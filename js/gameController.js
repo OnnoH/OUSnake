@@ -1,7 +1,12 @@
+require(["element", "canvas", "food", "sound", "snake", "snakeController"]);
+
 /**
  * @class GameController
  * @desc Create a game controller object.
  * @returns GameController
+ * @see SnakeController
+ * @see Sound 
+ * @see Canvas
  */
 function GameController() {
     // private constants
@@ -9,9 +14,9 @@ function GameController() {
 
     // private properties
     var _timer;                 // timer event
-    var _snakeSound;            // game sounds
+    var _sound;                 // game sounds
     var _snakeController;       // snake controller
-    var _snakeCanvas;           // game canvas
+    var _canvas;           // game canvas
 
     var _level = 1;             // current level.
 
@@ -22,18 +27,18 @@ function GameController() {
      */
     function _start() {
         // initiate canvas if this isn't done so already
-        if (!_snakeCanvas) {
-            _snakeCanvas = new Canvas($("#mySnakeCanvas"));
+        if (!_canvas) {
+            _canvas = new Canvas($("#mySnakeCanvas"));
         }
 
         // initiate sound if this isn't done so already
-        if (!_snakeSound) {
-            _snakeSound = new Sound();
+        if (!_sound) {
+            _sound = new Sound();
         }
 
         // initiate a new game if the game is not running
         if (!_snakeController) {
-            _snakeController = new SnakeController(_snakeCanvas.xmax, _snakeCanvas.ymax);
+            _snakeController = new SnakeController(_canvas.xmax, _canvas.ymax);
             _snakeController.init(_level);
             
             _draw(); // draw the start position
@@ -69,16 +74,16 @@ function GameController() {
     function _draw() {
         if (_snakeController) {
             // Clear the canvas
-            _snakeCanvas.clear();
+            _canvas.clear();
 
             // Draw food
             _snakeController.getFood().forEach(function (segment) {
-                _snakeCanvas.drawElement(segment);
+                _canvas.drawElement(segment);
             });
             
             // Draw snake
             _snakeController.getSnake().forEach(function (segment) {
-                _snakeCanvas.drawElement(segment);
+                _canvas.drawElement(segment);
             });
         }
     }
@@ -89,8 +94,8 @@ function GameController() {
      */
     function _gameOver() {
         _draw();
-        _snakeCanvas.drawText("Game Over!", "OrangeRed");
-        _snakeSound.play("looser");
+        _canvas.drawText("Game Over!", "OrangeRed");
+        _sound.play(_sound.LOSE);
         console.log("VERLOREN!!!");
         _stop();
         _level = 1;
@@ -102,20 +107,11 @@ function GameController() {
      */
     function _gameWon() {
         _draw();
-        _snakeCanvas.drawText("Well Done!", "LawnGreen");
-        _snakeSound.play("winner");
+        _canvas.drawText("Well Done!", "LawnGreen");
+        _sound.play(_sound.WIN);
         console.log("GEWONNEN!!!");
         _stop();
         _level += 1;
-    }
-
-    /**
-     * @private
-     * @desc Play the sounds (if on)
-     * @param {string} sound The name of sound to be played
-     */
-    function _playSound(sound) {
-        _snakeSound.play(sound);
     }
 
     /**
@@ -124,21 +120,47 @@ function GameController() {
      */
     function _toggleSound() {
         // initiate sound if this isn't done so already
-        if (!_snakeSound) {
-            _snakeSound = new Sound();
+        if (!_sound) {
+            _sound = new Sound();
         }
         
-        _snakeSound.toggle();
-        $(document).trigger(new jQuery.Event("toggleSound", [_snakeSound.getPlaying()]));
+        // toggle the sound on/off
+        _sound.toggle();
+        
+        // trigger update of view.
+        $(document).trigger(new jQuery.Event("toggleSound", [_sound.getPlaying()]));
+    }
+    
+    /**
+     * @private
+     * @desc play the given sound.
+     * @param {string} sound The sound to be played.
+     */
+    function _playSound(sound) {
+        _sound.play(sound)
     }
 
     /**
      * @private
      * @desc Go snake! In the given direction that is...
+     * @param {object} event The event object containing the key pressed
      */
     function _keyPressed(event) {
         if (_snakeController) {
-            _snakeController.keyPressed(event);
+            switch (event.which) {
+            case 37: // left arrow
+                _snakeController.setDirection(_snakeController.LEFT);
+                break;
+            case 38: // up arrow key
+                _snakeController.setDirection(_snakeController.UP);
+                break;
+            case 39: // right arrow key
+                _snakeController.setDirection(_snakeController.RIGHT);
+                break;
+            case 40: // down arrow key
+                _snakeController.setDirection(_snakeController.DOWN);
+                break;
+            }
         }
     }
 
@@ -147,19 +169,15 @@ function GameController() {
      * @desc SnakeController object which is returned.
      * @member {Object}
      */
-     var gameController = {
+     return {
         start: _start,
         stop: _stop,
         toggleSound: _toggleSound,
         gameOver: _gameOver,
         gameWon: _gameWon,
+        playSound: _playSound,
         keyPressed: function(event) {
             _keyPressed(event);
         },
-        playSound: function(sound) {
-            _playSound(sound);
-        }
-    }
-
-    return gameController;
+    };
 }

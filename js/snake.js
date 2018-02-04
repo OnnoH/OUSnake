@@ -1,3 +1,5 @@
+require(["element"]);
+
 /**
  * @class Snake
  * @desc Create a snake object.

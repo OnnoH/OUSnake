@@ -42,16 +42,28 @@ In this part refactoring the code into modules is needed. Separate the model fro
 # 3.1. Architecture
 The application follows the MVC architecture pattern.
 
+View: The view is responsible DOM interaction and handling events (buttons, keys and custom events). 
+Model: The model is used to store data. They are ignorant to a wider context. 
+Controller: The controller handles the responses to events by updating the model and/or the view.
+
+The model and controller are structured according to the "object model pattern" which is a specific form of the model pattern with a single object per module. As a result, the model and controller each contain several modules. 
+
 # 3.1.1. View
-The HTML of assignment 1 acts as the view.
+snakeGame acts as the view. It handles the events and key input.
 
-# 3.1.2 Controller
-The Controller is split up into 3 modules. 
-SnakeGame is responsible for loading all the required classes, DOM interaction and events. 
+Canvas and Sound are also part of the view. They should be controlled through events only rather then gameController, but was not yet fully implemented due to time constraints. Canvas depends on the Element model to be able to draw elements efficiently. 
 
-GameController is responsible for the basic operations of the game. This includes controlling the snakeController, Sound and Canvas. 
+Decision: It was decided to place the timer in the controller (gameController) rather then in the view (snakeGame). Although the ticking of the timer can be seen as an event, gameController fully encapsulates its function. It did not seem justified to move it out of gameController.
 
-Decision: It was decided to split up the controller into several files/modules to demonstrate the separation of generic and specific functionality. The result was separation of DOM Interaction & events, generic game mechanics (start, stop, etc) and specific game mechanics (snake, canvas & sound). 
+# 3.1.2 Model
+The model is split up into one module per object. Snake and Food are the main objects used in the model. They both depend on Element. 
+
+# 3.1.3 Controller
+The Controller is split up into 2 main modules: a generic gameController and a specific snakeController. 
+
+GameController is responsible for the basic operations of the game and it ties everything together with minimal awareness of the internal workings of the other modules, but enough to make it work together. It offers generic functionality such as start, stop and the timer.  
+
+Decision: It was decided to split up the controller into several files/modules to demonstrate the separation of generic and specific functionality. The goal is that the gameController API would support many different games.
 
 Decision: It was decided to trigger sounds on events to demonstrate the use of events. The alternative is to store the required information in the model (eat, move, gameover, gamewin, etc), let the controller check the model and trigger the corrisponding function in sound. 
 
@@ -59,36 +71,20 @@ Decision: It was decided to change the sound icon in the controller rather then 
 
 # 3.2 General
 
-Some additional features:
-CANVAS SIZE: 
-The canvas size can be changed to a rectangular (non-square) size. The game will adjust the size of the playing field and allow the snake to move over the entire field. 
+Decision: It has been decided separate the playing grid from the pixel location. The X and Y coordinates used in the game refer to a grid number. The canvas module will determine how the grid needs to be drawn in pixels to fill the maximum canvas area. A rectangular canvas is also supported.
 
-Decision: It was decided to use add a convention to let private attributes (constants, variables and functions) begin with an underscore. This ensures the developer is more contentious of the context and it result in errors due to switching between private and public are caught sooner.  
+Decision: It has been decided to pass elements instead of x-y-coordinates. This was discussed during the lecture as a suitable solution to preserve information between canMove and doMove. The use of x-y-coordinates would not allow for the generic function indexOf in the Elements object.
 
- in a single controller module which retrieves the canvas from the view, listens for user input and draws the result bases on the state of the game.
+Decision: It was decided to make the food and snake object very similar. Both are create as an empty object to which elements are added by the controller and both have a collision function. 
 
-The model is split up in several parts: sound, canvas and game objects.
-Element, Food, Snake and Canvas are the core models for this application. They are structured according to the object model pattern which is a specific form of the model pattern with a single object per module. The objects are structured strictly hierarchical. Food, Snake and Canvas use Element, but no other dependencies exist between the models.
-The Sound module has been added with the same object model pattern. It is completely independent of other modules.
-Util acts as as a library of functions. The module structure does not provide any benefits here, so it was decided to format it as a plain javascript library.
+Decision: It was decided to use add a convention to let private attributes (constants, variables and functions) begin with an underscore. This ensures the developer is more contentious of the context and it result in errors due to switching between private and public are caught sooner. 
 
+Note: The view has been updated with [Font Awesome](http://fontawesome.io/) so the buttons now contain icons instead of text.
 
+Feature: Canvas Size. The canvas size can be changed to a rectangular (non-square) size. The game will adjust the size of the playing field and allow the snake to move over the entire field. 
 
-In order to play the game a controller class is created which controls the view (DOM, UI, HTML) and communicates with the model to instantiate the required objects.
+# 3.3 Documentation
 
-The view has been updated with [Font Awesome](http://fontawesome.io/) so the buttons now contain icons instead of text.
-
-Design decisions:
-It has been decided separate the playing grid from the pixel location. The X and Y coordinates used in the game refer to a grid number. The canvas module will determine how the grid needs to be drawn in pixels to fill the maximum canvas area. A rectangular canvas is also supported.
-
-It has been decided to pass x and y coordinates instead of an element. This was discussed during the lecture as a suitable alternative from recreating objects for the purpose of canMove, doMove and collision. It is also considered more intuitively correct to move to a coordinate rather then to an element. As a result, the dependency between the controller and elements object is reduced.
-
-It was decided to make the food and snake object very similar. Both are create as an empty object, both have an add function to add new elements and both have a collision function to test for existing elements.
-
-It has been decided to move the indexOf function to the util library. Although it depends on Element and therefore might not belong in a functional library, the function is reused by both food and snake. It was preferred to keep food and snake independent of each other.
-
-
-# Documentation
 The code is annotated with [JSdoc3](http://usejsdoc.org/). The generator is installed using node/npm. An extra module (docstrap) is added to allow the use of templates. Versions of node and npm are controlled by [nvm](https://github.com/creationix/nvm).
 ```
 npm install -g jsdoc ink-docstrap

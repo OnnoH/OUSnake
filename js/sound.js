@@ -8,17 +8,29 @@ function Sound() {
     // private constants
     const _SOUND_PATH  = "snd/";
     const _SOUND_EXT   = ".wav";
+    
+    const _MOVE        = "move";
+    const _FOOD        = "food";
+    const _WIN         = "winner";
+    const _LOSE        = "looser";
 
     // private properties
     var _sounds = {};
     var _playing = true;
-    // private methods
-
-    // initiate sounds
-    _add("move");
-    _add("food");
-    _add("winner");
-    _add("looser");
+    
+    // initiate object on creation
+    _init();
+    
+    /**
+     * @private
+     * @desc initiate object.
+     */
+    function _init() {
+        _add(_MOVE);
+        _add(_FOOD);
+        _add(_WIN);
+        _add(_LOSE);
+    }
 
     /**
      * @private
@@ -55,12 +67,12 @@ function Sound() {
      * @member {Object}
      */
     return {
-        // Play the sound
+        MOVE: _MOVE,
+        FOOD: _FOOD,
+        WIN:  _WIN,
+        LOSE: _LOSE,
         play: _play,
-        // Turn the playing of sounds on or off
-        toggle: function() {
-            _toggle();
-        },
+        toggle: _toggle,
         getPlaying: function() {
             return _playing;
         },
