@@ -65,15 +65,14 @@ SnakeGameData is the main module. It contains Food and Snake and it offers a sim
 Snake and Food are independent of eachother. They only depend on element. 
 
 # 3.1.3 Controller
-The Controller is split up into 2 main modules: a generic gameController and a specific snakeController. 
+gameController ties everthing together. It provides a very generic API to the view which could be used for any game. It has a minimal awareness of the internal workings of the other modules, but enough to make it work together. 
+A good example separation and game-awareness is the keyPressed functionality which translates key events from the view into directions for the model. 
 
-GameController is responsible for the basic operations of the game and it ties everything together with minimal awareness of the internal workings of the other modules, but enough to make it work together. It offers generic functionality such as start, stop and the timer.  
+Decision: It was decided to split off as much game specific functionality as possible and move it to snakeGameData to demonstrate the separation of generic and specific functionality. The goal is that the gameController API would support many different games. Level and timer considered generic and therefore part of the controller.
 
-Decision: It was decided to split up the controller into several files/modules to demonstrate the separation of generic and specific functionality. The goal is that the gameController API would support many different games.
+Decision: It was decided to trigger sound and canvas functionality on events only to demonstrate the use of events. The alternative is to store the required objects in the controller and let the controller call the correct function based on information of the model. This approach would not require any events, but it is against the javascript MVC model principles.  
 
-Decision: It was decided to trigger sounds on events to demonstrate the use of events. The alternative is to store the required information in the model (eat, move, gameover, gamewin, etc), let the controller check the model and trigger the corrisponding function in sound. 
-
-Decision: It was decided to change the sound icon in the controller rather then the view. It would have been better to include let the CSS change the icon based on an "active" state set by the controller. This was not implemented due to priorities and time constraints. 
+Decision: It was decided to change the sound icon my manipulating the HTML class rather then a attribute like "active". This was not implemented due to priorities and time constraints. 
 
 # 3.2 General
 
