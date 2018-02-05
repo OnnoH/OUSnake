@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Snake Game Class: Food</title>
+	<title>Snake Game Class: Snake</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -40,7 +40,14 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="Canvas.html">Canvas</a></li><li><a href="Element.html">Element</a></li><li><a href="Food.html">Food</a></li><li><a href="GameController.html">GameController</a></li><li><a href="Snake.html">Snake</a></li><li><a href="SnakeGameData.html">SnakeGameData</a></li><li><a href="Sound.html">Sound</a></li>
+					<li><a href="global.html#Canvas">Canvas</a></li><li><a href="global.html#Element">Element</a></li><li><a href="global.html#Food">Food</a></li><li><a href="global.html#GameController">GameController</a></li><li><a href="global.html#Snake">Snake</a></li><li><a href="global.html#SnakeGameData">SnakeGameData</a></li><li><a href="global.html#Sound">Sound</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="global.html">Global</a></li>
 				</ul>
 			</li>
 			
@@ -72,13 +79,13 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Class: Food</h1>
+	<h1 class="page-title">Class: Snake</h1>
 <section>
 
 <header>
     
         <h2>
-        Food
+        Snake
         </h2>
         
     
@@ -91,7 +98,7 @@
         
 <hr>
 <dt>
-    <h4 class="name" id="Food"><span class="type-signature"></span>new Food()</h4>
+    <h4 class="name" id="Snake"><span class="type-signature"></span>new Snake()</h4>
     
     
 </dt>
@@ -99,7 +106,7 @@
 
     
     <div class="description">
-        <p>Create a food collection object.</p>
+        <p>Create a snake object.</p>
     </div>
     
 
@@ -145,8 +152,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="food.js.html">food.js</a>,
-				 <a href="food.js.html#sunlight-1-line-1">line 1</a>
+				<a href="snake.js.html">snake.js</a>,
+				 <a href="snake.js.html#sunlight-1-line-1">line 1</a>
 			</li>
 		</ul>
 	</dd>
@@ -158,7 +165,7 @@
 	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
 	<dd class="tag-see">
 		<ul>
-			<li><a href="Element.html">Element</a></li>
+			<li><a href="global.html#Element">Element</a></li>
 			</ul>
 	</dd>
 	
@@ -182,7 +189,7 @@
     
             
 <div class="param-desc">
-    <p>Food</p>
+    <p>Snake</p>
 </div>
 
 
@@ -215,145 +222,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_add"><span class="type-signature">&lt;private, inner> </span>_add(element)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Creates a food segment on the given x- and y-coordinates.</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>element</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The food element</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="food.js.html">food.js</a>,
-				 <a href="food.js.html#sunlight-1-line-28">line 28</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="~_collision"><span class="type-signature">&lt;private, inner> </span>_collision(element)</h4>
+    <h4 class="name" id="~_collision"><span class="type-signature">&lt;private, inner> </span>_collision(x, y)</h4>
     
     
 </dt>
@@ -396,13 +265,13 @@
 
         <tr>
             
-                <td class="name"><code>element</code></td>
+                <td class="name"><code>x</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">number</span>
 
 
 
@@ -413,7 +282,31 @@
 
             
 
-            <td class="description last"><p>The element to be found in the food collection</p></td>
+            <td class="description last"><p>X-coordinate</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Y-coordinate</p></td>
         </tr>
 
     
@@ -457,8 +350,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="food.js.html">food.js</a>,
-				 <a href="food.js.html#sunlight-1-line-38">line 38</a>
+				<a href="snake.js.html">snake.js</a>,
+				 <a href="snake.js.html#sunlight-1-line-45">line 45</a>
 			</li>
 		</ul>
 	</dd>
@@ -487,7 +380,7 @@
     
             
 <div class="param-desc">
-    <p>Location is occupied (true) or not (false)</p>
+    <p>Snake hits itself (true) or not (false)</p>
 </div>
 
 
@@ -515,7 +408,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_createNewFood"><span class="type-signature">&lt;private, inner> </span>_createNewFood(x, y)</h4>
+    <h4 class="name" id="~_createNewHead"><span class="type-signature">&lt;private, inner> </span>_createNewHead(x, y)</h4>
     
     
 </dt>
@@ -643,8 +536,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="food.js.html">food.js</a>,
-				 <a href="food.js.html#sunlight-1-line-49">line 49</a>
+				<a href="snake.js.html">snake.js</a>,
+				 <a href="snake.js.html#sunlight-1-line-56">line 56</a>
 			</li>
 		</ul>
 	</dd>
@@ -673,7 +566,7 @@
     
             
 <div class="param-desc">
-    <p>Element on given coordinates and color _FOOD.</p>
+    <p>Element on given coordinates and color _HEAD.</p>
 </div>
 
 
@@ -684,7 +577,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="Element.html">Element</a></span>
+<span class="param-type"><a href="global.html#Element">Element</a></span>
 
 
 
@@ -701,7 +594,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_remove"><span class="type-signature">&lt;private, inner> </span>_remove(element)</h4>
+    <h4 class="name" id="~_move"><span class="type-signature">&lt;private, inner> </span>_move(element, grow)</h4>
     
     
 </dt>
@@ -709,7 +602,7 @@
 
     
     <div class="description">
-        <p>Removes the food segment on the given x- and y-coordinates if present.</p>
+        <p>Executes snake movement in the current direction.</p>
     </div>
     
 
@@ -761,7 +654,31 @@
 
             
 
-            <td class="description last"><p>The eater, e.g. the snake's head</p></td>
+            <td class="description last"><p>containing the new head</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>grow</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Indicates if the snake grows (e.g. because he has eaten food)</p></td>
         </tr>
 
     
@@ -805,8 +722,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="food.js.html">food.js</a>,
-				 <a href="food.js.html#sunlight-1-line-19">line 19</a>
+				<a href="snake.js.html">snake.js</a>,
+				 <a href="snake.js.html#sunlight-1-line-22">line 22</a>
 			</li>
 		</ul>
 	</dd>

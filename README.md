@@ -1,6 +1,6 @@
 # Introduction
 
-This repository contains code for the Open University course: Webapplicaties: de clientkant (Webapplications: the client side)
+This repository contains code for the Open University course: Webapplicaties: de clientkant (Web applications: the client side)
 
 The result: [The Game Site](index.html) or [The Snake Game](snake.html)
 
@@ -8,9 +8,29 @@ The result: [The Game Site](index.html) or [The Snake Game](snake.html)
 
 * Aart Pelt (a.j.w.pelt@gmail.com)
 * Onno Huijgen (o.huijgen@gmail.com)
+```
+       ---_ ......._-_--.
+      (|\ /      / /| \  \
+      /  /     .'  -=-'   `.
+     /  /    .'             )
+   _/  /   .'        _.)   /
+  / o   o        _.-' /  .'
+  \          _.-'    / .'*|
+   \______.-'//    .'.' \*|
+    \|  \ | //   .'.' _ |*|
+     `   \|//  .'.'_ _ _|*|
+      .  .// .'.' | _ _ \*|
+      \`-|\_/ /    \ _ _ \*\
+       `/'\__/      \ _ _ \*\
+      /^|            \ _ _ \*
+     '  `             \ _ _ \   
+                       \_
+```
+_figure 1: snake_
 
-# Assignment 1
-## Main site
+# 1. Assignment 1
+
+## 1.1 Main site
 This part focusses on the HTML and CSS bit.
 
 Layout:
@@ -27,8 +47,8 @@ Also the 'arena'-elements are positioned in a floating manner.
 
 The website has been tested with the browsers Google Chrome and Safari on Apple OS X.
 
-# Assignment 2
-## Snake part One
+# 1. Assignment 2
+
 This part focusses on Javascript. In order to let the code be tested by the instructor the requirements have to be met precisely.
 
 The functions collidesWithOneOf and canMove/doMove are added as methods to Element and Snake respectively.
@@ -37,39 +57,115 @@ In order to determine the new position of the snake's head the method Snake.crea
 
 An attempt was made to execute the tests from the command line using mocha/chai. Because of the difference in coding for the browser and coding for node, you would need something like **browserify** and a build system in place. Because this falls outside the scope of this course, tests are executed from a webpage.
 
-# Assignment 3
-## Snake part Two
-In this part refactoring the code into modules is needed. Separate the model from the view and controller.
+# 1. Assignment 3
 
-Architecture:
+In this part the code is refactored into modules. The model, view and controller are separated and additional functionality is implemented to complete the game.
+
+# 3.1. General
+
+GAME GRID
+The game was refactored to use coordinates based on step-size rather then pixel-size. As a result, the snake makes steps of 1. The canvas will ensure the game is drawn to the right proportions for reasonably sized canvas. A rectangular canvas is also supported.
+
+LEVELS
+Upon completing a level, the player can start the next level which is more difficult. There is more food to eat, the snake is longer and it moves faster. If the snake is too long to fit on the board in it's start position, it will coil up it's tail on the edge of the field. Snakes are clever creatures...
+
+SOUND
+Sound effects have been added. Sound can be enabled and disabled using a button. The use of sound helps the player time tight corners at higher levels. Snakes normally don't make a lot of sound unless you feed them apples.
+
+WALLS
+Walls have been added to the game to make it more interesting.
+
+# 3.2. Architecture
+
 The application follows the MVC architecture pattern.
 
-The HTML of assignment 1 acts as the view.
+VIEW
+The view is responsible for DOM interaction (including canvas and sound) and events (buttons, keys and custom events). It interacts with the controller.
 
-The Controller is contained in a single controller module which retrieves the canvas from the view, listens for user input and draws the result bases on the state of the game.
+CONTROLLER
+The controller handles the responses to events by interacting with the model. The controller may not directly interact with the view.
 
-The model is split up in several parts: sound, canvas and game objects.
-Element, Food, Snake and Canvas are the core models for this application. They are structured according to the object model pattern which is a specific form of the model pattern with a single object per module. The objects are structured strictly hierarchical. Food, Snake and Canvas use Element, but no other dependencies exist between the models.
-The Sound module has been added with the same object model pattern. It is completely independent of other modules.
-Util acts as as a library of functions. The module structure does not provide any benefits here, so it was decided to format it as a plain javascript library.
+MODEL
+The model is used to store data onto objects. These objects are ignorant to a wider context. The model may not directly interact with the view or controller.
+
+most modules are structured according to the "object model pattern" which is a specific form of the model pattern. It has a single object per module. As a result, the view and model consist of a main module with respectively 2 and 3 additional (largely independent) modules.
+
+```
+                                        ++++++++++
+                                        + Sound  +
+                ++++++++++++++++++  ->  ++++++++++
+View        ..> + SnakeGame      +    
+            .   ++++++++++++++++++  ->  ++++++++++
+            .          |                + Canvas +
+===         .          V                ++++++++++
+            .   ++++++++++++++++++            |
+Controller  .   + gameController +            |
+            .   ++++++++++++++++++            |
+===         .          |                      |
+            .          V                      |
+            .   ++++++++++++++++++            |
+            ....+ SnakeGameData  +---------|  |
+                ++++++++++++++++++         |  |
+Model               |         |            |  |
+                    V         V            |  |
+                +++++++++ ++++++++         |  |
+                + Snake + + Food +         V  V
+                +++++++++ ++++++++  ->  +++++++++++
+                    |                   + Element +
+                    ----------------->  +++++++++++
+```
+_figure 2: simplified class diagram of snake game_
+
+# 3.2.1. View
+
+SNAKEGAME
+snakeGame is the main view module. It is responsible for loading all required modules and creating the controller, sound and canvas afterwards. It also handles all events and key input. Generic game events are by the controller and model to trigger the view. SnakeGame determines which view functions need to be trigger as a response.
+
+Decision: It was decided to load all modules in snakeGame. This ensured the objects were created after all code was loaded and it allowed for an easier test framework.
+
+Improvement: The text is currently hard coded. It would better to store the text in a configuration file. This was not implemented due to time constraints.
+
+CANVAS
+Canvas is used to draw elements and text. Upon creation of the canvas, the grid-size is determined based on the available canvas. This is then used to setup the game. Rectangular shapes of any size between 100 and 1000 pixels is support. The draw functionality is triggered indirectly by the controller or the model using generic game events.
+
+Decision: It was decided to make Canvas aware of the Element object so it would be able to draw elements efficiently.
+
+SOUND
+Sound is used to make sound as the name suggests. Sounds are triggered by the controller of the model using the same generic game events as for canvas.
+
+Decision: It was decided to handle the sound toggling in the view. There seemed little benefit of involving the controller and this way, the controller does not need to be aware of the existence of sound which further decouples the two components.
 
 
+# 3.2.2 Controller
 
-In order to play the game a controller class is created which controls the view (DOM, UI, HTML) and communicates with the model to instantiate the required objects.
+GAMECONTROLLER
+gameController ties everything together. It provides a very generic API to the view which could be used for any game. The timer is encapsulated in the controller. Generic functions such as start, stop and keyPressed are interpreted based on the current state of the game after which the timer and/or model are updated.
 
-The view has been updated with [Font Awesome](http://fontawesome.io/) so the buttons now contain icons instead of text.
+Decision: It was decided to split off as much game specific functionality as possible and move it to snakeGameData to demonstrate the separation of generic and game-specific functionality. The goal is that the gameController API would support many different games. Level and timer considered generic and therefore part of the controller.
 
-Design decisions:
-It has been decided separate the playing grid from the pixel location. The X and Y coordinates used in the game refer to a grid number. The canvas module will determine how the grid needs to be drawn in pixels to fill the maximum canvas area. A rectangular canvas is also supported.
+Decision: It was decided to place the timer in the controller (gameController) rather then in the view (snakeGame). Although the ticking of the timer can be seen as an event, gameController fully encapsulates its function. It did not seem justified to move it out of gameController or to use events on timer ticks.
 
-It has been decided to pass x and y coordinates instead of an element. This was discussed during the lecture as a suitable alternative from recreating objects for the purpose of canMove, doMove and collision. It is also considered more intuitively correct to move to a coordinate rather then to an element. As a result, the dependency between the controller and elements object is reduced.
+# 3.2.2 Model
 
-It was decided to make the food and snake object very similar. Both are create as an empty object, both have an add function to add new elements and both have a collision function to test for existing elements.
+SNAKEGAMEDATA
+much of the snake specific functionality has been moved to the snakeGameData object. It offers a very simple API to GameController. GameController has a minimal awareness of the internal workings this modules and no awareness of other model modules. A example of the intended separation is the translation of keyPressed functionality into directions.
 
-It has been decided to move the indexOf function to the util library. Although it depends on Element and therefore might not belong in a functional library, the function is reused by both food and snake. It was preferred to keep food and snake independent of each other.
+SNAKE
+This module contains the snake. The snake is created and moved by SnakeGameData. Snake is not aware of any game mechanics. It creates a new head, checks if the move is valid and then adds it to snake.
 
+FOOD
+This module contains the food. Food is created and maintained by SnakeGameData. Food is not aware of any game mechanics. Food is first created separately, checked if it collides with any existing element and then added to food.
 
-# Documentation
+# 3.3 General
+
+Decision: It has been decided to pass elements instead of x-y-coordinates. This was discussed during the lecture as a suitable solution to preserve information between canMove and doMove. The use of x-y-coordinates would not allow for the generic function indexOf in the Elements object.
+
+Decision: It was decided to use add a convention to let private attributes (constants, variables and functions) begin with an underscore. This ensures the developer is more contentious of the context and it result in errors due to switching between private and public are caught sooner.
+
+Note: The view has been updated with [Font Awesome](http://fontawesome.io/) so the buttons now contain icons instead of text.
+
+# 3.4 Documentation
+
 The code is annotated with [JSdoc3](http://usejsdoc.org/). The generator is installed using node/npm. An extra module (docstrap) is added to allow the use of templates. Versions of node and npm are controlled by [nvm](https://github.com/creationix/nvm).
 ```
 npm install -g jsdoc ink-docstrap
@@ -102,7 +198,8 @@ The testing framework that is used is Mocha in combination with Chai. Due to the
 11. ~~Are we using the English or Dutch language for documentation and comments. The course is in Dutch, but the code has English language elements and if you decide to release the code to an international public, the Dutch language might seem a little odd~~ => English.
 12. Get JSlint to work
 13. ~~Refactor test to mocha/chai framework~~
-14. Util tests are executed, but no output is shown.
+14. ~~Util tests are executed, but no output is shown.~~ => deprecated
 15. Get rid of the iFrame and use jQuery to load/display html content.
 16. Add new game elements like: speed up/slow down/pause buttons, speed up automatically over time), add random walls or mole heaps, replace the food that's been eaten with new food (so the snake can grow even larger), move the remaining food to random locations, introduce superfood and some kind of scoring mechanism (with high scores table, but therefore we also need to identify the user).
-17. ...
+17. Make better use of the requireJS library.
+18. ...

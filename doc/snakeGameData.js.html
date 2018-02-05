@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Snake Game Source: food.js</title>
+	<title>Snake Game Source: snakeGameData.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -72,93 +72,194 @@
 		<div id="main">
 			
 
-		<h1 class="page-title">Source: food.js</h1>
+		<h1 class="page-title">Source: snakeGameData.js</h1>
     
 <section>
     <article>
         <pre
             class="sunlight-highlight-javascript linenums">/**
- * @class Food
- * @desc Create a food collection object.
- * @returns Food
- * @see Element
+ * @class SnakeGameData
+ * @desc Create a SnakeGameData object.
+ * @param {number} xmax Maximum X-coordinate (canvas boundary)
+ * @param {number} ymax Maximum Y-coordinate (canvas boundary)
+ * @returns snakeGameData
  */
-function Food() {
+function SnakeGameData(xmax, ymax, level) {
+    // constants to communicate key directions
+    const _LEFT = "left";
+    const _RIGHT = "right";
+    const _UP = "up";
+    const _DOWN = "down";
+
     // private constants
-    const _FOOD = "Olive";      // food color
+    const _STARTFOOD = 4;
+    const _STARTLENGTH = 0;
 
     // private properties
-    var _segments = [];         // food segments
+    var _xmax = xmax;
+    var _ymax = ymax;
 
+    var _snake;             // snake model
+    var _food;              // food  model
+    var _direction = _UP;   // default direction in which the snake moves
+
+    // initiate object on creation
+    _init(level);
+
+    // private methods
     /**
      * @private
-     * @desc Removes the food segment on the given x- and y-coordinates if present.
-     * @param {object} element The eater, e.g. the snake's head
-    */
-    function _remove (element) {
-        _segments.splice(element.indexOf(_segments), 1);
+     * @desc setup game with the given level.
+     * @param {number} current level
+     */
+    function _init(level) {
+        _createSnake(_STARTLENGTH + 2 * level);
+        _createFoods(_STARTFOOD + level);
+
+        //trigger a draw event;
+        var allElements = _food.getSegments().concat(_snake.getSegments());
+        $(document).trigger(new jQuery.Event("gameMoveEvent", [allElements]));
     }
 
     /**
      * @private
-     * @desc Creates a food segment on the given x- and y-coordinates.
-     * @param {object} element The food element
-    */
-    function _add (element) {
-        _segments.push(element);
+     * @desc Create the snake in the middle of the playing field
+     */
+    function _createSnake(snakeLength) {
+        _snake = new Snake();
+        var newHead;
+        var x, y;
+
+        for (var i = 0; i &lt; snakeLength; i++) {
+            // Snake will "coiled up it's tails" when it doesn't fit.
+            x = Math.round(_xmax / 2);
+            y = Math.max((Math.round(_ymax / 2) + snakeLength - i), 0);
+
+            newHead = _snake.getNewHead(x, y);
+            _snake.move(newHead, true);
+        }
     }
 
     /**
      * @private
-     * @desc Checks if the given x- and y-coordinates are 'occupied'.
-     * @param {object} element The element to be found in the food collection
-     * @returns {boolean} Location is occupied (true) or not (false)
-    */
-    function _collision (element) {
-        return element.indexOf(_segments) >= 0;
+     * @desc Create an array with random scattered food particles
+     */
+    function _createFoods(numFoods) {
+        _food = new Food();
+        var x, y;
+        var foodElement;
+
+        while (_food.remaining() &lt; numFoods ) {
+            // create a new food element for the randomly chosen location
+            x = Math.floor(Math.random() * (_xmax + 1));
+            y = Math.floor(Math.random() * (_ymax + 1));
+            foodElement = _food.createNewFood(x, y);
+            // and add it to the array whan the location is not occupied
+            if (!foodElement.isPresent(_snake.getSegments()) &amp;&amp; !foodElement.isPresent(_food.getSegments())) {
+                _food.add(foodElement);
+            }
+        }
     }
 
     /**
      * @private
-     * @desc Creates a new snake head on the given coordinates.
-     * @param {number} x X-coordinate
-     * @param {number} y Y-coordinate
-     * @returns {Element} Element on given coordinates and color _FOOD.
-    */
-    function _createNewFood(x, y) {
-        return new Element(x, y, _FOOD);
+     * @desc Move the snake in the known direction
+     */
+    function _move() {
+        var allElements = [];       // all elements to be passed to view
+        var x = _snake.getHead().x; // next x coordinate
+        var y = _snake.getHead().y; // next y coordinate
+
+        // apply direction to coordinates
+        switch(_direction) {
+            case _LEFT:
+                x = x - 1;
+                break;
+            case _RIGHT:
+                x = x + 1;
+                break;
+            case _UP:
+                y = y - 1;
+                break;
+            case _DOWN:
+                y = y + 1;
+                break;
+        }
+
+        // Can we make a move?
+        if (_canMove(x, y)) {
+            // Create a new head
+            var newHead = _snake.getNewHead(x, y);
+
+            //console.log(allElements);
+
+            // Have we had lunch yet?
+            var eaten = newHead.isPresent(_food.getSegments());
+
+            if (eaten) {
+                _food.remove(newHead);
+                _snake.move(newHead, eaten);
+                allElements = _food.getSegments().concat(_snake.getSegments());
+                $(document).trigger(new jQuery.Event("gameEatEvent", [allElements]));
+                console.log("munch");
+            } else {
+                _snake.move(newHead, eaten);
+                allElements = _food.getSegments().concat(_snake.getSegments());
+                $(document).trigger(new jQuery.Event("gameMoveEvent", [allElements]));
+            }
+
+            if (_food.remaining() === 0) {
+                // if we ate all the food, we win
+                $(document).trigger(new jQuery.Event("gameWonEvent", [allElements]));
+            }
+        } else {
+            // if we can't move, we lose
+            $(document).trigger(new jQuery.Event("gameOverEvent", [allElements]));
+        }
+    }
+
+    /**
+     * @private
+     * @desc Check if the new coordinates are suitable to move to.
+     * @param {number} x The new X-coordinate
+     * @param {number} y The new Y-coordinate
+     * @returns {boolean} The move can be made (true) or not (false)
+     */
+    function _canMove(x, y) {
+        var result = true;
+
+        // check for wall collisions
+        if (x &lt; 0 || x > _xmax || y &lt; 0 || y > _ymax) {
+            console.log("Snake hit a wall");
+            result = false;
+        }
+
+        // check for snake collisions
+        if (_snake.collision(x, y)) {
+            console.log("Snake hit itself");
+            result = false;
+        }
+
+        return result;
     }
 
     /**
      * @public
-     * @desc Food object which is returned.
+     * @desc SnakeGameData object which is returned.
      * @member {Object}
      */
     return {
-        // Create food element on given coordinates
-        createNewFood: function(x, y) {
-            return _createNewFood(x, y);
+        // public constants
+        LEFT:  _LEFT,
+        RIGHT: _RIGHT,
+        UP:    _UP,
+        DOWN:  _DOWN,
+        // public properties (write only)
+        setDirection: function(direction) {
+            _direction = direction;
         },
-        // Add food element to the collection
-        add: function(element) {
-            _add(element);
-        },
-        // Return the number of food elements left
-        remaining: function() {
-            return _segments.length;
-        },
-        // Return the food elements
-        getSegments: function() {
-            return _segments;
-        },
-        // Delete food element if eaten
-        remove: function(element) {
-            return _remove(element);
-        },
-        // Checks if element is present in food collection
-        collision: function(element) {
-            return _collision(element);
-        }
+        // public functions
+        move: _move,
     };
 }
 </pre>

@@ -1,10 +1,8 @@
 /**
  * @class Snake
  * @desc Create a snake object.
- * @param {array} segments Array with elements. The final element contains the snake's head.
  * @returns Snake
  * @see Element
- * @see util indexOf
  */
 function Snake() {
     // private constants
@@ -14,25 +12,23 @@ function Snake() {
     // private properties
     var _segments = [];     // snake elements
     var _head;              // head segment
-    var _segments = [];     // snake elements
 
     /**
      * @private
      * @desc Executes snake movement in the current direction.
-     * @param {number} x X-coordinate
-     * @param {number} y Y-coordinate
+     * @param {object} element containing the new head
      * @param {boolean} grow Indicates if the snake grows (e.g. because he has eaten food)
      */
-    var _move = function (x, y, grow) {
+    function _move(element, grow) {
         // change the current head into a body part
         if (_head) {
             _head.color = _SNAKE;
         }
-        
+
         // add a new head
-        _segments.push(_createNewHead(x, y));
+        _segments.push(element);
         _head = _segments[_segments.length-1];
-        
+
         // remove the tail if the snake doesn't grow
         if (!grow) {
             _segments.shift();
@@ -46,8 +42,8 @@ function Snake() {
      * @param {number} y Y-coordinate
      * @returns {boolean} Snake hits itself (true) or not (false)
     */
-    var _collision = function (x, y) {
-        return indexOf(_segments, x, y) >= 0;
+    function _collision(x, y) {
+        return _createNewHead(x, y).indexOf(_segments) >= 0;
     }
 
     /**
@@ -57,7 +53,7 @@ function Snake() {
      * @param {number} y Y-coordinate
      * @returns {Element} Element on given coordinates and color _HEAD.
     */
-    _createNewHead = function(x, y) {
+    function _createNewHead (x, y) {
         return new Element(x, y, _HEAD);
     }
 
@@ -66,20 +62,26 @@ function Snake() {
      * @desc Snake object which is returned.
      * @member {Object}
      */
-    var snake = {
+    return {
+        // Returns the head (final segment)
         getHead: function() {
             return _head;
         },
+        // Returns the new head element on the give coordinates
+        getNewHead: function(x, y) {
+            return _createNewHead(x, y);
+        },
+        // Returns the snake's segments
         getSegments: function () {
             return _segments;
         },
-        move: function(x, y, grow) {
-            _move(x, y, grow);
+        // Move (and grow) the snake
+        move: function(element, grow) {
+            _move(element, grow);
         },
+        // Check if the snake collides with itself
         collision: function(x, y) {
             return _collision(x, y);
         }
     };
-
-    return snake;
 }

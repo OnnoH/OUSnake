@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Snake Game Source: snake.js</title>
+	<title>Snake Game Module: snake/view</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -67,107 +67,111 @@
 <div class="row">
 
 	
-	<div class="col-md-12">
+	<div class="col-md-8">
 	
 		<div id="main">
 			
 
-		<h1 class="page-title">Source: snake.js</h1>
-    
+	<h1 class="page-title">Module: snake/view</h1>
 <section>
-    <article>
-        <pre
-            class="sunlight-highlight-javascript linenums">/**
- * @class Snake
- * @desc Create a snake object.
- * @returns Snake
- * @see Element
- */
-function Snake() {
-    // private constants
-    const _SNAKE   = "DarkRed";    // color of the snake's body
-    const _HEAD    = "DarkOrange"; // color of the snake's head
 
-    // private properties
-    var _segments = [];     // snake elements
-    var _head;              // head segment
+<header>
+    
+</header>
 
-    /**
-     * @private
-     * @desc Executes snake movement in the current direction.
-     * @param {object} element containing the new head
-     * @param {boolean} grow Indicates if the snake grows (e.g. because he has eaten food)
-     */
-    function _move(element, grow) {
-        // change the current head into a body part
-        if (_head) {
-            _head.color = _SNAKE;
-        }
 
-        // add a new head
-        _segments.push(element);
-        _head = _segments[_segments.length-1];
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Provide interaction for the game.</p></div>
+        
 
-        // remove the tail if the snake doesn't grow
-        if (!grow) {
-            _segments.shift();
-        }
-    }
+        
+<dl class="details">
+    
 
-    /**
-     * @private
-     * @desc Checks if the given x- and y-coordinates are 'occupied'.
-     * @param {number} x X-coordinate
-     * @param {number} y Y-coordinate
-     * @returns {boolean} Snake hits itself (true) or not (false)
-    */
-    function _collision(x, y) {
-        return _createNewHead(x, y).indexOf(_segments) >= 0;
-    }
+	
 
-    /**
-     * @private
-     * @desc Creates a new snake head on the given coordinates.
-     * @param {number} x X-coordinate
-     * @param {number} y Y-coordinate
-     * @returns {Element} Element on given coordinates and color _HEAD.
-    */
-    function _createNewHead (x, y) {
-        return new Element(x, y, _HEAD);
-    }
+	
 
-    /**
-     * @public
-     * @desc Snake object which is returned.
-     * @member {Object}
-     */
-    return {
-        // Returns the head (final segment)
-        getHead: function() {
-            return _head;
-        },
-        // Returns the new head element on the give coordinates
-        getNewHead: function(x, y) {
-            return _createNewHead(x, y);
-        },
-        // Returns the snake's segments
-        getSegments: function () {
-            return _segments;
-        },
-        // Move (and grow) the snake
-        move: function(element, grow) {
-            _move(element, grow);
-        },
-        // Check if the snake collides with itself
-        collision: function(x, y) {
-            return _collision(x, y);
-        }
-    };
-}
-</pre>
-    </article>
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="snakeGame.js.html">snakeGame.js</a>,
+				 <a href="snakeGame.js.html#sunlight-1-line-1">line 1</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><a href="GameController.html">GameController</a></li>
+			
+			<li><a href="Sound.html">Sound</a></li>
+			
+			<li><a href="Canvas.html">Canvas</a></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
 </section>
-
 
 
 
@@ -177,6 +181,10 @@ function Snake() {
 
 	<div class="clearfix"></div>
 
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
 	
 
 </div>

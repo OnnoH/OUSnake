@@ -31,16 +31,23 @@
 		<ul class="nav navbar-nav">
 			
 			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="module-snake_view.html">snake/view</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="Canvas.html">Canvas</a></li><li><a href="Element.html">Element</a></li><li><a href="Food.html">Food</a></li><li><a href="Snake.html">Snake</a></li><li><a href="Sound.html">Sound</a></li>
+					<li><a href="global.html#Canvas">Canvas</a></li><li><a href="global.html#Element">Element</a></li><li><a href="global.html#Food">Food</a></li><li><a href="global.html#GameController">GameController</a></li><li><a href="global.html#Snake">Snake</a></li><li><a href="global.html#SnakeGameData">SnakeGameData</a></li><li><a href="global.html#Sound">Sound</a></li>
 				</ul>
 			</li>
 			
 			<li class="dropdown">
 				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="global.html#createCanvas()-%253ECanvas">createCanvas() -> Canvas</a></li><li><a href="global.html#createFoods()-%253Earraymetfood">createFoods() -> array met food</a></li><li><a href="global.html#createSnake()-%253Evoid">createSnake() -> void</a></li><li><a href="global.html#createSounds()-%253ESound">createSounds() -> Sound</a></li><li><a href="global.html#draw()-%253Evoid">draw() -> void</a></li><li><a href="global.html#gameOver()-%253Evoid">gameOver() -> void</a></li><li><a href="global.html#gameWon()-%253Evoid">gameWon() -> void</a></li><li><a href="global.html#init()-%253Evoid">init() -> void</a></li><li><a href="global.html#move(direction)-%253Evoid">move(direction) -> void</a></li><li><a href="global.html#start()-%253Evoid">start() -> void</a></li><li><a href="global.html#stop()-%253Evoid">stop() -> void</a></li><li><a href="global.html#toggleSound()-%253Evoid">toggleSound() -> void</a></li>
+					<li><a href="global.html">Global</a></li>
 				</ul>
 			</li>
 			
@@ -145,833 +152,34 @@
     
 
     
-
-    
-        <h3 class="subsection-title">Methods</h3>
+        <h3 class="subsection-title">Members</h3>
 
         <dl>
             
 <hr>
-<dt>
-    <h4 class="name" id="createCanvas()-%3ECanvas"><span class="type-signature"></span>createCanvas() -> Canvas()</h4>
-    
+<dt class="name" id="Canvas">
+    <h4 id="Canvas"><span class="type-signature"></span>Canvas<span class="type-signature"> :Object</span></h4>
+
     
 </dt>
 <dd>
-
     
     <div class="description">
-        <p>Maakt het canvas op basis van het gegeven HTML element</p>
+        <p>Canvas object which is returned.</p>
     </div>
     
 
     
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="controller.js.html">controller.js</a>,
-				 <a href="controller.js.html#sunlight-1-line-163">line 163</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>canvas volgens HTML definitie</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="Canvas.html">Canvas</a></span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="createFoods()-%3Earraymetfood"><span class="type-signature"></span>createFoods() -> array met food()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>array van random verdeelde voedselpartikelen</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="controller.js.html">controller.js</a>,
-				 <a href="controller.js.html#sunlight-1-line-124">line 124</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>array met food</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="Element.html">Element</a></span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="createSnake()-%3Evoid"><span class="type-signature"></span>createSnake() -> void()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Slang creëren, bestaande uit  twee segmenten,<br>          in het midden van het veld</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="controller.js.html">controller.js</a>,
-				 <a href="controller.js.html#sunlight-1-line-146">line 146</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="createSounds()-%3ESound"><span class="type-signature"></span>createSounds() -> Sound()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>maak de geluidenverzameling</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="controller.js.html">controller.js</a>,
-				 <a href="controller.js.html#sunlight-1-line-172">line 172</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="draw()-%3Evoid"><span class="type-signature"></span>draw() -> void()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Teken de slang en het voedsel</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="controller.js.html">controller.js</a>,
-				 <a href="controller.js.html#sunlight-1-line-271">line 271</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="gameOver()-%3Evoid"><span class="type-signature"></span>gameOver() -> void()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Het spel is verloren. Stop het spel.</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="controller.js.html">controller.js</a>,
-				 <a href="controller.js.html#sunlight-1-line-96">line 96</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="gameWon()-%3Evoid"><span class="type-signature"></span>gameWon() -> void()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Het spel is gewonnen. Stop het spel.</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="controller.js.html">controller.js</a>,
-				 <a href="controller.js.html#sunlight-1-line-108">line 108</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="init()-%3Evoid"><span class="type-signature"></span>init() -> void()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Bepaal de afmetingen, creeer de geluidenverzameling, een slang, genereer voedsel, en teken alles</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="controller.js.html">controller.js</a>,
-				 <a href="controller.js.html#sunlight-1-line-52">line 52</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="move(direction)-%3Evoid"><span class="type-signature"></span>move(direction) -> void(direction)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>verander bewegingsrichting slang in aangegeven richting.</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>direction</code></td>
-            
-
-            <td class="type">
-            
+        <h5>Type:</h5>
+        <ul>
+            <li>
                 
-<span class="param-type">string</span>
+<span class="param-type">Object</span>
 
 
 
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>de richting (een van de constanten UP, DOWN, LEFT of RIGHT)</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
+            </li>
+        </ul>
     
 
     
@@ -1009,8 +217,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="controller.js.html">controller.js</a>,
-				 <a href="controller.js.html#sunlight-1-line-203">line 203</a>
+				<a href="canvas.js.html">canvas.js</a>,
+				 <a href="canvas.js.html#sunlight-1-line-91">line 91</a>
 			</li>
 		</ul>
 	</dd>
@@ -1023,18 +231,6 @@
 	
 </dl>
 
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     
 </dd>
@@ -1042,24 +238,29 @@
         
             
 <hr>
-<dt>
-    <h4 class="name" id="start()-%3Evoid"><span class="type-signature"></span>start() -> void()</h4>
-    
+<dt class="name" id="Element">
+    <h4 id="Element"><span class="type-signature"></span>Element<span class="type-signature"> :Object</span></h4>
+
     
 </dt>
 <dd>
-
     
     <div class="description">
-        <p>Initializeer het spel in start positie en begin met spelen.<br>          Doe niets als het spel al loopt.</p>
+        <p>Element object which is returned.</p>
     </div>
     
 
     
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
 
-    
 
-    
+
+            </li>
+        </ul>
     
 
     
@@ -1097,8 +298,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="controller.js.html">controller.js</a>,
-				 <a href="controller.js.html#sunlight-1-line-63">line 63</a>
+				<a href="element.js.html">element.js</a>,
+				 <a href="element.js.html#sunlight-1-line-52">line 52</a>
 			</li>
 		</ul>
 	</dd>
@@ -1111,18 +312,6 @@
 	
 </dl>
 
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     
 </dd>
@@ -1130,24 +319,29 @@
         
             
 <hr>
-<dt>
-    <h4 class="name" id="stop()-%3Evoid"><span class="type-signature"></span>stop() -> void()</h4>
-    
+<dt class="name" id="Food">
+    <h4 id="Food"><span class="type-signature"></span>Food<span class="type-signature"> :Object</span></h4>
+
     
 </dt>
 <dd>
-
     
     <div class="description">
-        <p>Stop het spel en verwijder slang en voedsel<br>          Doe niets als het spel niet loopt.</p>
+        <p>Food object which is returned.</p>
     </div>
     
 
     
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
 
-    
 
-    
+
+            </li>
+        </ul>
     
 
     
@@ -1185,8 +379,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="controller.js.html">controller.js</a>,
-				 <a href="controller.js.html#sunlight-1-line-81">line 81</a>
+				<a href="food.js.html">food.js</a>,
+				 <a href="food.js.html#sunlight-1-line-53">line 53</a>
 			</li>
 		</ul>
 	</dd>
@@ -1199,18 +393,6 @@
 	
 </dl>
 
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     
 </dd>
@@ -1218,24 +400,29 @@
         
             
 <hr>
-<dt>
-    <h4 class="name" id="toggleSound()-%3Evoid"><span class="type-signature"></span>toggleSound() -> void()</h4>
-    
+<dt class="name" id="GameController">
+    <h4 id="GameController"><span class="type-signature"></span>GameController<span class="type-signature"> :Object</span></h4>
+
     
 </dt>
 <dd>
-
     
     <div class="description">
-        <p>zet geluid aan of uit</p>
+        <p>gameController object which is returned.</p>
     </div>
     
 
     
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
 
-    
 
-    
+
+            </li>
+        </ul>
     
 
     
@@ -1273,8 +460,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="controller.js.html">controller.js</a>,
-				 <a href="controller.js.html#sunlight-1-line-185">line 185</a>
+				<a href="gameController.js.html">gameController.js</a>,
+				 <a href="gameController.js.html#sunlight-1-line-107">line 107</a>
 			</li>
 		</ul>
 	</dd>
@@ -1289,6 +476,45 @@
 
 
     
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="Snake">
+    <h4 id="Snake"><span class="type-signature"></span>Snake<span class="type-signature"> :Object</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Snake object which is returned.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
 
     
 
@@ -1298,12 +524,206 @@
 
     
 
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="snake.js.html">snake.js</a>,
+				 <a href="snake.js.html#sunlight-1-line-60">line 60</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
     
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="SnakeGameData">
+    <h4 id="SnakeGameData"><span class="type-signature"></span>SnakeGameData<span class="type-signature"> :Object</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>SnakeGameData object which is returned.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="snakeGameData.js.html">snakeGameData.js</a>,
+				 <a href="snakeGameData.js.html#sunlight-1-line-164">line 164</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="Sound">
+    <h4 id="Sound"><span class="type-signature"></span>Sound<span class="type-signature"> :Object</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Sound object which is returned.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="sound.js.html">sound.js</a>,
+				 <a href="sound.js.html#sunlight-1-line-57">line 57</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
 
     
 </dd>
 
         </dl>
+    
+
     
 
     
@@ -1359,7 +779,7 @@
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
 	
-		on Tue Jan 30th 2018
+		on Mon Feb 5th 2018
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Snake Game Source: snake.js</title>
+	<title>Snake Game Source: snakeGame.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -72,98 +72,82 @@
 		<div id="main">
 			
 
-		<h1 class="page-title">Source: snake.js</h1>
+		<h1 class="page-title">Source: snakeGame.js</h1>
     
 <section>
     <article>
         <pre
             class="sunlight-highlight-javascript linenums">/**
- * @class Snake
- * @desc Create a snake object.
- * @returns Snake
- * @see Element
+ * @module snake/view
+ * @desc Provide interaction for the game.
+ * @see GameController
+ * @see Sound
+ * @see Canvas
  */
-function Snake() {
-    // private constants
-    const _SNAKE   = "DarkRed";    // color of the snake's body
-    const _HEAD    = "DarkOrange"; // color of the snake's head
+require(["gameController", "food", "element", "sound", "canvas", "snake", "snakeGameData"], function() {
+    console.log("All scripts are loaded.")
 
-    // private properties
-    var _segments = [];     // snake elements
-    var _head;              // head segment
+    var canvas = new Canvas($("#mySnakeCanvas"));               // The canvas 
+    var game = new GameController(canvas.xmax, canvas.ymax);    // The game;
+    var sound = new Sound();                                    // Sounds
+    
+    console.log("The game is afoot!");
 
-    /**
-     * @private
-     * @desc Executes snake movement in the current direction.
-     * @param {object} element containing the new head
-     * @param {boolean} grow Indicates if the snake grows (e.g. because he has eaten food)
-     */
-    function _move(element, grow) {
-        // change the current head into a body part
-        if (_head) {
-            _head.color = _SNAKE;
-        }
+    /***************************************************************************
+     **                 Game Button Events                                    **
+     ***************************************************************************/
 
-        // add a new head
-        _segments.push(element);
-        _head = _segments[_segments.length-1];
+    $(document).ready(function() {
+        $("#startSnake").click(game.start);
+        $("#stopSnake").click(game.stop);
+        $('#toggleSound').click(sound.toggle);
+    });
 
-        // remove the tail if the snake doesn't grow
-        if (!grow) {
-            _segments.shift();
-        }
-    }
+    /***************************************************************************
+     **                 Keyboard Events                                       **
+     ***************************************************************************/
 
-    /**
-     * @private
-     * @desc Checks if the given x- and y-coordinates are 'occupied'.
-     * @param {number} x X-coordinate
-     * @param {number} y Y-coordinate
-     * @returns {boolean} Snake hits itself (true) or not (false)
-    */
-    function _collision(x, y) {
-        return _createNewHead(x, y).indexOf(_segments) >= 0;
-    }
+    $(document).on("keydown", function() { game.keyPressed(event); });
 
-    /**
-     * @private
-     * @desc Creates a new snake head on the given coordinates.
-     * @param {number} x X-coordinate
-     * @param {number} y Y-coordinate
-     * @returns {Element} Element on given coordinates and color _HEAD.
-    */
-    function _createNewHead (x, y) {
-        return new Element(x, y, _HEAD);
-    }
+    /***************************************************************************
+     **                 Custom Events                                         **
+     ***************************************************************************/
 
-    /**
-     * @public
-     * @desc Snake object which is returned.
-     * @member {Object}
-     */
-    return {
-        // Returns the head (final segment)
-        getHead: function() {
-            return _head;
-        },
-        // Returns the new head element on the give coordinates
-        getNewHead: function(x, y) {
-            return _createNewHead(x, y);
-        },
-        // Returns the snake's segments
-        getSegments: function () {
-            return _segments;
-        },
-        // Move (and grow) the snake
-        move: function(element, grow) {
-            _move(element, grow);
-        },
-        // Check if the snake collides with itself
-        collision: function(x, y) {
-            return _collision(x, y);
-        }
-    };
-}
+    $(document).on("gameOverEvent", function(event) {
+        console.log("VERLOREN!!!");
+        canvas.draw(event[0], [["Game Over", canvas.BAD],
+                               ["You've reached level " + game.getLevel(), canvas.NORMAL],
+                               ["Press start to try to beat that", canvas.NORMAL]])
+        game.gameOver();
+        sound.play(sound.LOSE);
+        $("#gameLevel").html("Level " + game.getLevel());
+    });
+    $(document).on("gameWonEvent", function(event) {
+        console.log("GEWONNEN!!!");
+        game.gameWon();
+        sound.play(sound.WIN);
+        canvas.draw(event[0], [["Well Done!", canvas.GOOD],
+                               ["You reached level " + game.getLevel(), canvas.NORMAL],
+                               ["Press start to challenge it", canvas.NORMAL]])
+        $("#gameLevel").html("Level " + game.getLevel());
+    });
+    $(document).on("gameMoveEvent", function(event) {
+        sound.play(sound.MOVE);
+        canvas.draw(event[0], [])
+    });
+    $(document).on("gameStoppedEvent", function(event) {
+        canvas.draw([], [])
+        $("#gameLevel").html("Level " + game.getLevel());
+
+    });
+    $(document).on("gameEatEvent", function(event) {
+        sound.play(sound.FOOD);
+        canvas.draw(event[0], [])
+    });
+    $(document).on("toggleSound", function(event) {
+        $("#toggleSound").html('&lt;i class="fa fa-volume-' + (event[0] ? "up" : "off") + ' fa-fw">&lt;/i>');
+    });
+});
 </pre>
     </article>
 </section>

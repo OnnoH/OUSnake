@@ -31,16 +31,16 @@
 		<ul class="nav navbar-nav">
 			
 			<li class="dropdown">
-				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="Canvas.html">Canvas</a></li><li><a href="Element.html">Element</a></li><li><a href="Food.html">Food</a></li><li><a href="Snake.html">Snake</a></li><li><a href="Sound.html">Sound</a></li>
+					<li><a href="module-snake_view.html">snake/view</a></li>
 				</ul>
 			</li>
 			
 			<li class="dropdown">
-				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="global.html#createCanvas()-%253ECanvas">createCanvas() -> Canvas</a></li><li><a href="global.html#createFoods()-%253Earraymetfood">createFoods() -> array met food</a></li><li><a href="global.html#createSnake()-%253Evoid">createSnake() -> void</a></li><li><a href="global.html#createSounds()-%253ESound">createSounds() -> Sound</a></li><li><a href="global.html#draw()-%253Evoid">draw() -> void</a></li><li><a href="global.html#gameOver()-%253Evoid">gameOver() -> void</a></li><li><a href="global.html#gameWon()-%253Evoid">gameWon() -> void</a></li><li><a href="global.html#init()-%253Evoid">init() -> void</a></li><li><a href="global.html#move(direction)-%253Evoid">move(direction) -> void</a></li><li><a href="global.html#start()-%253Evoid">start() -> void</a></li><li><a href="global.html#stop()-%253Evoid">stop() -> void</a></li><li><a href="global.html#toggleSound()-%253Evoid">toggleSound() -> void</a></li>
+					<li><a href="Canvas.html">Canvas</a></li><li><a href="Element.html">Element</a></li><li><a href="Food.html">Food</a></li><li><a href="GameController.html">GameController</a></li><li><a href="Snake.html">Snake</a></li><li><a href="SnakeGameData.html">SnakeGameData</a></li><li><a href="Sound.html">Sound</a></li>
 				</ul>
 			</li>
 			
@@ -159,8 +159,6 @@
 	<dd class="tag-see">
 		<ul>
 			<li><a href="Element.html">Element</a></li>
-			
-			<li>util indexOf</li>
 			</ul>
 	</dd>
 	
@@ -208,91 +206,6 @@
 
     
 
-    
-        <h3 class="subsection-title">Members</h3>
-
-        <dl>
-            
-<hr>
-<dt class="name" id="~snake">
-    <h4 id="~snake"><span class="type-signature">&lt;inner> </span>snake<span class="type-signature"> :Object</span></h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        <p>Snake object which is returned.</p>
-    </div>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">Object</span>
-
-
-
-            </li>
-        </ul>
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="snake.js.html">snake.js</a>,
-				 <a href="snake.js.html#sunlight-1-line-68">line 68</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-</dd>
-
-        </dl>
     
 
     
@@ -431,7 +344,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="snake.js.html">snake.js</a>,
-				 <a href="snake.js.html#sunlight-1-line-48">line 48</a>
+				 <a href="snake.js.html#sunlight-1-line-45">line 45</a>
 			</li>
 		</ul>
 	</dd>
@@ -617,7 +530,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="snake.js.html">snake.js</a>,
-				 <a href="snake.js.html#sunlight-1-line-59">line 59</a>
+				 <a href="snake.js.html#sunlight-1-line-56">line 56</a>
 			</li>
 		</ul>
 	</dd>
@@ -674,7 +587,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_move"><span class="type-signature">&lt;private, inner> </span>_move(x, y, grow)</h4>
+    <h4 class="name" id="~_move"><span class="type-signature">&lt;private, inner> </span>_move(element, grow)</h4>
     
     
 </dt>
@@ -717,13 +630,13 @@
 
         <tr>
             
-                <td class="name"><code>x</code></td>
+                <td class="name"><code>element</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">object</span>
 
 
 
@@ -734,31 +647,7 @@
 
             
 
-            <td class="description last"><p>X-coordinate</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Y-coordinate</p></td>
+            <td class="description last"><p>containing the new head</p></td>
         </tr>
 
     
@@ -827,7 +716,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="snake.js.html">snake.js</a>,
-				 <a href="snake.js.html#sunlight-1-line-25">line 25</a>
+				 <a href="snake.js.html#sunlight-1-line-22">line 22</a>
 			</li>
 		</ul>
 	</dd>
@@ -912,7 +801,7 @@
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
 	
-		on Tue Jan 30th 2018
+		on Mon Feb 5th 2018
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

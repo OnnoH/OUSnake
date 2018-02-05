@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Snake Game Source: snake.js</title>
+	<title>Snake Game Source: gameController.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -72,96 +72,132 @@
 		<div id="main">
 			
 
-		<h1 class="page-title">Source: snake.js</h1>
+		<h1 class="page-title">Source: gameController.js</h1>
     
 <section>
     <article>
         <pre
             class="sunlight-highlight-javascript linenums">/**
- * @class Snake
- * @desc Create a snake object.
- * @returns Snake
+ * @class GameController
+ * @desc Create a game controller object.
+ * @param {object} canvas The canvas used for this game.
+
+ * @returns GameController
+ * @see SnakeGameData
+ * @see Snake
+ * @see Food
  * @see Element
  */
-function Snake() {
+function GameController(xmax, ymax) {
     // private constants
-    const _SNAKE   = "DarkRed";    // color of the snake's body
-    const _HEAD    = "DarkOrange"; // color of the snake's head
+    const _GAMESPEED = 600;     // base-speed of the game (ms per step)
 
     // private properties
-    var _segments = [];     // snake elements
-    var _head;              // head segment
+    var _timer;                 // timer event
+    var _snakeGameData;         // snake controller
+    var _level = 1;             // current level.
 
+    var _xmax = xmax            // width of the field
+    var _ymax = ymax;           // height of the field
+
+    // private methods
     /**
      * @private
-     * @desc Executes snake movement in the current direction.
-     * @param {object} element containing the new head
-     * @param {boolean} grow Indicates if the snake grows (e.g. because he has eaten food)
+     * @desc Initialize the start position of the game and begin (if not already running)
      */
-    function _move(element, grow) {
-        // change the current head into a body part
-        if (_head) {
-            _head.color = _SNAKE;
-        }
+    function _start() {
+        // initiate a new game if the game is not running
+        if (!_snakeGameData) {
+            _snakeGameData = new SnakeGameData(_xmax, _ymax, _level);   
+            var gameSpeed = _GAMESPEED * Math.pow(0.8, _level)          // game speed in ms.
+            
+            // perform a move after every tick (gameSpeed).
+            _timer = setInterval(function() {
+                _snakeGameData.move();              
+            }, gameSpeed);     
 
-        // add a new head
-        _segments.push(element);
-        _head = _segments[_segments.length-1];
-
-        // remove the tail if the snake doesn't grow
-        if (!grow) {
-            _segments.shift();
+            console.log("Level " + _level + " started at speed " + gameSpeed);
         }
     }
 
     /**
      * @private
-     * @desc Checks if the given x- and y-coordinates are 'occupied'.
-     * @param {number} x X-coordinate
-     * @param {number} y Y-coordinate
-     * @returns {boolean} Snake hits itself (true) or not (false)
-    */
-    function _collision(x, y) {
-        return _createNewHead(x, y).indexOf(_segments) >= 0;
+     * @desc The user requested to stop the game so trigger an event
+     */
+    function _stop() {
+        _haltGame();
+        _level = 1;
+        $(document).trigger(new jQuery.Event("gameStoppedEvent", []));
     }
 
     /**
      * @private
-     * @desc Creates a new snake head on the given coordinates.
-     * @param {number} x X-coordinate
-     * @param {number} y Y-coordinate
-     * @returns {Element} Element on given coordinates and color _HEAD.
-    */
-    function _createNewHead (x, y) {
-        return new Element(x, y, _HEAD);
+     * @desc The game is lost. Stop it!
+     */
+    function _gameOver() {
+        _haltGame();
+        _level = 1;
+    }
+
+    /**
+     * @private
+     * @desc The game is won. Stop it!
+     */
+    function _gameWon() {
+        _haltGame();
+        _level += 1;
+    }
+    
+    /**
+     * @private
+     * @desc halt the game (if the game is running)
+     */
+    function _haltGame() {
+        if (_snakeGameData) {
+            clearInterval(_timer);
+            _snakeGameData = null;
+        }
+    }
+
+    /**
+     * @private
+     * @desc Go snake! In the given direction that is...
+     * @param {object} event The event object containing the key pressed
+     */
+    function _keyPressed(event) {
+        if (_snakeGameData) {
+            switch (event.which) {
+            case 37: // left arrow
+                _snakeGameData.setDirection(_snakeGameData.LEFT);
+                break;
+            case 38: // up arrow key
+                _snakeGameData.setDirection(_snakeGameData.UP);
+                break;
+            case 39: // right arrow key
+                _snakeGameData.setDirection(_snakeGameData.RIGHT);
+                break;
+            case 40: // down arrow key
+                _snakeGameData.setDirection(_snakeGameData.DOWN);
+                break;
+            }
+        }
     }
 
     /**
      * @public
-     * @desc Snake object which is returned.
+     * @desc gameController object which is returned.
      * @member {Object}
      */
-    return {
-        // Returns the head (final segment)
-        getHead: function() {
-            return _head;
+     return {
+        // public functions
+        start: _start,
+        stop: _stop,
+        gameOver: _gameOver,
+        gameWon: _gameWon,
+        keyPressed: _keyPressed,
+        getLevel: function() {
+            return _level;
         },
-        // Returns the new head element on the give coordinates
-        getNewHead: function(x, y) {
-            return _createNewHead(x, y);
-        },
-        // Returns the snake's segments
-        getSegments: function () {
-            return _segments;
-        },
-        // Move (and grow) the snake
-        move: function(element, grow) {
-            _move(element, grow);
-        },
-        // Check if the snake collides with itself
-        collision: function(x, y) {
-            return _collision(x, y);
-        }
     };
 }
 </pre>

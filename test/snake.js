@@ -4,29 +4,34 @@ var expect = chai.expect;
 describe("Snake", function() {
   describe("new Snake", function() {
     var snake = new Snake();
+    var newHead = snake.getNewHead(10, 10);
     it("should create an object of type Snake", function() {
       expect(typeof(snake)).to.equal("object");
     });
     it("the public methods should be available", function() {
       expect(typeof(snake.getHead)).to.equal("function");
+      expect(typeof(snake.getNewHead)).to.equal("function");
       expect(typeof(snake.getSegments)).to.equal("function");
       expect(typeof(snake.collision)).to.equal("function");
       expect(typeof(snake.move)).to.equal("function");
     });
     it("the snake should be one segment after first move", function() {
-      snake.move(10, 10, true);
+      snake.move(newHead, true);
       expect(snake.getSegments().length).to.equal(1);
     });
     it("the snake should be two segments after second move", function() {
-      snake.move(10, 20, true);
+      newHead = snake.getNewHead(10, 20);
+      snake.move(newHead, true);
       expect(snake.getSegments().length).to.equal(2);
     });
     it("the snake should move without growing", function() {
-      snake.move(10, 30, false);
+      newHead = snake.getNewHead(10, 30);
+      snake.move(newHead, false);
       expect(snake.getSegments().length).to.equal(2);
     });
     it("the snake should move and grow at the same time", function() {
-      snake.move(10, 40, true);
+      newHead = snake.getNewHead(10, 40);
+      snake.move(newHead, true);
       expect(snake.getSegments().length).to.equal(3);
     });
     it("the snake should have hit itself", function() {
