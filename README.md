@@ -52,7 +52,7 @@ most modules are structured according to the "object model pattern" which is a s
 snakeGame acts as the view module. It handles the events and key input.
 Canvas and Sound are also part of the view. They are triggered using events.
 The dependencies between view, model and controller objects are kept to a minimum with 2 notable exceptions:
-1) The size of the playing fields is communicated to the controller upon initialisation of the view. 
+1) The size of the playing fields is communicated to the controller upon initialisation of the view.
 2) Canvas depends on the Element object to be able to draw elements efficiently.
 
 Decision: It was decided to place the timer in the controller (gameController) rather then in the view (snakeGame). Although the ticking of the timer can be seen as an event, gameController fully encapsulates its function. It did not seem justified to move it out of gameController and there was little benefit to use events on timer ticks.
@@ -125,4 +125,5 @@ The testing framework that is used is Mocha in combination with Chai. Due to the
 14. ~~Util tests are executed, but no output is shown.~~ => deprecated
 15. Get rid of the iFrame and use jQuery to load/display html content.
 16. Add new game elements like: speed up/slow down/pause buttons, speed up automatically over time), add random walls or mole heaps, replace the food that's been eaten with new food (so the snake can grow even larger), move the remaining food to random locations, introduce superfood and some kind of scoring mechanism (with high scores table, but therefore we also need to identify the user).
-17. ...
+17. Make better use of the requireJS library.
+18. ...
