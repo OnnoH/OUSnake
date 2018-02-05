@@ -8,22 +8,22 @@
 function Sound() {
     // private constants
     const _SOUND_PATH  = "snd/";    // path where sounds are located
-    const _SOUND_EXT   = ".wav";    // file extension of sounds. 
-    
-    const _MOVE        = "move";    // the sound of moving. 
+    const _SOUND_EXT   = ".wav";    // file extension of sounds.
+
+    const _MOVE        = "move";    // the sound of moving.
     const _FOOD        = "food";    // the sound of munching
     const _WIN         = "winner";  // the sound of winning
-    const _LOSE        = "looser";  // the sound of losing
-    
+    const _LOSE        = "loser";   // the sound of losing
+
     const _SOUNDS = [_MOVE, _FOOD, _WIN, _LOSE];    // the gathering of sounds
-    
+
     // private properties
     var _audio = {};                // collection of playable sounds
-    var _playing = true;            // sound is on or off. 
-    
+    var _playing = true;            // sound is on or off.
+
     // initiate object on creation
     _init();
-    
+
     /**
      * @private
      * @desc initiate object by adding all the sounds to the library.
@@ -58,7 +58,7 @@ function Sound() {
     /**
      * @public
      * @desc Sound object which is returned.
-     * @member {Object}
+     * @member {Object} Sound
      */
     return {
         // public constants
