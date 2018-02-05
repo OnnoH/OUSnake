@@ -1,5 +1,3 @@
-require(["element"]);
-
 /**
  * @class Canvas
  * @module snake/view
@@ -16,7 +14,7 @@ function Canvas(canvas) {
     const _BAD    = "OrangeRed"                     // bad text style/color
     const _NORMAL = "White"                         // normal text style/color
     const _FONT   = "Comic Sans MS"                 // if you can call this a font...
-    
+
     // private properties
     var _canvas = canvas;                           // the canvas
     var _height = _canvas[0].height;                // canvas height
@@ -52,7 +50,7 @@ function Canvas(canvas) {
         var context = _canvas[0].getContext("2d");
         context.textAlign = "center";
         context.fillStyle = style;
-        
+
         // determine how to draw the text.
         switch(style) {
             case _GOOD:
@@ -69,7 +67,7 @@ function Canvas(canvas) {
         // draw the text.
         context.fillText(line, _width / 2, _height / 6 * (3 + lineNumber));
     }
-    
+
     /**
      * @private
      * @desc Draw the elements and texts given.
@@ -79,12 +77,12 @@ function Canvas(canvas) {
     function _draw(elements, texts) {
         // clear canvas
         canvas.clearCanvas();
-        
-        // draw all elements 
+
+        // draw all elements
         elements.forEach(function(element) {
             _drawElement(element);
         });
-        
+
         // draw text
         texts.forEach(function(line) {
             _drawText(line[0], line[1], texts.indexOf(line));
@@ -104,7 +102,7 @@ function Canvas(canvas) {
         // public properties
         xmax : _xmax,
         ymax : _ymax,
-        // public functions        
+        // public functions
         draw: _draw,
     };
 }

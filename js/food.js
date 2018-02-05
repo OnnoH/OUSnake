@@ -1,5 +1,3 @@
-require(["element"]);
-
 /**
  * @class Food
  * @desc Create a food collection object.

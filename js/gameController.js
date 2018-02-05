@@ -1,13 +1,11 @@
-require(["element", "food", "snake", "snakeGameData"]);
-
 /**
  * @class GameController
  * @desc Create a game controller object.
- * @param {object} canvas The canvas used for this game. 
+ * @param {object} canvas The canvas used for this game.
 
  * @returns GameController
  * @see SnakeGameData
- * @see Snake 
+ * @see Snake
  * @see Food
  * @see Element
  */
@@ -19,10 +17,10 @@ function GameController(xmax, ymax) {
     var _timer;                 // timer event
     var _snakeGameData;         // snake controller
     var _level = 1;             // current level.
-    
+
     var _xmax = xmax
     var _ymax = ymax;
-    
+
     // private methods
     /**
      * @private
@@ -32,14 +30,14 @@ function GameController(xmax, ymax) {
         // initiate a new game if the game is not running
         if (!_snakeGameData) {
             _snakeGameData = new SnakeGameData(_xmax, _ymax, _level);
-            
+
             // voor een move op elke gegeven interval
             _timer = setInterval(function() {
                 if (_snakeGameData) {
                     _snakeGameData.move();
                 }
             }, _GAMESPEED * Math.pow(0.8, _level));  // set game speed depending on level.
-            
+
             console.log("Level " + _level + " started at speed " + _GAMESPEED * Math.pow(0.8, _level));
         }
     }
@@ -104,7 +102,7 @@ function GameController(xmax, ymax) {
      */
      return {
         // public properties
-        level: _level, 
+        level: _level,
         // public functions
         start: _start,
         stop: _stop,

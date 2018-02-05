@@ -6,29 +6,29 @@
  * @see Sound
  * @see Canvas
  */
-require(["gameController", "sound", "canvas"], function() {
+require(["gameController", "food", "element", "sound", "canvas", "snake", "snakeGameData"], function() {
     console.log("All scripts are loaded.")
 
     var canvas = new Canvas($("#mySnakeCanvas"));
     var game = new GameController(canvas.xmax, canvas.ymax);    // The game;
     var sound = new Sound();
-    
+
     console.log("The game is afoot!");
 
     /***************************************************************************
      **                 Game Button Events                                    **
      ***************************************************************************/
-    
+
     $(document).ready(function() {
         $("#startSnake").click(game.start);
         $("#stopSnake").click(game.stop);
         $('#toggleSound').click(sound.toggle);
     });
-    
+
     /***************************************************************************
      **                 Keyboard Events                                       **
      ***************************************************************************/
-     
+
     $(document).on("keydown", function() { game.keyPressed(event); });
 
     /***************************************************************************
@@ -39,7 +39,7 @@ require(["gameController", "sound", "canvas"], function() {
         console.log("VERLOREN!!!");
         game.gameOver();
         sound.play(sound.LOSE);
-        canvas.draw(event[0], [["Game Over", canvas.BAD], 
+        canvas.draw(event[0], [["Game Over", canvas.BAD],
                                ["You reached level " + game.level, canvas.NORMAL],
                                ["Press start to try again", canvas.NORMAL]])
     });
@@ -47,7 +47,7 @@ require(["gameController", "sound", "canvas"], function() {
         console.log("GEWONNEN!!!");
         game.gameWon();
         sound.play(sound.WIN);
-        canvas.draw(event[0], [["Well Done!", canvas.GOOD], 
+        canvas.draw(event[0], [["Well Done!", canvas.GOOD],
                                ["You cleared level " + game.level, canvas.NORMAL],
                                ["Press start go to the next level", canvas.NORMAL]])
     });
@@ -59,8 +59,8 @@ require(["gameController", "sound", "canvas"], function() {
         sound.play(sound.FOOD);
         canvas.draw(event[0], [])
     });
-    
-    $(document).on("toggleSound", function(event) { 
+
+    $(document).on("toggleSound", function(event) {
         $("#toggleSound").html('<i class="fa fa-volume-' + (event[0] ? "up" : "off") + ' fa-fw"></i>');
     });
 });
