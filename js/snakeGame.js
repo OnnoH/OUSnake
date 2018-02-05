@@ -40,7 +40,7 @@ require(["gameController", "food", "element", "sound", "canvas", "snake", "snake
         game.gameOver();
         sound.play(sound.LOSE);
         canvas.draw(event[0], [["Game Over", canvas.BAD],
-                               ["You reached level " + game.level, canvas.NORMAL],
+                               ["You reached level " + game.getLevel(), canvas.NORMAL],
                                ["Press start to try again", canvas.NORMAL]])
     });
     $(document).on("gameWonEvent", function(event) {
@@ -48,8 +48,9 @@ require(["gameController", "food", "element", "sound", "canvas", "snake", "snake
         game.gameWon();
         sound.play(sound.WIN);
         canvas.draw(event[0], [["Well Done!", canvas.GOOD],
-                               ["You cleared level " + game.level, canvas.NORMAL],
-                               ["Press start go to the next level", canvas.NORMAL]])
+                               ["You reached level " + game.getLevel(), canvas.NORMAL],
+                               ["Press start to challenge it", canvas.NORMAL]])
+        $("#gameLevel").html("Level " + game.getLevel());
     });
     $(document).on("gameMoveEvent", function(event) {
         sound.play(sound.MOVE);

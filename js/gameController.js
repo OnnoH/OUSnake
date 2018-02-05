@@ -109,5 +109,8 @@ function GameController(xmax, ymax) {
         gameOver: _gameOver,
         gameWon: _gameWon,
         keyPressed: _keyPressed,
+        getLevel: function() {
+            return _level;
+        }
     };
 }

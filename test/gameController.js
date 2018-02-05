@@ -15,9 +15,11 @@ describe("Game Controller", function() {
       expect(typeof(controller.gameOver)).to.equal("function");
       expect(typeof(controller.gameWon)).to.equal("function");
       expect(typeof(controller.keyPressed)).to.equal("function");
+      expect(typeof(controller.getLevel)).to.equal("function");
     });
     it("the game starts at level 1", function() {
       expect(controller.level).to.equal(1);
+      expect(controller.getLevel()).to.equal(1);
     });
   });
 });
