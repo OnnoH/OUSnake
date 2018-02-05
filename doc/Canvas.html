@@ -31,9 +31,16 @@
 		<ul class="nav navbar-nav">
 			
 			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="module-snake_view.html">snake/view</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="Canvas.html">Canvas</a></li><li><a href="Element.html">Element</a></li><li><a href="Food.html">Food</a></li><li><a href="GameController.html">GameController</a></li><li><a href="Snake.html">Snake</a></li><li><a href="SnakeController.html">SnakeController</a></li><li><a href="Sound.html">Sound</a></li>
+					<li><a href="Canvas.html">Canvas</a></li><li><a href="Element.html">Element</a></li><li><a href="Food.html">Food</a></li><li><a href="GameController.html">GameController</a></li><li><a href="Snake.html">Snake</a></li><li><a href="SnakeGameData.html">SnakeGameData</a></li><li><a href="Sound.html">Sound</a></li>
 				</ul>
 			</li>
 			
@@ -92,7 +99,7 @@
 
     
     <div class="description">
-        <p>Create a canvas object with boundaries.</p>
+        <p>Create a Canvas object.</p>
     </div>
     
 
@@ -144,7 +151,7 @@
 
             
 
-            <td class="description last"><p>Object with canvas element from html</p></td>
+            <td class="description last"><p>object with canvas element from HTML.</p></td>
         </tr>
 
     
@@ -198,6 +205,13 @@
 	
 
 	
+	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><a href="Element.html">Element</a></li>
+			</ul>
+	</dd>
+	
 
 	
 </dl>
@@ -218,7 +232,7 @@
     
             
 <div class="param-desc">
-    <p>Canvas</p>
+    <p>Canvas the object the game is drawn on.</p>
 </div>
 
 
@@ -243,91 +257,6 @@
     
 
     
-        <h3 class="subsection-title">Members</h3>
-
-        <dl>
-            
-<hr>
-<dt class="name" id="~canvas">
-    <h4 id="~canvas"><span class="type-signature">&lt;inner> </span>canvas<span class="type-signature"> :Object</span></h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        <p>Canvas object which is returned.</p>
-    </div>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">Object</span>
-
-
-
-            </li>
-        </ul>
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="canvas.js.html">canvas.js</a>,
-				 <a href="canvas.js.html#sunlight-1-line-77">line 77</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-</dd>
-
-        </dl>
-    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -336,7 +265,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_collision"><span class="type-signature">&lt;private, inner> </span>_collision(x, y)</h4>
+    <h4 class="name" id="~_draw"><span class="type-signature">&lt;private, inner> </span>_draw(elements, texts)</h4>
     
     
 </dt>
@@ -344,7 +273,7 @@
 
     
     <div class="description">
-        <p>Checks if the given x- and y-coordinates are within the playing field.</p>
+        <p>Draw the elements and texts given.</p>
     </div>
     
 
@@ -379,16 +308,10 @@
 
         <tr>
             
-                <td class="name"><code>x</code></td>
+                <td class="name"><code>elements</code></td>
             
 
             <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-
             
             </td>
 
@@ -396,23 +319,17 @@
 
             
 
-            <td class="description last"><p>X-coordinate</p></td>
+            <td class="description last"></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>y</code></td>
+                <td class="name"><code>texts</code></td>
             
 
             <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-
             
             </td>
 
@@ -420,7 +337,7 @@
 
             
 
-            <td class="description last"><p>Y-coordinate</p></td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -465,7 +382,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="canvas.js.html">canvas.js</a>,
-				 <a href="canvas.js.html#sunlight-1-line-67">line 67</a>
+				 <a href="canvas.js.html#sunlight-1-line-76">line 76</a>
 			</li>
 		</ul>
 	</dd>
@@ -490,30 +407,6 @@
     
 
     
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>Location is within playing field (true) or not (false)</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
 
     
 </dd>
@@ -627,7 +520,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="canvas.js.html">canvas.js</a>,
-				 <a href="canvas.js.html#sunlight-1-line-36">line 36</a>
+				 <a href="canvas.js.html#sunlight-1-line-30">line 30</a>
 			</li>
 		</ul>
 	</dd>
@@ -660,7 +553,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_drawText"><span class="type-signature">&lt;private, inner> </span>_drawText(text, color)</h4>
+    <h4 class="name" id="~_drawText"><span class="type-signature">&lt;private, inner> </span>_drawText(line, style, style)</h4>
     
     
 </dt>
@@ -668,7 +561,7 @@
 
     
     <div class="description">
-        <p>Draw a text on the canvas in the given color.</p>
+        <p>Draw a line of text on the canvas in the given color.</p>
     </div>
     
 
@@ -703,7 +596,7 @@
 
         <tr>
             
-                <td class="name"><code>text</code></td>
+                <td class="name"><code>line</code></td>
             
 
             <td class="type">
@@ -727,7 +620,7 @@
 
         <tr>
             
-                <td class="name"><code>color</code></td>
+                <td class="name"><code>style</code></td>
             
 
             <td class="type">
@@ -744,128 +637,14 @@
 
             
 
-            <td class="description last"><p>The color of the text.</p></td>
+            <td class="description last"><p>The style and color of the text.</p></td>
         </tr>
 
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="canvas.js.html">canvas.js</a>,
-				 <a href="canvas.js.html#sunlight-1-line-52">line 52</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="~_resize"><span class="type-signature">&lt;private, inner> </span>_resize(newRadius)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Resizes the elements</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
     
 
         <tr>
             
-                <td class="name"><code>newRadius</code></td>
+                <td class="name"><code>style</code></td>
             
 
             <td class="type">
@@ -882,7 +661,7 @@
 
             
 
-            <td class="description last"><p>The new radius</p></td>
+            <td class="description last"><p>line number of the text (up to 3).</p></td>
         </tr>
 
     
@@ -927,7 +706,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="canvas.js.html">canvas.js</a>,
-				 <a href="canvas.js.html#sunlight-1-line-24">line 24</a>
+				 <a href="canvas.js.html#sunlight-1-line-47">line 47</a>
 			</li>
 		</ul>
 	</dd>
@@ -1012,7 +791,7 @@
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
 	
-		on Fri Feb 2nd 2018
+		on Mon Feb 5th 2018
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

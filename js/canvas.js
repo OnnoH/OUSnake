@@ -1,7 +1,6 @@
 /**
  * @class Canvas
- * @module snake/view
- * @desc provide a canvas for the game.
+ * @desc Create a Canvas object.
  * @param {object} canvas object with canvas element from HTML.
  * @returns Canvas the object the game is drawn on.
  * @see Element
@@ -92,7 +91,7 @@ function Canvas(canvas) {
     /**
      * @public
      * @desc Canvas object which is returned.
-     * @member {Object} Canvas
+     * @member {Object}
      */
     return {
         // public constants

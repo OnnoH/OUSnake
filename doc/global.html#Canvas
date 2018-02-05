@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Snake Game Class: Food</title>
+	<title>Snake Game Class: Canvas</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -40,7 +40,14 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="Canvas.html">Canvas</a></li><li><a href="Element.html">Element</a></li><li><a href="Food.html">Food</a></li><li><a href="GameController.html">GameController</a></li><li><a href="Snake.html">Snake</a></li><li><a href="SnakeGameData.html">SnakeGameData</a></li><li><a href="Sound.html">Sound</a></li>
+					<li><a href="global.html#Canvas">Canvas</a></li><li><a href="global.html#Element">Element</a></li><li><a href="global.html#Food">Food</a></li><li><a href="global.html#GameController">GameController</a></li><li><a href="global.html#Snake">Snake</a></li><li><a href="global.html#SnakeGameData">SnakeGameData</a></li><li><a href="global.html#Sound">Sound</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="global.html">Global</a></li>
 				</ul>
 			</li>
 			
@@ -72,13 +79,13 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Class: Food</h1>
+	<h1 class="page-title">Class: Canvas</h1>
 <section>
 
 <header>
     
         <h2>
-        Food
+        Canvas
         </h2>
         
     
@@ -91,7 +98,7 @@
         
 <hr>
 <dt>
-    <h4 class="name" id="Food"><span class="type-signature"></span>new Food()</h4>
+    <h4 class="name" id="Canvas"><span class="type-signature"></span>new Canvas(canvas)</h4>
     
     
 </dt>
@@ -99,7 +106,7 @@
 
     
     <div class="description">
-        <p>Create a food collection object.</p>
+        <p>Create a Canvas object.</p>
     </div>
     
 
@@ -108,6 +115,56 @@
     
 
     
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>canvas</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>object with canvas element from HTML.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
     
 
     
@@ -145,8 +202,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="food.js.html">food.js</a>,
-				 <a href="food.js.html#sunlight-1-line-1">line 1</a>
+				<a href="canvas.js.html">canvas.js</a>,
+				 <a href="canvas.js.html#sunlight-1-line-1">line 1</a>
 			</li>
 		</ul>
 	</dd>
@@ -158,7 +215,7 @@
 	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
 	<dd class="tag-see">
 		<ul>
-			<li><a href="Element.html">Element</a></li>
+			<li><a href="global.html#Element">Element</a></li>
 			</ul>
 	</dd>
 	
@@ -182,7 +239,7 @@
     
             
 <div class="param-desc">
-    <p>Food</p>
+    <p>Canvas the object the game is drawn on.</p>
 </div>
 
 
@@ -215,7 +272,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_add"><span class="type-signature">&lt;private, inner> </span>_add(element)</h4>
+    <h4 class="name" id="~_draw"><span class="type-signature">&lt;private, inner> </span>_draw(elements, texts)</h4>
     
     
 </dt>
@@ -223,7 +280,7 @@
 
     
     <div class="description">
-        <p>Creates a food segment on the given x- and y-coordinates.</p>
+        <p>Draw the elements and texts given.</p>
     </div>
     
 
@@ -258,16 +315,10 @@
 
         <tr>
             
-                <td class="name"><code>element</code></td>
+                <td class="name"><code>elements</code></td>
             
 
             <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-
             
             </td>
 
@@ -275,7 +326,25 @@
 
             
 
-            <td class="description last"><p>The food element</p></td>
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>texts</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
         </tr>
 
     
@@ -319,8 +388,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="food.js.html">food.js</a>,
-				 <a href="food.js.html#sunlight-1-line-28">line 28</a>
+				<a href="canvas.js.html">canvas.js</a>,
+				 <a href="canvas.js.html#sunlight-1-line-76">line 76</a>
 			</li>
 		</ul>
 	</dd>
@@ -353,7 +422,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_collision"><span class="type-signature">&lt;private, inner> </span>_collision(element)</h4>
+    <h4 class="name" id="~_drawElement"><span class="type-signature">&lt;private, inner> </span>_drawElement(element)</h4>
     
     
 </dt>
@@ -361,7 +430,7 @@
 
     
     <div class="description">
-        <p>Checks if the given x- and y-coordinates are 'occupied'.</p>
+        <p>Draw an element on the canvas</p>
     </div>
     
 
@@ -402,7 +471,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type"><a href="global.html#Element">Element</a></span>
 
 
 
@@ -413,7 +482,7 @@
 
             
 
-            <td class="description last"><p>The element to be found in the food collection</p></td>
+            <td class="description last"><p>The element object to be drawn.</p></td>
         </tr>
 
     
@@ -457,8 +526,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="food.js.html">food.js</a>,
-				 <a href="food.js.html#sunlight-1-line-38">line 38</a>
+				<a href="canvas.js.html">canvas.js</a>,
+				 <a href="canvas.js.html#sunlight-1-line-30">line 30</a>
 			</li>
 		</ul>
 	</dd>
@@ -483,30 +552,6 @@
     
 
     
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>Location is occupied (true) or not (false)</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
 
     
 </dd>
@@ -515,7 +560,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_createNewFood"><span class="type-signature">&lt;private, inner> </span>_createNewFood(x, y)</h4>
+    <h4 class="name" id="~_drawText"><span class="type-signature">&lt;private, inner> </span>_drawText(line, style, style)</h4>
     
     
 </dt>
@@ -523,7 +568,7 @@
 
     
     <div class="description">
-        <p>Creates a new snake head on the given coordinates.</p>
+        <p>Draw a line of text on the canvas in the given color.</p>
     </div>
     
 
@@ -558,7 +603,55 @@
 
         <tr>
             
-                <td class="name"><code>x</code></td>
+                <td class="name"><code>line</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The text to be drawn.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>style</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The style and color of the text.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>style</code></td>
             
 
             <td class="type">
@@ -575,31 +668,7 @@
 
             
 
-            <td class="description last"><p>X-coordinate</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Y-coordinate</p></td>
+            <td class="description last"><p>line number of the text (up to 3).</p></td>
         </tr>
 
     
@@ -643,170 +712,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="food.js.html">food.js</a>,
-				 <a href="food.js.html#sunlight-1-line-49">line 49</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>Element on given coordinates and color _FOOD.</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="Element.html">Element</a></span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="~_remove"><span class="type-signature">&lt;private, inner> </span>_remove(element)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Removes the food segment on the given x- and y-coordinates if present.</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>element</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The eater, e.g. the snake's head</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="food.js.html">food.js</a>,
-				 <a href="food.js.html#sunlight-1-line-19">line 19</a>
+				<a href="canvas.js.html">canvas.js</a>,
+				 <a href="canvas.js.html#sunlight-1-line-47">line 47</a>
 			</li>
 		</ul>
 	</dd>

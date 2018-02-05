@@ -1,6 +1,6 @@
 /**
  * @class SnakeGameData
- * @desc Create a snake controller object.
+ * @desc Create a SnakeGameData object.
  * @param {number} xmax Maximum X-coordinate (canvas boundary)
  * @param {number} ymax Maximum Y-coordinate (canvas boundary)
  * @returns snakeGameData
@@ -164,7 +164,7 @@ function SnakeGameData(xmax, ymax, level) {
     /**
      * @public
      * @desc SnakeGameData object which is returned.
-     * @member {Object} SnakeGameData
+     * @member {Object}
      */
     return {
         // public constants

@@ -1,7 +1,6 @@
 /**
  * @class Sound
- * @module snake/view
- * @desc provide sound for the game.
+ * @desc Create a Sound object.
  * @returns Sound the object used to make sound.
  * @see Audio
  */
@@ -58,7 +57,7 @@ function Sound() {
     /**
      * @public
      * @desc Sound object which is returned.
-     * @member {Object} Sound
+     * @member {Object}
      */
     return {
         // public constants

@@ -1,6 +1,6 @@
 /**
  * @class Element
- * @desc Create an element object.
+ * @desc Create an Element object.
  *
  * This class is a generalization for the snake and food elements.
  * @param {number} x center x-coordinate
@@ -52,7 +52,7 @@ function Element(x, y, color) {
     /**
      * @public
      * @desc Element object which is returned.
-     * @member {Object} Element
+     * @member {Object}
      */
     return {
       // Return the index of the element in the given collection or -1 if it doesn't exist

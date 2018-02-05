@@ -1,7 +1,6 @@
 /**
- * @class SnakeGame
  * @module snake/view
- * @desc provide interaction for the game.
+ * @desc Provide interaction for the game.
  * @see GameController
  * @see Sound
  * @see Canvas
