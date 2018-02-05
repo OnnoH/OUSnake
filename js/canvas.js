@@ -103,8 +103,5 @@ function Canvas(canvas) {
         ymax : _ymax,
         // public functions
         draw: _draw,
-        clear: function() {
-            _canvas.clearCanvas();
-        }
     };
 }

@@ -18,8 +18,8 @@ function GameController(xmax, ymax) {
     var _snakeGameData;         // snake controller
     var _level = 1;             // current level.
 
-    var _xmax = xmax
-    var _ymax = ymax;
+    var _xmax = xmax            // width of the field
+    var _ymax = ymax;           // height of the field
 
     // private methods
     /**
@@ -29,27 +29,15 @@ function GameController(xmax, ymax) {
     function _start() {
         // initiate a new game if the game is not running
         if (!_snakeGameData) {
-            _snakeGameData = new SnakeGameData(_xmax, _ymax, _level);
-
-            // voor een move op elke gegeven interval
+            _snakeGameData = new SnakeGameData(_xmax, _ymax, _level);   
+            var gameSpeed = _GAMESPEED * Math.pow(0.8, _level)          // game speed in ms.
+            
+            // perform a move after every tick (gameSpeed).
             _timer = setInterval(function() {
-                if (_snakeGameData) {
-                    _snakeGameData.move();
-                }
-            }, _GAMESPEED * Math.pow(0.8, _level));  // set game speed depending on level.
+                _snakeGameData.move();              
+            }, gameSpeed);     
 
-            console.log("Level " + _level + " started at speed " + _GAMESPEED * Math.pow(0.8, _level));
-        }
-    }
-
-    /**
-     * @private
-     * @desc Stop the game and reset level (if the game is running)
-     */
-    function _stop() {
-        if (_snakeGameData) {
-            clearInterval(_timer);
-            _snakeGameData = null;
+            console.log("Level " + _level + " started at speed " + gameSpeed);
         }
     }
 
@@ -57,8 +45,9 @@ function GameController(xmax, ymax) {
      * @private
      * @desc The user requested to stop the game so trigger an event
      */
-    function _stoppedByUser() {
-        _stop();
+    function _stop() {
+        _haltGame();
+        _level = 1;
         $(document).trigger(new jQuery.Event("gameStoppedEvent", []));
     }
 
@@ -67,7 +56,7 @@ function GameController(xmax, ymax) {
      * @desc The game is lost. Stop it!
      */
     function _gameOver() {
-        _stop();
+        _haltGame();
         _level = 1;
     }
 
@@ -76,8 +65,19 @@ function GameController(xmax, ymax) {
      * @desc The game is won. Stop it!
      */
     function _gameWon() {
-        _stop();
+        _haltGame();
         _level += 1;
+    }
+    
+    /**
+     * @private
+     * @desc halt the game (if the game is running)
+     */
+    function _haltGame() {
+        if (_snakeGameData) {
+            clearInterval(_timer);
+            _snakeGameData = null;
+        }
     }
 
     /**
@@ -112,15 +112,12 @@ function GameController(xmax, ymax) {
      return {
         // public functions
         start: _start,
-        stop: _stoppedByUser,
+        stop: _stop,
         gameOver: _gameOver,
         gameWon: _gameWon,
         keyPressed: _keyPressed,
         getLevel: function() {
             return _level;
         },
-        setLevel: function(level) {
-            _level = level;
-        }
     };
 }

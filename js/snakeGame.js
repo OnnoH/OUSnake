@@ -8,10 +8,10 @@
 require(["gameController", "food", "element", "sound", "canvas", "snake", "snakeGameData"], function() {
     console.log("All scripts are loaded.")
 
-    var canvas = new Canvas($("#mySnakeCanvas"));
+    var canvas = new Canvas($("#mySnakeCanvas"));               // The canvas 
     var game = new GameController(canvas.xmax, canvas.ymax);    // The game;
-    var sound = new Sound();
-
+    var sound = new Sound();                                    // Sounds
+    
     console.log("The game is afoot!");
 
     /***************************************************************************
@@ -41,7 +41,7 @@ require(["gameController", "food", "element", "sound", "canvas", "snake", "snake
                                ["Press start to try to beat that", canvas.NORMAL]])
         game.gameOver();
         sound.play(sound.LOSE);
-        $("#gameLevel").html("Level 1");
+        $("#gameLevel").html("Level " + game.getLevel());
     });
     $(document).on("gameWonEvent", function(event) {
         console.log("GEWONNEN!!!");
@@ -57,9 +57,8 @@ require(["gameController", "food", "element", "sound", "canvas", "snake", "snake
         canvas.draw(event[0], [])
     });
     $(document).on("gameStoppedEvent", function(event) {
-        canvas.clear();
-        game.setLevel(1);
-        $("#gameLevel").html("Level 1");
+        canvas.draw([], [])
+        $("#gameLevel").html("Level " + game.getLevel());
 
     });
     $(document).on("gameEatEvent", function(event) {
