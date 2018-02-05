@@ -116,25 +116,25 @@ function SnakeGameData(xmax, ymax, level) {
 
             // Have we had lunch yet?
             var eaten = newHead.isPresent(_food.getSegments());
-            
-            if (eaten) { /
+
+            if (eaten) {
                 _food.remove(newHead);
                 _snake.move(newHead, eaten);
                 allElements = _food.getSegments().concat(_snake.getSegments());
                 $(document).trigger(new jQuery.Event("gameEatEvent", [allElements]));
                 console.log("munch");
-            } else {  //
+            } else {
                 _snake.move(newHead, eaten);
                 allElements = _food.getSegments().concat(_snake.getSegments());
                 $(document).trigger(new jQuery.Event("gameMoveEvent", [allElements]));
             }
 
-            if (_food.remaining() === 0) { 
+            if (_food.remaining() === 0) {
                 // if we ate all the food, we win
                 $(document).trigger(new jQuery.Event("gameWonEvent", [allElements]));
             }
-        } else { 
-            // if we can't move, we lose 
+        } else {
+            // if we can't move, we lose
             $(document).trigger(new jQuery.Event("gameOverEvent", [allElements]));
         }
     }
