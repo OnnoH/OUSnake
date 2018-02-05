@@ -77,9 +77,7 @@
 <section>
     <article>
         <pre
-            class="sunlight-highlight-javascript linenums">require(["element", "food", "snake", "snakeGameData"]);
-
-/**
+            class="sunlight-highlight-javascript linenums">/**
  * @class GameController
  * @desc Create a game controller object.
  * @param {object} canvas The canvas used for this game.
@@ -149,7 +147,7 @@ function GameController(xmax, ymax) {
      */
     function _gameWon() {
         _stop();
-        _level++;
+        _level += 1;
     }
 
     /**
@@ -190,6 +188,9 @@ function GameController(xmax, ymax) {
         gameOver: _gameOver,
         gameWon: _gameWon,
         keyPressed: _keyPressed,
+        getLevel: function() {
+            return _level;
+        }
     };
 }
 </pre>

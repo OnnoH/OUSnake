@@ -77,9 +77,7 @@
 <section>
     <article>
         <pre
-            class="sunlight-highlight-javascript linenums">require(["element"]);
-
-/**
+            class="sunlight-highlight-javascript linenums">/**
  * @class Canvas
  * @module snake/view
  * @desc provide a canvas for the game.
@@ -152,8 +150,8 @@ function Canvas(canvas) {
     /**
      * @private
      * @desc Draw the elements and texts given.
-     * @param {object} elements array of elements to be drawn.
-     * @param {array} texts array of [text, style] to be drawn.
+     * @param {[object]} elements array of elements to be drawn.
+     * @param {[[string, string]]} texts array of [text, style] to be drawn.
     */
     function _draw(elements, texts) {
         // clear canvas
@@ -173,7 +171,7 @@ function Canvas(canvas) {
     /**
      * @public
      * @desc Canvas object which is returned.
-     * @member {Object} Canvas
+     * @member {Object}
      */
     return {
         // public constants
