@@ -52,7 +52,7 @@ function Element(x, y, color) {
     /**
      * @public
      * @desc Element object which is returned.
-     * @member {Object}
+     * @member {Object} Element
      */
     return {
       // Return the index of the element in the given collection or -1 if it doesn't exist

@@ -60,7 +60,7 @@ function Snake() {
     /**
      * @public
      * @desc Snake object which is returned.
-     * @member {Object}
+     * @member {Object} Snake
      */
     return {
         // Returns the head (final segment)

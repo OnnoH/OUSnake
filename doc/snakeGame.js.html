@@ -40,7 +40,14 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="Element.html">Element</a></li><li><a href="Food.html">Food</a></li><li><a href="GameController.html">GameController</a></li><li><a href="Snake.html">Snake</a></li><li><a href="SnakeGameData.html">SnakeGameData</a></li>
+					<li><a href="global.html#Element">Element</a></li><li><a href="global.html#Food">Food</a></li><li><a href="global.html#GameController">GameController</a></li><li><a href="global.html#Snake">Snake</a></li><li><a href="global.html#SnakeGameData">SnakeGameData</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="global.html">Global</a></li>
 				</ul>
 			</li>
 			
@@ -116,11 +123,12 @@ require(["gameController", "food", "element", "sound", "canvas", "snake", "snake
 
     $(document).on("gameOverEvent", function(event) {
         console.log("VERLOREN!!!");
+        canvas.draw(event[0], [["Game Over", canvas.BAD],
+                               ["You've reached level " + game.getLevel(), canvas.NORMAL],
+                               ["Press start to try to beat that", canvas.NORMAL]])
         game.gameOver();
         sound.play(sound.LOSE);
-        canvas.draw(event[0], [["Game Over", canvas.BAD],
-                               ["You reached level " + game.getLevel(), canvas.NORMAL],
-                               ["Press start to try again", canvas.NORMAL]])
+        $("#gameLevel").html("Level 1");
     });
     $(document).on("gameWonEvent", function(event) {
         console.log("GEWONNEN!!!");
@@ -135,11 +143,13 @@ require(["gameController", "food", "element", "sound", "canvas", "snake", "snake
         sound.play(sound.MOVE);
         canvas.draw(event[0], [])
     });
+    $(document).on("gameStoppedEvent", function(event) {
+        canvas.clear();
+    });
     $(document).on("gameEatEvent", function(event) {
         sound.play(sound.FOOD);
         canvas.draw(event[0], [])
     });
-
     $(document).on("toggleSound", function(event) {
         $("#toggleSound").html('&lt;i class="fa fa-volume-' + (event[0] ? "up" : "off") + ' fa-fw">&lt;/i>');
     });

@@ -53,7 +53,7 @@ function Food() {
     /**
      * @public
      * @desc Food object which is returned.
-     * @member {Object}
+     * @member {Object} Food
      */
     return {
         // Create food element on given coordinates

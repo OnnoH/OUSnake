@@ -92,7 +92,7 @@ function Canvas(canvas) {
     /**
      * @public
      * @desc Canvas object which is returned.
-     * @member {Object}
+     * @member {Object} Canvas
      */
     return {
         // public constants

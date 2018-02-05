@@ -107,7 +107,7 @@ function GameController(xmax, ymax) {
     /**
      * @public
      * @desc gameController object which is returned.
-     * @member {Object}
+     * @member {Object} GameController
      */
      return {
         // public functions

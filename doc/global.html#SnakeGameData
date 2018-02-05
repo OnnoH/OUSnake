@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Snake Game Class: GameController</title>
+	<title>Snake Game Class: SnakeGameData</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -40,7 +40,14 @@
 			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="Element.html">Element</a></li><li><a href="Food.html">Food</a></li><li><a href="GameController.html">GameController</a></li><li><a href="Snake.html">Snake</a></li><li><a href="SnakeGameData.html">SnakeGameData</a></li>
+					<li><a href="global.html#Element">Element</a></li><li><a href="global.html#Food">Food</a></li><li><a href="global.html#GameController">GameController</a></li><li><a href="global.html#Snake">Snake</a></li><li><a href="global.html#SnakeGameData">SnakeGameData</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="global.html">Global</a></li>
 				</ul>
 			</li>
 			
@@ -72,13 +79,13 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Class: GameController</h1>
+	<h1 class="page-title">Class: SnakeGameData</h1>
 <section>
 
 <header>
     
         <h2>
-        GameController
+        SnakeGameData
         </h2>
         
     
@@ -91,7 +98,7 @@
         
 <hr>
 <dt>
-    <h4 class="name" id="GameController"><span class="type-signature"></span>new GameController(canvas)</h4>
+    <h4 class="name" id="SnakeGameData"><span class="type-signature"></span>new SnakeGameData(xmax, ymax)</h4>
     
     
 </dt>
@@ -99,7 +106,7 @@
 
     
     <div class="description">
-        <p>Create a game controller object.</p>
+        <p>Create a snake controller object.</p>
     </div>
     
 
@@ -134,13 +141,13 @@
 
         <tr>
             
-                <td class="name"><code>canvas</code></td>
+                <td class="name"><code>xmax</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">number</span>
 
 
 
@@ -151,7 +158,31 @@
 
             
 
-            <td class="description last"><p>The canvas used for this game.</p></td>
+            <td class="description last"><p>Maximum X-coordinate (canvas boundary)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ymax</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Maximum Y-coordinate (canvas boundary)</p></td>
         </tr>
 
     
@@ -195,8 +226,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="gameController.js.html">gameController.js</a>,
-				 <a href="gameController.js.html#sunlight-1-line-1">line 1</a>
+				<a href="snakeGameData.js.html">snakeGameData.js</a>,
+				 <a href="snakeGameData.js.html#sunlight-1-line-1">line 1</a>
 			</li>
 		</ul>
 	</dd>
@@ -204,19 +235,6 @@
 
 	
 
-	
-	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
-	<dd class="tag-see">
-		<ul>
-			<li><a href="SnakeGameData.html">SnakeGameData</a></li>
-			
-			<li><a href="Snake.html">Snake</a></li>
-			
-			<li><a href="Food.html">Food</a></li>
-			
-			<li><a href="Element.html">Element</a></li>
-			</ul>
-	</dd>
 	
 
 	
@@ -238,7 +256,7 @@
     
             
 <div class="param-desc">
-    <p>GameController</p>
+    <p>snakeGameData</p>
 </div>
 
 
@@ -271,7 +289,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_gameOver"><span class="type-signature">&lt;private, inner> </span>_gameOver()</h4>
+    <h4 class="name" id="~_canMove"><span class="type-signature">&lt;private, inner> </span>_canMove(x, y)</h4>
     
     
 </dt>
@@ -279,183 +297,7 @@
 
     
     <div class="description">
-        <p>The game is lost. Stop it!</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="gameController.js.html">gameController.js</a>,
-				 <a href="gameController.js.html#sunlight-1-line-69">line 69</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="~_gameWon"><span class="type-signature">&lt;private, inner> </span>_gameWon()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>The game is won. Stop it!</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="gameController.js.html">gameController.js</a>,
-				 <a href="gameController.js.html#sunlight-1-line-78">line 78</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="~_keyPressed"><span class="type-signature">&lt;private, inner> </span>_keyPressed(event)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Go snake! In the given direction that is...</p>
+        <p>Check if the new coordinates are suitable to move to.</p>
     </div>
     
 
@@ -490,13 +332,13 @@
 
         <tr>
             
-                <td class="name"><code>event</code></td>
+                <td class="name"><code>x</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">number</span>
 
 
 
@@ -507,7 +349,31 @@
 
             
 
-            <td class="description last"><p>The event object containing the key pressed</p></td>
+            <td class="description last"><p>The new X-coordinate</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The new Y-coordinate</p></td>
         </tr>
 
     
@@ -551,8 +417,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="gameController.js.html">gameController.js</a>,
-				 <a href="gameController.js.html#sunlight-1-line-88">line 88</a>
+				<a href="snakeGameData.js.html">snakeGameData.js</a>,
+				 <a href="snakeGameData.js.html#sunlight-1-line-146">line 146</a>
 			</li>
 		</ul>
 	</dd>
@@ -577,6 +443,30 @@
     
 
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>The move can be made (true) or not (false)</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
 
     
 </dd>
@@ -585,7 +475,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_start"><span class="type-signature">&lt;private, inner> </span>_start()</h4>
+    <h4 class="name" id="~_createFoods"><span class="type-signature">&lt;private, inner> </span>_createFoods()</h4>
     
     
 </dt>
@@ -593,7 +483,7 @@
 
     
     <div class="description">
-        <p>Initialize the start position of the game and begin (if not already running)</p>
+        <p>Create an array with random scattered food particles</p>
     </div>
     
 
@@ -639,8 +529,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="gameController.js.html">gameController.js</a>,
-				 <a href="gameController.js.html#sunlight-1-line-29">line 29</a>
+				<a href="snakeGameData.js.html">snakeGameData.js</a>,
+				 <a href="snakeGameData.js.html#sunlight-1-line-68">line 68</a>
 			</li>
 		</ul>
 	</dd>
@@ -673,7 +563,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_stop"><span class="type-signature">&lt;private, inner> </span>_stop()</h4>
+    <h4 class="name" id="~_createSnake"><span class="type-signature">&lt;private, inner> </span>_createSnake()</h4>
     
     
 </dt>
@@ -681,7 +571,7 @@
 
     
     <div class="description">
-        <p>Stop the game and reset level (if the game is running)</p>
+        <p>Create the snake in the middle of the playing field</p>
     </div>
     
 
@@ -727,8 +617,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="gameController.js.html">gameController.js</a>,
-				 <a href="gameController.js.html#sunlight-1-line-49">line 49</a>
+				<a href="snakeGameData.js.html">snakeGameData.js</a>,
+				 <a href="snakeGameData.js.html#sunlight-1-line-49">line 49</a>
 			</li>
 		</ul>
 	</dd>
@@ -761,7 +651,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_stoppedByUser"><span class="type-signature">&lt;private, inner> </span>_stoppedByUser()</h4>
+    <h4 class="name" id="~_init"><span class="type-signature">&lt;private, inner> </span>_init(current)</h4>
     
     
 </dt>
@@ -769,7 +659,145 @@
 
     
     <div class="description">
-        <p>The user requested to stop the game so trigger an event</p>
+        <p>setup game with the given level.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>current</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>level</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="snakeGameData.js.html">snakeGameData.js</a>,
+				 <a href="snakeGameData.js.html#sunlight-1-line-36">line 36</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="~_move"><span class="type-signature">&lt;private, inner> </span>_move()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Move the snake in the known direction</p>
     </div>
     
 
@@ -815,8 +843,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="gameController.js.html">gameController.js</a>,
-				 <a href="gameController.js.html#sunlight-1-line-60">line 60</a>
+				<a href="snakeGameData.js.html">snakeGameData.js</a>,
+				 <a href="snakeGameData.js.html#sunlight-1-line-89">line 89</a>
 			</li>
 		</ul>
 	</dd>

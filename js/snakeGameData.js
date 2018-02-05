@@ -10,12 +10,12 @@ function SnakeGameData(xmax, ymax, level) {
     const _LEFT = "left";
     const _RIGHT = "right";
     const _UP = "up";
-    const _DOWN = "down";   
-    
+    const _DOWN = "down";
+
     // private constants
     const _STARTFOOD = 4;
     const _STARTLENGTH = 0;
-    
+
     // private properties
     var _xmax = xmax;
     var _ymax = ymax;
@@ -23,25 +23,25 @@ function SnakeGameData(xmax, ymax, level) {
     var _snake;             // snake model
     var _food;              // food  model
     var _direction = _UP;   // default direction in which the snake moves
-    
+
     // initiate object on creation
     _init(level);
-    
+
     // private methods
     /**
      * @private
-     * @desc setup game with the given level. 
+     * @desc setup game with the given level.
      * @param {number} current level
      */
     function _init(level) {
         _createSnake(_STARTLENGTH + 2 * level);
         _createFoods(_STARTFOOD + level);
-        
+
         //trigger a draw event;
         var allElements = _food.getSegments().concat(_snake.getSegments());
         $(document).trigger(new jQuery.Event("gameMoveEvent", [allElements]));
     }
-    
+
     /**
      * @private
      * @desc Create the snake in the middle of the playing field
@@ -50,12 +50,12 @@ function SnakeGameData(xmax, ymax, level) {
         _snake = new Snake();
         var newHead;
         var x, y;
-        
+
         for (var i = 0; i < snakeLength; i++) {
             // Snake will "coiled up it's tails" when it doesn't fit.
             x = Math.round(_xmax / 2);
             y = Math.max((Math.round(_ymax / 2) + snakeLength - i), 0);
-            
+
             newHead = _snake.getNewHead(x, y);
             _snake.move(newHead, true);
         }
@@ -111,9 +111,9 @@ function SnakeGameData(xmax, ymax, level) {
         if (_canMove(x, y)) {
             // Create a new head
             var newHead = _snake.getNewHead(x, y);
-            
+
             //console.log(allElements);
-            
+
             // Have we had lunch yet?
             var eaten = newHead.isPresent(_food.getSegments());
             if (eaten) {
@@ -164,14 +164,14 @@ function SnakeGameData(xmax, ymax, level) {
     /**
      * @public
      * @desc SnakeGameData object which is returned.
-     * @member {Object}
+     * @member {Object} SnakeGameData
      */
     return {
         // public constants
         LEFT:  _LEFT,
         RIGHT: _RIGHT,
         UP:    _UP,
-        DOWN:  _DOWN, 
+        DOWN:  _DOWN,
         // public properties (read only)
         getFood: function() {
             return _food.getSegments();
