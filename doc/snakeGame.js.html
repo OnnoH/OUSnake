@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Snake Game Modules</title>
+	<title>Snake Game Source: snakeGame.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -67,112 +67,86 @@
 <div class="row">
 
 	
-	<div class="col-md-8">
+	<div class="col-md-12">
 	
 		<div id="main">
 			
 
-	<h1 class="page-title">Modules</h1>
+		<h1 class="page-title">Source: snakeGame.js</h1>
+    
 <section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">/**
+ * @class SnakeGame
+ * @module snake/view
+ * @desc provide interaction for the game.
+ * @see GameController
+ * @see Sound
+ * @see Canvas
+ */
+require(["gameController", "sound", "canvas"], function() {
+    console.log("All scripts are loaded.")
 
-<header>
-    
-        <h2>
-        
-        </h2>
-        
-    
-</header>
+    var canvas = new Canvas($("#mySnakeCanvas"));
+    var game = new GameController(canvas.xmax, canvas.ymax);    // The game;
+    var sound = new Sound();
 
+    console.log("The game is afoot!");
 
-<article>
-    <div class="container-overview">
-    
-        
+    /***************************************************************************
+     **                 Game Button Events                                    **
+     ***************************************************************************/
 
-        
-<dl class="details">
-    
+    $(document).ready(function() {
+        $("#startSnake").click(game.start);
+        $("#stopSnake").click(game.stop);
+        $('#toggleSound').click(sound.toggle);
+    });
 
-	
+    /***************************************************************************
+     **                 Keyboard Events                                       **
+     ***************************************************************************/
 
-	
+    $(document).on("keydown", function() { game.keyPressed(event); });
 
-	
+    /***************************************************************************
+     **                 Custom Events                                         **
+     ***************************************************************************/
 
-    
+    $(document).on("gameOverEvent", function(event) {
+        console.log("VERLOREN!!!");
+        game.gameOver();
+        sound.play(sound.LOSE);
+        canvas.draw(event[0], [["Game Over", canvas.BAD],
+                               ["You reached level " + game.level, canvas.NORMAL],
+                               ["Press start to try again", canvas.NORMAL]])
+    });
+    $(document).on("gameWonEvent", function(event) {
+        console.log("GEWONNEN!!!");
+        game.gameWon();
+        sound.play(sound.WIN);
+        canvas.draw(event[0], [["Well Done!", canvas.GOOD],
+                               ["You cleared level " + game.level, canvas.NORMAL],
+                               ["Press start go to the next level", canvas.NORMAL]])
+    });
+    $(document).on("gameMoveEvent", function(event) {
+        sound.play(sound.MOVE);
+        canvas.draw(event[0], [])
+    });
+    $(document).on("gameEatEvent", function(event) {
+        sound.play(sound.FOOD);
+        canvas.draw(event[0], [])
+    });
 
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="Element.html">Element</a></dt>
-            <dd></dd>
-        
-            <dt><a href="Food.html">Food</a></dt>
-            <dd></dd>
-        
-            <dt><a href="GameController.html">GameController</a></dt>
-            <dd></dd>
-        
-            <dt><a href="Snake.html">Snake</a></dt>
-            <dd></dd>
-        
-            <dt><a href="SnakeGameData.html">SnakeGameData</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
+    $(document).on("toggleSound", function(event) {
+        $("#toggleSound").html('&lt;i class="fa fa-volume-' + (event[0] ? "up" : "off") + ' fa-fw">&lt;/i>');
+    });
+});
+</pre>
+    </article>
 </section>
+
 
 
 
@@ -182,10 +156,6 @@
 
 	<div class="clearfix"></div>
 
-	
-		<div class="col-md-3">
-			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
-		</div>
 	
 
 </div>

@@ -31,9 +31,16 @@
 		<ul class="nav navbar-nav">
 			
 			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="module-snake_view.html">snake/view</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="Canvas.html">Canvas</a></li><li><a href="Element.html">Element</a></li><li><a href="Food.html">Food</a></li><li><a href="GameController.html">GameController</a></li><li><a href="Snake.html">Snake</a></li><li><a href="SnakeController.html">SnakeController</a></li><li><a href="Sound.html">Sound</a></li>
+					<li><a href="Element.html">Element</a></li><li><a href="Food.html">Food</a></li><li><a href="GameController.html">GameController</a></li><li><a href="Snake.html">Snake</a></li><li><a href="SnakeGameData.html">SnakeGameData</a></li>
 				</ul>
 			</li>
 			
@@ -70,24 +77,30 @@
 <section>
     <article>
         <pre
-            class="sunlight-highlight-javascript linenums">/**
+            class="sunlight-highlight-javascript linenums">require(["element", "food", "snake", "snakeGameData"]);
+
+/**
  * @class GameController
  * @desc Create a game controller object.
+ * @param {object} canvas The canvas used for this game.
+
  * @returns GameController
+ * @see SnakeGameData
+ * @see Snake
+ * @see Food
+ * @see Element
  */
-function GameController() {
+function GameController(xmax, ymax) {
     // private constants
-    const _SLEEPTIME = 500;  // speed of the game (no. ms per step)
+    const _GAMESPEED = 600;     // base-speed of the game (ms per step)
 
     // private properties
-    var _timer;  // timer event
-    var _snakeSound; // game sounds
-    var _snakeController; // snake controller
-    var _snakeCanvas; // game canvas
+    var _timer;                 // timer event
+    var _snakeGameData;         // snake controller
+    var _level = 1;             // current level.
 
-    // todo: adjust these values to go to the next level
-    var _numFood = 5; // number of food to start with
-    var _snakeLength = 4; // initial length of the snake
+    var _xmax = xmax
+    var _ymax = ymax;
 
     // private methods
     /**
@@ -95,61 +108,29 @@ function GameController() {
      * @desc Initialize the start position of the game and begin (if not already running)
      */
     function _start() {
-        // initiate canvas if this isn't done so already
-        if (!_snakeCanvas) {
-            _snakeCanvas = new Canvas($("#mySnakeCanvas"));
-        }
-
-        // initiate sound if this isn't done so already
-        if (!_snakeSound) {
-            _snakeSound = new Sound();
-        }
-
         // initiate a new game if the game is not running
-        if (!_snakeController) {
-            _snakeController = new SnakeController(_snakeCanvas.xmax, _snakeCanvas.ymax, _numFood, _snakeLength);
-
-            //todo: move to controller
-            _snakeController.createSnake(); // create the snake before the food to avoid overlap
-            _snakeController.createFoods();
-            _draw(); // draw the start position
+        if (!_snakeGameData) {
+            _snakeGameData = new SnakeGameData(_xmax, _ymax, _level);
 
             // voor een move op elke gegeven interval
             _timer = setInterval(function() {
-                if (_snakeController) {
-                    _snakeController.move();
-                    _draw();
+                if (_snakeGameData) {
+                    _snakeGameData.move();
                 }
-            }, _SLEEPTIME);
+            }, _GAMESPEED * Math.pow(0.8, _level));  // set game speed depending on level.
+
+            console.log("Level " + _level + " started at speed " + _GAMESPEED * Math.pow(0.8, _level));
         }
     }
 
     /**
      * @private
-     * @desc Stop the game and reset snakeController (if present)
+     * @desc Stop the game and reset level (if the game is running)
      */
     function _stop() {
-        if (_snakeController) {
+        if (_snakeGameData) {
             clearInterval(_timer);
-            _snakeController = null;
-        }
-    }
-
-    /**
-     * @private
-     * @desc Draw the food and snake elements on the canvas
-     */
-    function _draw() {
-        if (_snakeController) {
-            _snakeCanvas.clear();
-
-            //todo: move the foreach into canvas. only pass [segments]
-            _snakeController.getFood().forEach(function (segment) {
-                _snakeCanvas.drawElement(segment);
-            });
-            _snakeController.getSnake().forEach(function (segment) {
-                _snakeCanvas.drawElement(segment);
-            });
+            _snakeGameData = null;
         }
     }
 
@@ -158,11 +139,8 @@ function GameController() {
      * @desc The game is lost. Stop it!
      */
     function _gameOver() {
-        _draw();
-        _snakeCanvas.drawText("Game Over!", "OrangeRed");
-        _snakeSound.play("looser");
-        console.log("VERLOREN!!!");
         _stop();
+        _level = 1;
     }
 
     /**
@@ -170,67 +148,49 @@ function GameController() {
      * @desc The game is won. Stop it!
      */
     function _gameWon() {
-        _draw();
-        _snakeCanvas.drawText("Well Done!", "LawnGreen");
-        _snakeSound.play("winner");
-        console.log("GEWONNEN!!!");
         _stop();
-    }
-
-    /**
-     * @private
-     * @desc Play the sounds (if on)
-     * @param {string} sound The name of sound to be played
-     */
-    function _playSound(sound) {
-        if (_snakeSound) {
-            if (_snakeSound.playSounds()) {
-                _snakeSound.play(sound);
-            }
-        }
-    }
-
-    /**
-     * @private
-     * @desc Turn the playing of sounds on or off.
-     */
-    function _toggleSound() {
-        if (_snakeSound) {
-            _snakeSound.toggle();
-            $(document).trigger(new jQuery.Event("toggleSound", [_snakeSound.playSounds()]));
-        }
+        _level++;
     }
 
     /**
      * @private
      * @desc Go snake! In the given direction that is...
+     * @param {object} event The event object containing the key pressed
      */
     function _keyPressed(event) {
-        if (_snakeController) {
-            _snakeController.keyPressed(event);
+        if (_snakeGameData) {
+            switch (event.which) {
+            case 37: // left arrow
+                _snakeGameData.setDirection(_snakeGameData.LEFT);
+                break;
+            case 38: // up arrow key
+                _snakeGameData.setDirection(_snakeGameData.UP);
+                break;
+            case 39: // right arrow key
+                _snakeGameData.setDirection(_snakeGameData.RIGHT);
+                break;
+            case 40: // down arrow key
+                _snakeGameData.setDirection(_snakeGameData.DOWN);
+                break;
+            }
         }
     }
 
     /**
      * @public
-     * @desc SnakeController object which is returned.
+     * @desc gameController object which is returned.
      * @member {Object}
      */
-     var gameController = {
+     return {
+        // public properties
+        level: _level,
+        // public functions
         start: _start,
         stop: _stop,
-        toggleSound: _toggleSound,
         gameOver: _gameOver,
         gameWon: _gameWon,
-        keyPressed: function(event) {
-            _keyPressed(event);
-        },
-        playSound: function(sound) {
-            _playSound(sound);
-        }
-    }
-
-    return gameController;
+        keyPressed: _keyPressed,
+    };
 }
 </pre>
     </article>
@@ -279,7 +239,7 @@ function GameController() {
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
 	
-		on Fri Feb 2nd 2018
+		on Mon Feb 5th 2018
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

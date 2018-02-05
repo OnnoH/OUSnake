@@ -1,6 +1,6 @@
 # Introduction
 
-This repository contains code for the Open University course: Webapplicaties: de clientkant (Webapplications: the client side)
+This repository contains code for the Open University course: Webapplicaties: de clientkant (Web applications: the client side)
 
 The result: [The Game Site](index.html) or [The Snake Game](snake.html)
 
@@ -42,37 +42,37 @@ In this part refactoring the code into modules is needed. Separate the model fro
 # 3.1. Architecture
 The application follows the MVC architecture pattern.
 
-View: The view is responsible DOM interaction (including canvas and sound) and events (buttons, keys and custom events). 
-Model: The model is used to store data. They are ignorant to a wider context. 
+View: The view is responsible DOM interaction (including canvas and sound) and events (buttons, keys and custom events).
+Model: The model is used to store data. They are ignorant to a wider context.
 Controller: The controller handles the responses to events by updating the model and/or the view.
 
-most modules are structured according to the "object model pattern" which is a specific form of the model pattern. It has a single object per module. As a result, the model, view and controller each contain several modules. 
+most modules are structured according to the "object model pattern" which is a specific form of the model pattern. It has a single object per module. As a result, the model, view and controller each contain several modules.
 
 # 3.1.1. View
 snakeGame acts as the view module. It handles the events and key input.
-Canvas and Sound are also part of the view. They are triggered using events. 
+Canvas and Sound are also part of the view. They are triggered using events.
 The dependencies between view, model and controller objects are kept to a minimum with 2 notable exceptions:
-1) The size of the playing fields is communicated to the controller upon initialization of the view. 
-2) Canvas depends on the Element object to be able to draw elements efficiently. 
+1) The size of the playing fields is communicated to the controller upon initialisation of the view. 
+2) Canvas depends on the Element object to be able to draw elements efficiently.
 
 Decision: It was decided to place the timer in the controller (gameController) rather then in the view (snakeGame). Although the ticking of the timer can be seen as an event, gameController fully encapsulates its function. It did not seem justified to move it out of gameController and there was little benefit to use events on timer ticks.
 
-Note: The use of text in the view is a bit clunky. This is an area of improvement. A configuration file to store the text and formatting would be ideal. This was not implemented due to time constraints. 
+Note: The use of text in the view is a bit clunky. This is an area of improvement. A configuration file to store the text and formatting would be ideal. This was not implemented due to time constraints.
 
 # 3.1.2 Model
-The model is split up into one module per object. 
-SnakeGameData is the main module. It contains Food and Snake and it offers a simple API to the gameController. 
-Snake and Food are independent of eachother. They only depend on element. 
+The model is split up into one module per object.
+SnakeGameData is the main module. It contains Food and Snake and it offers a simple API to the gameController.
+Snake and Food are independent of each other. They only depend on element.
 
 # 3.1.3 Controller
-gameController ties everthing together. It provides a very generic API to the view which could be used for any game. It has a minimal awareness of the internal workings of the other modules, but enough to make it work together. 
-A good example separation and game-awareness is the keyPressed functionality which translates key events from the view into directions for the model. 
+gameController ties everything together. It provides a very generic API to the view which could be used for any game. It has a minimal awareness of the internal workings of the other modules, but enough to make it work together.
+A good example separation and game-awareness is the keyPressed functionality which translates key events from the view into directions for the model.
 
 Decision: It was decided to split off as much game specific functionality as possible and move it to snakeGameData to demonstrate the separation of generic and specific functionality. The goal is that the gameController API would support many different games. Level and timer considered generic and therefore part of the controller.
 
 Decision: It was decided to trigger sound and canvas functionality on events only to demonstrate the use of events. The alternative is to store the required objects in the controller and let the controller call the correct function based on information of the model. This approach would not require any events, but it is against the javascript MVC model principles.  
 
-Decision: It was decided to change the sound icon my manipulating the HTML class rather then a attribute like "active". This was not implemented due to priorities and time constraints. 
+Decision: It was decided to change the sound icon my manipulating the HTML class rather then a attribute like "active". This was not implemented due to priorities and time constraints.
 
 # 3.2 General
 
@@ -80,13 +80,13 @@ Decision: It has been decided separate the playing grid from the pixel location.
 
 Decision: It has been decided to pass elements instead of x-y-coordinates. This was discussed during the lecture as a suitable solution to preserve information between canMove and doMove. The use of x-y-coordinates would not allow for the generic function indexOf in the Elements object.
 
-Decision: It was decided to make the food and snake object very similar. Both are create as an empty object to which elements are added by the controller and both have a collision function. 
+Decision: It was decided to make the food and snake object very similar. Both are create as an empty object to which elements are added by the controller and both have a collision function.
 
-Decision: It was decided to use add a convention to let private attributes (constants, variables and functions) begin with an underscore. This ensures the developer is more contentious of the context and it result in errors due to switching between private and public are caught sooner. 
+Decision: It was decided to use add a convention to let private attributes (constants, variables and functions) begin with an underscore. This ensures the developer is more contentious of the context and it result in errors due to switching between private and public are caught sooner.
 
 Note: The view has been updated with [Font Awesome](http://fontawesome.io/) so the buttons now contain icons instead of text.
 
-Feature: Canvas Size. The canvas size can be changed to a rectangular (non-square) size. The game will adjust the size of the playing field and allow the snake to move over the entire field. 
+Feature: Canvas Size. The canvas size can be changed to a rectangular (non-square) size. The game will adjust the size of the playing field and allow the snake to move over the entire field.
 
 # 3.3 Documentation
 
@@ -122,7 +122,7 @@ The testing framework that is used is Mocha in combination with Chai. Due to the
 11. ~~Are we using the English or Dutch language for documentation and comments. The course is in Dutch, but the code has English language elements and if you decide to release the code to an international public, the Dutch language might seem a little odd~~ => English.
 12. Get JSlint to work
 13. ~~Refactor test to mocha/chai framework~~
-14. Util tests are executed, but no output is shown.
+14. ~~Util tests are executed, but no output is shown.~~ => deprecated
 15. Get rid of the iFrame and use jQuery to load/display html content.
 16. Add new game elements like: speed up/slow down/pause buttons, speed up automatically over time), add random walls or mole heaps, replace the food that's been eaten with new food (so the snake can grow even larger), move the remaining food to random locations, introduce superfood and some kind of scoring mechanism (with high scores table, but therefore we also need to identify the user).
 17. ...

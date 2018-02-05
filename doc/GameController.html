@@ -31,9 +31,16 @@
 		<ul class="nav navbar-nav">
 			
 			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="module-snake_view.html">snake/view</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
 				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="Canvas.html">Canvas</a></li><li><a href="Element.html">Element</a></li><li><a href="Food.html">Food</a></li><li><a href="GameController.html">GameController</a></li><li><a href="Snake.html">Snake</a></li><li><a href="SnakeController.html">SnakeController</a></li><li><a href="Sound.html">Sound</a></li>
+					<li><a href="Element.html">Element</a></li><li><a href="Food.html">Food</a></li><li><a href="GameController.html">GameController</a></li><li><a href="Snake.html">Snake</a></li><li><a href="SnakeGameData.html">SnakeGameData</a></li>
 				</ul>
 			</li>
 			
@@ -84,7 +91,7 @@
         
 <hr>
 <dt>
-    <h4 class="name" id="GameController"><span class="type-signature"></span>new GameController()</h4>
+    <h4 class="name" id="GameController"><span class="type-signature"></span>new GameController(canvas)</h4>
     
     
 </dt>
@@ -101,6 +108,56 @@
     
 
     
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>canvas</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The canvas used for this game.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
     
 
     
@@ -139,7 +196,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="gameController.js.html">gameController.js</a>,
-				 <a href="gameController.js.html#sunlight-1-line-1">line 1</a>
+				 <a href="gameController.js.html#sunlight-1-line-3">line 3</a>
 			</li>
 		</ul>
 	</dd>
@@ -147,6 +204,19 @@
 
 	
 
+	
+	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><a href="SnakeGameData.html">SnakeGameData</a></li>
+			
+			<li><a href="Snake.html">Snake</a></li>
+			
+			<li><a href="Food.html">Food</a></li>
+			
+			<li><a href="Element.html">Element</a></li>
+			</ul>
+	</dd>
 	
 
 	
@@ -193,184 +263,11 @@
     
 
     
-        <h3 class="subsection-title">Members</h3>
-
-        <dl>
-            
-<hr>
-<dt class="name" id="~gameController">
-    <h4 id="~gameController"><span class="type-signature">&lt;inner> </span>gameController<span class="type-signature"> :Object</span></h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        <p>SnakeController object which is returned.</p>
-    </div>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">Object</span>
-
-
-
-            </li>
-        </ul>
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="gameController.js.html">gameController.js</a>,
-				 <a href="gameController.js.html#sunlight-1-line-147">line 147</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-</dd>
-
-        </dl>
-    
 
     
         <h3 class="subsection-title">Methods</h3>
 
         <dl>
-            
-<hr>
-<dt>
-    <h4 class="name" id="~_draw"><span class="type-signature">&lt;private, inner> </span>_draw()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Draw the food and snake elements on the canvas</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="gameController.js.html">gameController.js</a>,
-				 <a href="gameController.js.html#sunlight-1-line-70">line 70</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
             
 <hr>
 <dt>
@@ -429,7 +326,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="gameController.js.html">gameController.js</a>,
-				 <a href="gameController.js.html#sunlight-1-line-88">line 88</a>
+				 <a href="gameController.js.html#sunlight-1-line-62">line 62</a>
 			</li>
 		</ul>
 	</dd>
@@ -517,7 +414,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="gameController.js.html">gameController.js</a>,
-				 <a href="gameController.js.html#sunlight-1-line-100">line 100</a>
+				 <a href="gameController.js.html#sunlight-1-line-71">line 71</a>
 			</li>
 		</ul>
 	</dd>
@@ -550,7 +447,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="~_keyPressed"><span class="type-signature">&lt;private, inner> </span>_keyPressed()</h4>
+    <h4 class="name" id="~_keyPressed"><span class="type-signature">&lt;private, inner> </span>_keyPressed(event)</h4>
     
     
 </dt>
@@ -559,94 +456,6 @@
     
     <div class="description">
         <p>Go snake! In the given direction that is...</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="gameController.js.html">gameController.js</a>,
-				 <a href="gameController.js.html#sunlight-1-line-136">line 136</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="~_playSound"><span class="type-signature">&lt;private, inner> </span>_playSound(sound)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Play the sounds (if on)</p>
     </div>
     
 
@@ -681,13 +490,13 @@
 
         <tr>
             
-                <td class="name"><code>sound</code></td>
+                <td class="name"><code>event</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">object</span>
 
 
 
@@ -698,7 +507,7 @@
 
             
 
-            <td class="description last"><p>The name of sound to be played</p></td>
+            <td class="description last"><p>The event object containing the key pressed</p></td>
         </tr>
 
     
@@ -743,7 +552,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="gameController.js.html">gameController.js</a>,
-				 <a href="gameController.js.html#sunlight-1-line-113">line 113</a>
+				 <a href="gameController.js.html#sunlight-1-line-81">line 81</a>
 			</li>
 		</ul>
 	</dd>
@@ -831,7 +640,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="gameController.js.html">gameController.js</a>,
-				 <a href="gameController.js.html#sunlight-1-line-25">line 25</a>
+				 <a href="gameController.js.html#sunlight-1-line-31">line 31</a>
 			</li>
 		</ul>
 	</dd>
@@ -872,7 +681,7 @@
 
     
     <div class="description">
-        <p>Stop the game and reset snakeController (if present)</p>
+        <p>Stop the game and reset level (if the game is running)</p>
     </div>
     
 
@@ -919,95 +728,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="gameController.js.html">gameController.js</a>,
-				 <a href="gameController.js.html#sunlight-1-line-59">line 59</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="~_toggleSound"><span class="type-signature">&lt;private, inner> </span>_toggleSound()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Turn the playing of sounds on or off.</p>
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="gameController.js.html">gameController.js</a>,
-				 <a href="gameController.js.html#sunlight-1-line-125">line 125</a>
+				 <a href="gameController.js.html#sunlight-1-line-51">line 51</a>
 			</li>
 		</ul>
 	</dd>
@@ -1092,7 +813,7 @@
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
 	
-		on Fri Feb 2nd 2018
+		on Mon Feb 5th 2018
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
