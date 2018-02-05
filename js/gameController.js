@@ -55,6 +55,15 @@ function GameController(xmax, ymax) {
 
     /**
      * @private
+     * @desc The user requested to stop the game so trigger an event
+     */
+    function _stoppedByUser() {
+        _stop();
+        $(document).trigger(new jQuery.Event("gameStoppedEvent", []));
+    }
+
+    /**
+     * @private
      * @desc The game is lost. Stop it!
      */
     function _gameOver() {
@@ -101,11 +110,9 @@ function GameController(xmax, ymax) {
      * @member {Object}
      */
      return {
-        // public properties
-        level: _level,
         // public functions
         start: _start,
-        stop: _stop,
+        stop: _stoppedByUser,
         gameOver: _gameOver,
         gameWon: _gameWon,
         keyPressed: _keyPressed,

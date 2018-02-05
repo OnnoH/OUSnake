@@ -76,7 +76,7 @@ function Canvas(canvas) {
     */
     function _draw(elements, texts) {
         // clear canvas
-        canvas.clearCanvas();
+        _canvas.clearCanvas();
 
         // draw all elements
         elements.forEach(function(element) {
@@ -104,5 +104,8 @@ function Canvas(canvas) {
         ymax : _ymax,
         // public functions
         draw: _draw,
+        clear: function() {
+            _canvas.clearCanvas();
+        }
     };
 }

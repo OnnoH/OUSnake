@@ -37,11 +37,12 @@ require(["gameController", "food", "element", "sound", "canvas", "snake", "snake
 
     $(document).on("gameOverEvent", function(event) {
         console.log("VERLOREN!!!");
+        canvas.draw(event[0], [["Game Over", canvas.BAD],
+                               ["You've reached level " + game.getLevel(), canvas.NORMAL],
+                               ["Press start to try to beat that", canvas.NORMAL]])
         game.gameOver();
         sound.play(sound.LOSE);
-        canvas.draw(event[0], [["Game Over", canvas.BAD],
-                               ["You reached level " + game.getLevel(), canvas.NORMAL],
-                               ["Press start to try again", canvas.NORMAL]])
+        $("#gameLevel").html("Level 1");
     });
     $(document).on("gameWonEvent", function(event) {
         console.log("GEWONNEN!!!");
@@ -56,11 +57,13 @@ require(["gameController", "food", "element", "sound", "canvas", "snake", "snake
         sound.play(sound.MOVE);
         canvas.draw(event[0], [])
     });
+    $(document).on("gameStoppedEvent", function(event) {
+        canvas.clear();
+    });
     $(document).on("gameEatEvent", function(event) {
         sound.play(sound.FOOD);
         canvas.draw(event[0], [])
     });
-
     $(document).on("toggleSound", function(event) {
         $("#toggleSound").html('<i class="fa fa-volume-' + (event[0] ? "up" : "off") + ' fa-fw"></i>');
     });
