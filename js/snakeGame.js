@@ -59,6 +59,9 @@ require(["gameController", "food", "element", "sound", "canvas", "snake", "snake
     });
     $(document).on("gameStoppedEvent", function(event) {
         canvas.clear();
+        game.setLevel(1);
+        $("#gameLevel").html("Level 1");
+
     });
     $(document).on("gameEatEvent", function(event) {
         sound.play(sound.FOOD);

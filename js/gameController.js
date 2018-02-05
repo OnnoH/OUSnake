@@ -118,6 +118,9 @@ function GameController(xmax, ymax) {
         keyPressed: _keyPressed,
         getLevel: function() {
             return _level;
+        },
+        setLevel: function(level) {
+            _level = level;
         }
     };
 }
